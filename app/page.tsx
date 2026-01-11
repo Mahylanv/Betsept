@@ -1,15 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { DEFAULT_QUESTION, QUESTION_BANK, type Question } from "./lib/questions";
 
 type Phase = "setup" | "answer" | "reveal" | "bet" | "score";
-
-type Question = {
-  id: string;
-  prompt: string;
-  answer: number;
-  unit?: string;
-};
 
 type Player = {
   id: string;
@@ -19,6 +13,8 @@ type Player = {
   votes: string[];
   gambitActive: boolean;
   gambitTarget: string;
+  ready: boolean;
+  readyNext: boolean;
 };
 
 type RankedPlayer = {
@@ -48,6 +44,26 @@ type RoundResult = {
     winnerIds: string[];
   };
   votes: Record<string, string[]>;
+};
+
+type OnlinePhase = "lobby" | "answer" | "bet" | "score" | "over";
+
+type OnlinePlayer = Player & {
+  joinedAt: number;
+};
+
+type OnlineRoom = {
+  code: string;
+  hostId: string;
+  phase: OnlinePhase;
+  round: number;
+  question: Question | null;
+  players: OnlinePlayer[];
+  answerDeadline: number | null;
+  betDeadline: number | null;
+  lastResult: RoundResult | null;
+  createdAt: number;
+  updatedAt: number;
 };
 
 const MAX_PLAYERS = 7;
@@ -121,77 +137,20 @@ const SLOT_BY_ID: Map<string, BoardSlot> = new Map(
   [BELOW_SLOT, ...ANSWER_SLOTS].map((slot) => [slot.id, slot])
 );
 
-const QUESTION_BANK: Question[] = [
-  {
-    id: "tour-eiffel",
-    prompt: "En quelle annee la tour Eiffel a-t-elle ete inauguree ?",
-    answer: 1889,
-    unit: "annee"
-  },
-  {
-    id: "marathon",
-    prompt: "Quelle est la longueur officielle d'un marathon ?",
-    answer: 42195,
-    unit: "metres"
-  },
-  {
-    id: "apollo-11",
-    prompt: "En quelle annee Apollo 11 a-t-il atterri sur la Lune ?",
-    answer: 1969,
-    unit: "annee"
-  },
-  {
-    id: "piano",
-    prompt: "Combien de touches compte un piano standard ?",
-    answer: 88,
-    unit: "touches"
-  },
-  {
-    id: "os-humains",
-    prompt: "Combien d'os compte le corps humain adulte ?",
-    answer: 206,
-    unit: "os"
-  },
-  {
-    id: "mur-berlin",
-    prompt: "En quelle annee est tombee la chute du mur de Berlin ?",
-    answer: 1989,
-    unit: "annee"
-  },
-  {
-    id: "ue",
-    prompt: "Combien de pays composent l'Union europeenne en 2024 ?",
-    answer: 27,
-    unit: "pays"
-  },
-  {
-    id: "terre-lune",
-    prompt: "Quelle est la distance moyenne Terre-Lune ?",
-    answer: 384400,
-    unit: "km"
-  },
-  {
-    id: "minutes-journee",
-    prompt: "Combien de minutes compte une journee complete ?",
-    answer: 1440,
-    unit: "minutes"
-  },
-  {
-    id: "finale-1930",
-    prompt: "En quelle annee a eu lieu la premiere Coupe du Monde de football ?",
-    answer: 1930,
-    unit: "annee"
-  }
-];
-
-const DEFAULT_QUESTION = QUESTION_BANK[0];
-
 const phaseLabels: Record<Phase, string> = {
   setup: "Preparation",
   answer: "Reponses",
   reveal: "Plateau",
   bet: "Votes",
   score: "Scores"
+};
+
+const onlinePhaseLabels: Record<OnlinePhase, string> = {
+  lobby: "Lobby",
+  answer: "Reponses",
+  bet: "Votes",
+  score: "Scores",
+  over: "Termine"
 };
 
 const makeId = () => Math.random().toString(36).slice(2, 10);
@@ -265,6 +224,15 @@ export default function HomePage() {
   const [lastRound, setLastRound] = useState<RoundResult | null>(null);
   const [currentVoterIndex, setCurrentVoterIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<"game" | "rules">("game");
+  const [mode, setMode] = useState<"local" | "online">("local");
+  const [onlineRoom, setOnlineRoom] = useState<OnlineRoom | null>(null);
+  const [onlinePlayerId, setOnlinePlayerId] = useState<string | null>(null);
+  const [onlineName, setOnlineName] = useState("");
+  const [onlineAnswerDraft, setOnlineAnswerDraft] = useState("");
+  const [joinCode, setJoinCode] = useState("");
+  const [onlineError, setOnlineError] = useState<string | null>(null);
+  const [onlineLoading, setOnlineLoading] = useState(false);
+  const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
     if (players.length === 0) {
@@ -274,6 +242,51 @@ export default function HomePage() {
       setCurrentVoterIndex(0);
     }
   }, [currentVoterIndex, players.length]);
+
+  useEffect(() => {
+    setOnlineError(null);
+  }, [mode]);
+
+  useEffect(() => {
+    if (mode !== "online" || !onlineRoom?.code) {
+      return;
+    }
+    const interval = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(interval);
+  }, [mode, onlineRoom?.code]);
+
+  useEffect(() => {
+    if (mode !== "online" || !onlineRoom?.code) {
+      return;
+    }
+    let active = true;
+    const pollRoom = async () => {
+      try {
+        const response = await fetch(`/api/rooms/${onlineRoom.code}`, {
+          cache: "no-store"
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data?.error ?? "Erreur reseau.");
+        }
+        if (active) {
+          setOnlineRoom(data.room);
+        }
+      } catch (pollError) {
+        if (active) {
+          setOnlineError(
+            pollError instanceof Error ? pollError.message : "Erreur reseau."
+          );
+        }
+      }
+    };
+    pollRoom();
+    const interval = window.setInterval(pollRoom, 2000);
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+    };
+  }, [mode, onlineRoom?.code]);
 
   const orderedByAnswer = useMemo(() => {
     if (!currentQuestion) {
@@ -307,9 +320,36 @@ export default function HomePage() {
     return Array.from(map.entries()).sort((a, b) => a[0] - b[0]);
   }, [players]);
 
+  const onlinePlayers = useMemo(
+    () => onlineRoom?.players ?? [],
+    [onlineRoom]
+  );
+  const onlineSelf = useMemo(
+    () => onlinePlayers.find((player) => player.id === onlinePlayerId) ?? null,
+    [onlinePlayers, onlinePlayerId]
+  );
+
   const activeSlotIndexes = useMemo(
     () => getActiveSlotIndexes(answerGroups.length),
     [answerGroups.length]
+  );
+
+  const onlineAnswerGroups = useMemo(() => {
+    const map = new Map<number, OnlinePlayer[]>();
+    onlinePlayers.forEach((player) => {
+      if (player.answer === null) {
+        return;
+      }
+      const list = map.get(player.answer) ?? [];
+      list.push(player);
+      map.set(player.answer, list);
+    });
+    return Array.from(map.entries()).sort((a, b) => a[0] - b[0]);
+  }, [onlinePlayers]);
+
+  const onlineActiveSlotIndexes = useMemo(
+    () => getActiveSlotIndexes(onlineAnswerGroups.length),
+    [onlineAnswerGroups.length]
   );
 
   const answerAssignments = useMemo(() => {
@@ -323,6 +363,19 @@ export default function HomePage() {
     });
     return assignments;
   }, [activeSlotIndexes, answerGroups]);
+
+  const onlineAnswerAssignments = useMemo(() => {
+    const assignments: Record<number, { value: number; players: OnlinePlayer[] }> =
+      {};
+    onlineActiveSlotIndexes.forEach((slotIndex, index) => {
+      const entry = onlineAnswerGroups[index];
+      if (!entry) {
+        return;
+      }
+      assignments[slotIndex] = { value: entry[0], players: entry[1] };
+    });
+    return assignments;
+  }, [onlineActiveSlotIndexes, onlineAnswerGroups]);
 
   const slotIdByAnswerValue = useMemo(() => {
     const map = new Map<number, string>();
@@ -383,6 +436,48 @@ export default function HomePage() {
     return map;
   }, [players]);
 
+  const onlineTokensByTarget = useMemo(() => {
+    const map: Record<
+      string,
+      { key: string; label: string; type: "vote" | "gambit"; playerId: string }[]
+    > = {};
+    [BELOW_SLOT, ...ANSWER_SLOTS].forEach((slot) => {
+      map[slot.id] = [];
+    });
+    onlinePlayers.forEach((player) => {
+      if (player.gambitActive) {
+        if (!player.gambitTarget) {
+          return;
+        }
+        if (!map[player.gambitTarget]) {
+          map[player.gambitTarget] = [];
+        }
+        map[player.gambitTarget].push({
+          key: `${player.id}-gambit`,
+          label: player.name,
+          type: "gambit",
+          playerId: player.id
+        });
+        return;
+      }
+      player.votes.forEach((vote, index) => {
+        if (!vote) {
+          return;
+        }
+        if (!map[vote]) {
+          map[vote] = [];
+        }
+        map[vote].push({
+          key: `${player.id}-vote-${index}`,
+          label: player.name,
+          type: "vote",
+          playerId: player.id
+        });
+      });
+    });
+    return map;
+  }, [onlinePlayers]);
+
   const activeVoter = players[currentVoterIndex] ?? null;
   const activeVoterTokenCount = activeVoter
     ? activeVoter.gambitActive
@@ -396,6 +491,49 @@ export default function HomePage() {
   const completedVoters = players.filter(isPlayerDone).length;
   const allVotesPlaced = players.length > 0 && completedVoters === players.length;
 
+  const onlinePhase = onlineRoom?.phase ?? "lobby";
+  const onlineQuestion = onlineRoom?.question ?? null;
+  const onlineRound = onlineRoom?.round ?? 1;
+  const onlineReadyCount = onlinePlayers.filter((player) => player.ready).length;
+  const onlineReadyNextCount = onlinePlayers.filter(
+    (player) => player.readyNext
+  ).length;
+  const onlineAllVotesPlaced =
+    onlinePlayers.length > 0 && onlinePlayers.every(isPlayerDone);
+  const onlineSelfTokenCount = onlineSelf
+    ? onlineSelf.gambitActive
+      ? onlineSelf.gambitTarget
+        ? 1
+        : 0
+      : onlineSelf.votes.filter((vote) => vote).length
+    : 0;
+  const onlineSelfTokenLimit = onlineSelf?.gambitActive ? 1 : 2;
+  const answerTimeLeft =
+    onlineRoom?.answerDeadline !== null && onlineRoom?.answerDeadline !== undefined
+      ? Math.max(0, Math.ceil((onlineRoom.answerDeadline - now) / 1000))
+      : null;
+  const betTimeLeft =
+    onlineRoom?.betDeadline !== null && onlineRoom?.betDeadline !== undefined
+      ? Math.max(0, Math.ceil((onlineRoom.betDeadline - now) / 1000))
+      : null;
+  const canSendOnlineAnswer =
+    !!onlineSelf && onlineAnswerDraft.trim().length > 0;
+
+  useEffect(() => {
+    if (mode !== "online") {
+      return;
+    }
+    if (onlinePhase !== "answer") {
+      setOnlineAnswerDraft("");
+      return;
+    }
+    if (onlineSelf?.answer !== null && onlineSelf?.answer !== undefined) {
+      setOnlineAnswerDraft(String(onlineSelf.answer));
+    } else {
+      setOnlineAnswerDraft("");
+    }
+  }, [mode, onlinePhase, onlineSelf?.answer]);
+
   const canEditPlayers = phase === "setup";
   const canStartRound =
     players.length >= 2 &&
@@ -405,6 +543,130 @@ export default function HomePage() {
   const drawRandomQuestion = () => {
     const next = QUESTION_BANK[Math.floor(Math.random() * QUESTION_BANK.length)];
     setNextQuestion(next);
+  };
+
+  const requestRoom = async (path: string, payload?: Record<string, unknown>) => {
+    const response = await fetch(path, {
+      method: payload ? "POST" : "GET",
+      headers: payload ? { "Content-Type": "application/json" } : undefined,
+      body: payload ? JSON.stringify(payload) : undefined
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data?.error ?? "Erreur reseau.");
+    }
+    return data;
+  };
+
+  const createOnlineRoom = async () => {
+    const trimmedName = onlineName.trim();
+    if (!trimmedName) {
+      setOnlineError("Entrez un nom.");
+      return;
+    }
+    setOnlineLoading(true);
+    setOnlineError(null);
+    try {
+      const data = await requestRoom("/api/rooms", { name: trimmedName });
+      setOnlineRoom(data.room);
+      setOnlinePlayerId(data.playerId);
+      setJoinCode(data.room.code);
+    } catch (requestError) {
+      setOnlineError(
+        requestError instanceof Error ? requestError.message : "Erreur reseau."
+      );
+    } finally {
+      setOnlineLoading(false);
+    }
+  };
+
+  const joinOnlineRoom = async () => {
+    const trimmedName = onlineName.trim();
+    const code = joinCode.trim().toUpperCase();
+    if (!trimmedName || !code) {
+      setOnlineError("Nom et code requis.");
+      return;
+    }
+    setOnlineLoading(true);
+    setOnlineError(null);
+    try {
+      const data = await requestRoom(`/api/rooms/${code}`, {
+        action: "join",
+        name: trimmedName
+      });
+      setOnlineRoom(data.room);
+      setOnlinePlayerId(data.playerId);
+    } catch (requestError) {
+      setOnlineError(
+        requestError instanceof Error ? requestError.message : "Erreur reseau."
+      );
+    } finally {
+      setOnlineLoading(false);
+    }
+  };
+
+  const leaveOnlineRoom = () => {
+    setOnlineRoom(null);
+    setOnlinePlayerId(null);
+    setOnlineError(null);
+    setOnlineAnswerDraft("");
+  };
+
+  const postRoomAction = async (payload: Record<string, unknown>) => {
+    if (!onlineRoom?.code) {
+      return;
+    }
+    try {
+      const data = await requestRoom(`/api/rooms/${onlineRoom.code}`, payload);
+      setOnlineRoom(data.room);
+      setOnlineError(null);
+    } catch (requestError) {
+      setOnlineError(
+        requestError instanceof Error ? requestError.message : "Erreur reseau."
+      );
+    }
+  };
+
+  const setOnlineReady = (ready: boolean) => {
+    if (!onlinePlayerId) {
+      return;
+    }
+    postRoomAction({ action: "ready", playerId: onlinePlayerId, ready });
+  };
+
+  const setOnlineAnswer = (value: string) => {
+    if (!onlinePlayerId) {
+      return;
+    }
+    postRoomAction({ action: "answer", playerId: onlinePlayerId, answer: value });
+  };
+
+  const toggleOnlineGambit = (active: boolean) => {
+    if (!onlinePlayerId) {
+      return;
+    }
+    postRoomAction({ action: "toggleGambit", playerId: onlinePlayerId, gambitActive: active });
+  };
+
+  const placeOnlineToken = (targetId: string) => {
+    if (!onlinePlayerId) {
+      return;
+    }
+    postRoomAction({ action: "placeToken", playerId: onlinePlayerId, targetId });
+  };
+
+  const clearOnlineToken = () => {
+    if (!onlinePlayerId) {
+      return;
+    }
+    postRoomAction({ action: "clearToken", playerId: onlinePlayerId });
+  };
+
+  const setOnlineReadyNext = (ready: boolean) => {
+    if (!onlinePlayerId) {
+      return;
+    }
+    postRoomAction({ action: "readyNext", playerId: onlinePlayerId, ready });
   };
 
   const addPlayer = () => {
@@ -425,7 +687,9 @@ export default function HomePage() {
         answer: null,
         votes: ["", ""],
         gambitActive: false,
-        gambitTarget: ""
+        gambitTarget: "",
+        ready: false,
+        readyNext: false
       }
     ]);
     setNewPlayerName("");
@@ -547,7 +811,9 @@ export default function HomePage() {
         answer: null,
         votes: ["", ""],
         gambitActive: false,
-        gambitTarget: ""
+        gambitTarget: "",
+        ready: false,
+        readyNext: false
       }))
     );
     setCurrentQuestion(nextQuestion);
@@ -754,7 +1020,9 @@ export default function HomePage() {
         answer: null,
         votes: ["", ""],
         gambitActive: false,
-        gambitTarget: ""
+        gambitTarget: "",
+        ready: false,
+        readyNext: false
       }))
     );
     setPhase("setup");
@@ -811,7 +1079,34 @@ export default function HomePage() {
 
       {activeTab === "game" ? (
         <>
-          <section className="card">
+          <section className="card row">
+            <h2>Mode de jeu</h2>
+            <div className="mode-switch">
+              <button
+                type="button"
+                className={`mode-button ${mode === "local" ? "active" : ""}`}
+                onClick={() => setMode("local")}
+              >
+                Local
+              </button>
+              <button
+                type="button"
+                className={`mode-button ${mode === "online" ? "active" : ""}`}
+                onClick={() => setMode("online")}
+              >
+                Reseau
+              </button>
+            </div>
+            {mode === "online" && (
+              <p>
+                Chaque joueur joue sur son appareil via un code de partie partage.
+              </p>
+            )}
+          </section>
+
+          {mode === "local" ? (
+            <>
+              <section className="card">
             <div className="phase">
               {(Object.keys(phaseLabels) as Phase[]).map((step) => (
                 <span key={step} className={phase === step ? "active" : ""}>
@@ -819,9 +1114,9 @@ export default function HomePage() {
                 </span>
               ))}
             </div>
-          </section>
+              </section>
 
-      <section className="grid two">
+              <section className="grid two">
         <div className="card row">
           <h2>Manche {round}</h2>
           {currentQuestion ? (
@@ -900,10 +1195,10 @@ export default function HomePage() {
             </button>
           </div>
         </div>
-      </section>
+              </section>
 
-      {phase === "setup" && (
-        <section className="card row">
+              {phase === "setup" && (
+                <section className="card row">
           <h2>Lancer la manche</h2>
           <p>
             La reponse gagnante est la plus proche sans depasser la valeur exacte.
@@ -915,11 +1210,11 @@ export default function HomePage() {
               Demarrer la manche
             </button>
           </div>
-        </section>
-      )}
+                </section>
+              )}
 
-      {phase === "answer" && (
-        <section className="card row">
+              {phase === "answer" && (
+                <section className="card row">
           <h2>Saisir les reponses</h2>
           <p>
             Chaque joueur donne un entier numerique. Les reponses seront ensuite
@@ -928,11 +1223,11 @@ export default function HomePage() {
           <div className="footer-actions">
             <button onClick={lockAnswers}>Verrouiller les reponses</button>
           </div>
-        </section>
-      )}
+                </section>
+              )}
 
-      {phase === "reveal" && (
-        <section className="card row">
+              {phase === "reveal" && (
+                <section className="card row">
           <h2>Plateau des reponses</h2>
           <p>
             Les reponses sont placees depuis le centre, avec le meme nombre au-dessus
@@ -984,11 +1279,11 @@ export default function HomePage() {
           <div className="footer-actions">
             <button onClick={proceedToBet}>Passer aux votes</button>
           </div>
-        </section>
-      )}
+                </section>
+              )}
 
-      {phase === "bet" && (
-        <section className="card row">
+              {phase === "bet" && (
+                <section className="card row">
           <h2>Votes</h2>
           <p>
             Chacun son tour, cliquez sur une case du plateau pour poser vos 2 jetons
@@ -1152,11 +1447,11 @@ export default function HomePage() {
               Reveler et marquer
             </button>
           </div>
-        </section>
-      )}
+                </section>
+              )}
 
-      {phase === "score" && lastRound && (
-        <section className="card row">
+              {phase === "score" && lastRound && (
+                <section className="card row">
           <h2>Resultats de la manche</h2>
           <p>
             Reponse exacte: <span className="highlight">{lastRound.question.answer}</span>{" "}
@@ -1206,13 +1501,13 @@ export default function HomePage() {
           <div className="footer-actions">
             <button onClick={nextRound}>Manche suivante</button>
           </div>
-        </section>
-      )}
+                </section>
+              )}
 
-      {error && <div className="error">{error}</div>}
+              {error && <div className="error">{error}</div>}
 
-      {phase === "bet" && (
-        <section className="card row">
+              {phase === "bet" && (
+                <section className="card row">
           <h2>Votes poses</h2>
           <table className="table">
             <thead>
@@ -1249,10 +1544,459 @@ export default function HomePage() {
               ))}
             </tbody>
           </table>
-        </section>
-      )}
-        </>
+                </section>
+              )}
+            </>
       ) : (
+        <>
+          {!onlineRoom ? (
+            <section className="card row">
+              <h2>Partie reseau</h2>
+              <p>
+                Creez une partie ou rejoignez-en une avec un code partage.
+              </p>
+              <div className="grid">
+                <label>
+                  Nom du joueur
+                  <input
+                    type="text"
+                    value={onlineName}
+                    onChange={(event) => setOnlineName(event.target.value)}
+                  />
+                </label>
+                <label>
+                  Code de partie
+                  <input
+                    type="text"
+                    value={joinCode}
+                    onChange={(event) => setJoinCode(event.target.value)}
+                  />
+                </label>
+              </div>
+              <div className="footer-actions">
+                <button
+                  onClick={createOnlineRoom}
+                  disabled={onlineLoading || !onlineName.trim()}
+                >
+                  Creer une partie
+                </button>
+                <button
+                  className="secondary"
+                  onClick={joinOnlineRoom}
+                  disabled={
+                    onlineLoading || !onlineName.trim() || !joinCode.trim()
+                  }
+                >
+                  Rejoindre
+                </button>
+              </div>
+              {onlineError && <div className="error">{onlineError}</div>}
+            </section>
+          ) : (
+            <>
+              <section className="card">
+                <div className="phase">
+                  {(Object.keys(onlinePhaseLabels) as OnlinePhase[]).map(
+                    (step) => (
+                      <span
+                        key={step}
+                        className={onlinePhase === step ? "active" : ""}
+                      >
+                        {onlinePhaseLabels[step]}
+                      </span>
+                    )
+                  )}
+                </div>
+              </section>
+
+              <section className="grid two">
+                <div className="card row">
+                  <div className="room-header">
+                    <h2>
+                      Manche {onlineRound} / 7
+                    </h2>
+                    <button className="ghost" onClick={leaveOnlineRoom}>
+                      Quitter
+                    </button>
+                  </div>
+                  <div className="room-meta">
+                    <span className="badge">Code {onlineRoom.code}</span>
+                    <span className="badge">
+                      Phase {onlinePhaseLabels[onlinePhase]}
+                    </span>
+                    {onlinePhase === "answer" && answerTimeLeft !== null && (
+                      <span className="badge">Temps reponse {answerTimeLeft}s</span>
+                    )}
+                    {onlinePhase === "bet" && betTimeLeft !== null && (
+                      <span className="badge">Temps votes {betTimeLeft}s</span>
+                    )}
+                  </div>
+                  {onlineQuestion ? (
+                    <div>
+                      <p className="badge">Question en cours</p>
+                      <p>
+                        {onlineQuestion.prompt} <br />
+                        <span className="highlight">
+                          Reponse revelee en fin de manche
+                        </span>
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="badge">En attente du lancement...</p>
+                  )}
+                </div>
+                <div className="card row">
+                  <h2>Joueurs</h2>
+                  {onlinePlayers.length === 0 && (
+                    <p>Aucun joueur pour le moment.</p>
+                  )}
+                  <div className="player-list">
+                    {onlinePlayers.map((player) => {
+                      const isSelf = player.id === onlinePlayerId;
+                      const isReady =
+                        onlinePhase === "lobby"
+                          ? player.ready
+                          : onlinePhase === "score"
+                          ? player.readyNext
+                          : false;
+                      return (
+                        <div className="player-row" key={player.id}>
+                          <span
+                            className={`player-name ${isSelf ? "self" : ""}`}
+                          >
+                            {player.name}
+                          </span>
+                          <span className="badge">Score {player.score}</span>
+                          <span
+                            className={`ready-dot ${isReady ? "active" : ""}`}
+                            title={isReady ? "Pret" : "En attente"}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </section>
+
+              {onlinePhase === "lobby" && (
+                <section className="card row">
+                  <h2>Lobby</h2>
+                  <p>Tout le monde doit etre pret pour lancer la partie.</p>
+                  <div className="footer-actions">
+                    <button
+                      onClick={() => setOnlineReady(!onlineSelf?.ready)}
+                      disabled={!onlineSelf}
+                    >
+                      {onlineSelf?.ready ? "Annuler pret" : "Je suis pret"}
+                    </button>
+                    <span className="badge">
+                      {onlineReadyCount}/{onlinePlayers.length} prets
+                    </span>
+                  </div>
+                </section>
+              )}
+
+              {onlinePhase === "answer" && (
+                <section className="card row">
+                  <h2>Repondre</h2>
+                  <p>Vous avez 20 secondes pour proposer une reponse.</p>
+                  {answerTimeLeft !== null && (
+                    <div className="countdown">
+                      Temps restant: {answerTimeLeft}s
+                    </div>
+                  )}
+                  <div className="player-row">
+                    <input
+                      type="number"
+                      placeholder="Votre reponse"
+                      value={onlineAnswerDraft}
+                      onChange={(event) => setOnlineAnswerDraft(event.target.value)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" && canSendOnlineAnswer) {
+                          setOnlineAnswer(onlineAnswerDraft);
+                        }
+                      }}
+                      disabled={!onlineSelf}
+                    />
+                    <span className="badge">
+                      {onlineSelf?.answer !== null ? "Envoyee" : "En attente"}
+                    </span>
+                  </div>
+                  <div className="footer-actions">
+                    <button
+                      onClick={() => setOnlineAnswer(onlineAnswerDraft)}
+                      disabled={!canSendOnlineAnswer}
+                    >
+                      Envoyer la reponse
+                    </button>
+                  </div>
+                </section>
+              )}
+
+              {onlinePhase === "bet" && (
+                <section className="card row">
+                  <h2>Votes</h2>
+                  <p>
+                    Placez vos 2 jetons ou votre Gambit 7 avant la fin du timer.
+                  </p>
+                  {betTimeLeft !== null && (
+                    <div className="countdown">
+                      Temps restant: {betTimeLeft}s
+                    </div>
+                  )}
+                  <div className="bet-turn">
+                    <div className="bet-turn-info">
+                      <p className="badge">
+                        {onlineSelf ? `Vous: ${onlineSelf.name}` : "Joueur"}
+                      </p>
+                      <p>
+                        {onlineSelf
+                          ? onlineSelf.gambitActive
+                            ? onlineSelf.gambitTarget
+                              ? "Gambit 7 place."
+                              : "Cliquez sur une case pour poser le Gambit."
+                            : onlineSelfTokenCount >= onlineSelfTokenLimit
+                            ? "Deux jetons poses."
+                            : `Cliquez pour poser le jeton ${
+                                onlineSelfTokenCount + 1
+                              } / ${onlineSelfTokenLimit}.`
+                          : "En attente du joueur."}
+                      </p>
+                      <p className="badge">
+                        {onlinePlayers.filter(isPlayerDone).length}/
+                        {onlinePlayers.length} joueurs ont vote
+                      </p>
+                    </div>
+                    <div className="footer-actions">
+                      <button
+                        className={onlineSelf?.gambitActive ? "" : "secondary"}
+                        disabled={!onlineSelf}
+                        onClick={() =>
+                          onlineSelf &&
+                          toggleOnlineGambit(!onlineSelf.gambitActive)
+                        }
+                      >
+                        {onlineSelf?.gambitActive
+                          ? "Annuler Gambit 7"
+                          : "Utiliser Gambit 7"}
+                      </button>
+                      <button
+                        className="ghost"
+                        disabled={
+                          !onlineSelf ||
+                          (onlineSelf.gambitActive
+                            ? !onlineSelf.gambitTarget
+                            : !onlineSelf.votes.some((vote) => vote))
+                        }
+                        onClick={clearOnlineToken}
+                      >
+                        Annuler dernier jeton
+                      </button>
+                    </div>
+                  </div>
+                  <div className="bet-board">
+                    {boardSlotsForDisplay.map((slot) => {
+                      const tokens = onlineTokensByTarget[slot.id] ?? [];
+                      const assignment =
+                        slot.slotIndex === null
+                          ? null
+                          : onlineAnswerAssignments[slot.slotIndex];
+                      const hasAnswer = slot.slotIndex === null || !!assignment;
+                      const positionLabel = getSlotPositionLabel(slot.slotIndex);
+                      const isSelectedBySelf = onlineSelf
+                        ? onlineSelf.gambitActive
+                          ? onlineSelf.gambitTarget === slot.id
+                          : onlineSelf.votes.includes(slot.id)
+                        : false;
+                      return (
+                        <button
+                          key={`online-bet-slot-${slot.id}`}
+                          type="button"
+                          className={`board-slot slot-${slot.tier} ${
+                            isSelectedBySelf ? "selected" : ""
+                          }`}
+                          disabled={!onlineSelf || !hasAnswer}
+                          onClick={() => placeOnlineToken(slot.id)}
+                        >
+                          <div className="slot-head">
+                            {positionLabel && (
+                              <span className="slot-index">{positionLabel}</span>
+                            )}
+                            <span className="slot-points">
+                              {slot.slotIndex === null ? (
+                                <span className="slot-points-row">
+                                  <span className="player-icon" aria-hidden="true" />
+                                  <span className="slot-points-value">
+                                    {slot.pointsShared}
+                                  </span>
+                                </span>
+                              ) : (
+                                <>
+                                  <span className="slot-points-row">
+                                    <span className="player-icon" aria-hidden="true" />
+                                    <span className="slot-points-value">
+                                      {slot.pointsUnique}
+                                    </span>
+                                  </span>
+                                  <span className="slot-points-row secondary">
+                                    <span className="slot-points-icons">
+                                      <span
+                                        className="player-icon"
+                                        aria-hidden="true"
+                                      />
+                                      <span
+                                        className="plus-icon"
+                                        aria-hidden="true"
+                                      />
+                                    </span>
+                                    <span className="slot-points-value">
+                                      {slot.pointsShared}
+                                    </span>
+                                  </span>
+                                </>
+                              )}
+                            </span>
+                          </div>
+                          <div className="slot-answer">
+                            <span className="slot-answer-value">
+                              {slot.slotIndex === null
+                                ? "Si toutes les reponses sont au-dessus."
+                                : assignment
+                                ? `${assignment.value} ${onlineQuestion?.unit ?? ""}`
+                                : "Aucune reponse"}
+                            </span>
+                          </div>
+                          {assignment && (
+                            <div className="slot-meta">
+                              <span className="slot-meta-label">Joueur</span>
+                              <span className="slot-meta-value">
+                                {assignment.players
+                                  .map((player) => player.name)
+                                  .join(", ")}
+                              </span>
+                            </div>
+                          )}
+                          <div className="slot-tokens">
+                            {tokens.length === 0 ? (
+                              <span className="slot-empty">Aucun jeton</span>
+                            ) : (
+                              tokens.map((token) => (
+                                <span
+                                  key={token.key}
+                                  className={`token-chip ${token.type} ${
+                                    token.playerId === onlinePlayerId
+                                      ? "active"
+                                      : ""
+                                  }`}
+                                  title={`${token.label}${
+                                    token.type === "gambit" ? " (Gambit 7)" : ""
+                                  }`}
+                                >
+                                  {getPlayerInitials(token.label)}
+                                  {token.type === "gambit" ? "7" : ""}
+                                </span>
+                              ))
+                            )}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="footer-actions">
+                    {onlineAllVotesPlaced && (
+                      <span className="badge">Tous les votes sont poses.</span>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              {onlinePhase === "score" && onlineRoom.lastResult && (
+                <section className="card row">
+                  <h2>Resultats de la manche</h2>
+                  <p>
+                    Reponse exacte:{" "}
+                    <span className="highlight">
+                      {onlineRoom.lastResult.question.answer}
+                    </span>{" "}
+                    {onlineRoom.lastResult.question.unit ?? ""}
+                  </p>
+                  <p>
+                    Reponse gagnante: {onlineRoom.lastResult.winning.below
+                      ? "Sous toutes les reponses"
+                      : onlineRoom.lastResult.winning.answerValue}
+                  </p>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Joueur</th>
+                        <th>Reponse</th>
+                        <th>Gain reponse</th>
+                        <th>Gain votes</th>
+                        <th>Gambit</th>
+                        <th>Total manche</th>
+                        <th>Score total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {onlineRoom.lastResult.ordered.map((player) => (
+                        <tr key={player.id}>
+                          <td>{player.name}</td>
+                          <td>
+                            {player.answer} {onlineRoom.lastResult?.question.unit ?? ""}
+                          </td>
+                          <td>
+                            {onlineRoom.lastResult.answerPoints[player.id] ?? 0}
+                          </td>
+                          <td>
+                            {onlineRoom.lastResult.votePoints[player.id] ?? 0}
+                          </td>
+                          <td>
+                            {onlineRoom.lastResult.gambit[player.id]?.used
+                              ? onlineRoom.lastResult.gambit[player.id]?.success
+                                ? "x7"
+                                : "0"
+                              : "-"}
+                          </td>
+                          <td>
+                            {onlineRoom.lastResult.roundPoints[player.id] ?? 0}
+                          </td>
+                          <td className="highlight">
+                            {onlineRoom.lastResult.finalScores[player.id] ?? 0}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <div className="footer-actions">
+                    <button
+                      onClick={() => setOnlineReadyNext(!onlineSelf?.readyNext)}
+                      disabled={!onlineSelf}
+                    >
+                      {onlineSelf?.readyNext
+                        ? "Annuler pret"
+                        : "Pret pour manche suivante"}
+                    </button>
+                    <span className="badge">
+                      {onlineReadyNextCount}/{onlinePlayers.length} prets
+                    </span>
+                  </div>
+                </section>
+              )}
+
+              {onlinePhase === "over" && (
+                <section className="card row">
+                  <h2>Partie terminee</h2>
+                  <p>La partie reseau est terminee apres 7 manches.</p>
+                </section>
+              )}
+
+              {onlineError && <div className="error">{onlineError}</div>}
+            </>
+          )}
+        </>
+      )}
+    </>
+  ) : (
         <section className="card row">
           <h2>Regles express</h2>
           <p>
@@ -1265,6 +2009,10 @@ export default function HomePage() {
             <br />- Chaque joueur pose 2 jetons de vote ou un jeton Gambit 7 a chaque manche.
             <br />- Le joueur de la reponse gagnante marque les points "plusieurs" de sa case.
             <br />- Gambit 7: si la case gagne, points de manche x7, sinon 0.
+            <br />- Mode reseau: tous les joueurs se mettent pret pour lancer la partie.
+            <br />- Mode reseau: 20s pour repondre, 20s pour placer ses jetons.
+            <br />- Mode reseau: tout le monde doit etre pret pour passer a la manche suivante.
+            <br />- Mode reseau: la partie est supprimee apres 7 manches.
           </p>
         </section>
       )}
