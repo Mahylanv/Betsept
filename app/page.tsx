@@ -114,7 +114,10 @@ const ANSWER_SLOTS = [
   }
 ] as const;
 
-const SLOT_BY_ID = new Map(
+type BoardSlot = (typeof ANSWER_SLOTS)[number] | typeof BELOW_SLOT;
+type SlotId = BoardSlot["id"];
+
+const SLOT_BY_ID: Map<string, BoardSlot> = new Map(
   [BELOW_SLOT, ...ANSWER_SLOTS].map((slot) => [slot.id, slot])
 );
 
@@ -244,21 +247,11 @@ const getActiveSlotIndexes = (count: number) => {
   return indexes.sort((a, b) => a - b);
 };
 
-const getSlotName = (tier: string) => {
-  switch (tier) {
-    case "blue":
-      return "Case bleue";
-    case "green":
-      return "Case verte";
-    case "yellow":
-      return "Case jaune";
-    case "orange":
-      return "Case orange";
-    case "below":
-      return "Sous toutes les reponses";
-    default:
-      return "Case";
+const getSlotPositionLabel = (slotIndex: number | null) => {
+  if (slotIndex === null) {
+    return "Sous toutes";
   }
+  return "";
 };
 
 export default function HomePage() {
@@ -267,16 +260,11 @@ export default function HomePage() {
   const [round, setRound] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [nextQuestion, setNextQuestion] = useState<Question>(DEFAULT_QUESTION);
-  const [questionMode, setQuestionMode] = useState<"bank" | "custom">("bank");
-  const [customQuestion, setCustomQuestion] = useState({
-    prompt: "",
-    answer: "",
-    unit: ""
-  });
   const [newPlayerName, setNewPlayerName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [lastRound, setLastRound] = useState<RoundResult | null>(null);
   const [currentVoterIndex, setCurrentVoterIndex] = useState(0);
+  const [activeTab, setActiveTab] = useState<"game" | "rules">("game");
 
   useEffect(() => {
     if (players.length === 0) {
@@ -347,8 +335,10 @@ export default function HomePage() {
     return map;
   }, [answerAssignments]);
 
-  const boardSlotsForDisplay = useMemo(() => {
-    return [...ANSWER_SLOTS].slice().reverse().concat(BELOW_SLOT);
+  const boardSlotsForDisplay = useMemo<BoardSlot[]>(() => {
+    const slots: BoardSlot[] = [...ANSWER_SLOTS].slice().reverse();
+    slots.push(BELOW_SLOT);
+    return slots;
   }, []);
 
   const tokensByTarget = useMemo(() => {
@@ -415,22 +405,6 @@ export default function HomePage() {
   const drawRandomQuestion = () => {
     const next = QUESTION_BANK[Math.floor(Math.random() * QUESTION_BANK.length)];
     setNextQuestion(next);
-  };
-
-  const applyCustomQuestion = () => {
-    const trimmedPrompt = customQuestion.prompt.trim();
-    const parsedAnswer = Number.parseInt(customQuestion.answer, 10);
-    if (!trimmedPrompt || Number.isNaN(parsedAnswer)) {
-      setError("La question personnalisee doit avoir un texte et une reponse entiere.");
-      return;
-    }
-    setNextQuestion({
-      id: `custom-${makeId()}`,
-      prompt: trimmedPrompt,
-      answer: parsedAnswer,
-      unit: customQuestion.unit.trim() || undefined
-    });
-    setError(null);
   };
 
   const addPlayer = () => {
@@ -804,33 +778,48 @@ export default function HomePage() {
     }
     const assignment = answerAssignments[slot.slotIndex];
     if (!assignment) {
-      return `${getSlotName(slot.tier)} (vide)`;
+      return `${getSlotPositionLabel(slot.slotIndex)} (vide)`;
     }
     const playersLabel = assignment.players.map((player) => player.name).join(", ");
-    return `${getSlotName(slot.tier)}: ${assignment.value} ${unit ?? ""} (${playersLabel})`;
+    return `${getSlotPositionLabel(slot.slotIndex)}: ${assignment.value} ${
+      unit ?? ""
+    } (${playersLabel})`;
   };
-
-  const leaderBoard = [...players].sort((a, b) => b.score - a.score);
 
   return (
     <main>
       <header>
-        <h1>Gambit7 Digital</h1>
-        <p>
-          Jeu de culture generale a reponses numeriques. Classement des reponses,
-          votes sur le plateau, et jeton Gambit 7 pour tenter le tout pour le tout.
-        </p>
+        <h1>Betsept</h1>
       </header>
 
-      <section className="card">
-        <div className="phase">
-          {(Object.keys(phaseLabels) as Phase[]).map((step) => (
-            <span key={step} className={phase === step ? "active" : ""}>
-              {phaseLabels[step]}
-            </span>
-          ))}
-        </div>
-      </section>
+      <nav className="tabs">
+        <button
+          type="button"
+          className={`tab-button ${activeTab === "game" ? "active" : ""}`}
+          onClick={() => setActiveTab("game")}
+        >
+          Partie
+        </button>
+        <button
+          type="button"
+          className={`tab-button ${activeTab === "rules" ? "active" : ""}`}
+          onClick={() => setActiveTab("rules")}
+        >
+          Regles
+        </button>
+      </nav>
+
+      {activeTab === "game" ? (
+        <>
+          <section className="card">
+            <div className="phase">
+              {(Object.keys(phaseLabels) as Phase[]).map((step) => (
+                <span key={step} className={phase === step ? "active" : ""}>
+                  {phaseLabels[step]}
+                </span>
+              ))}
+            </div>
+          </section>
 
       <section className="grid two">
         <div className="card row">
@@ -848,192 +837,69 @@ export default function HomePage() {
           )}
           {phase === "setup" && (
             <div className="grid">
-              <div className="grid two">
-                <button
-                  className={questionMode === "bank" ? "" : "secondary"}
-                  onClick={() => setQuestionMode("bank")}
-                >
-                  Banque
-                </button>
-                <button
-                  className={questionMode === "custom" ? "" : "secondary"}
-                  onClick={() => setQuestionMode("custom")}
-                >
-                  Personnalisee
-                </button>
-              </div>
-
-              {questionMode === "bank" ? (
-                <div className="grid">
-                  <p>
-                    <strong>Prochaine question:</strong> {nextQuestion.prompt}
-                  </p>
-                  <div className="footer-actions">
-                    <button className="secondary" onClick={drawRandomQuestion}>
-                      Tirer une autre question
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="grid custom-input">
-                  <input
-                    type="text"
-                    placeholder="Texte de la question"
-                    value={customQuestion.prompt}
-                    onChange={(event) =>
-                      setCustomQuestion((prev) => ({
-                        ...prev,
-                        prompt: event.target.value
-                      }))
-                    }
-                  />
-                  <input
-                    type="number"
-                    placeholder="Reponse (entier)"
-                    value={customQuestion.answer}
-                    onChange={(event) =>
-                      setCustomQuestion((prev) => ({
-                        ...prev,
-                        answer: event.target.value
-                      }))
-                    }
-                  />
-                  <input
-                    type="text"
-                    placeholder="Unite (optionnel)"
-                    value={customQuestion.unit}
-                    onChange={(event) =>
-                      setCustomQuestion((prev) => ({
-                        ...prev,
-                        unit: event.target.value
-                      }))
-                    }
-                  />
-                  <button className="secondary" onClick={applyCustomQuestion}>
-                    Utiliser cette question
-                  </button>
-                  <p>
-                    <strong>Question selectionnee:</strong> {nextQuestion.prompt}
-                  </p>
-                </div>
-              )}
-
               <div className="grid">
-                <p className="badge">Bareme du plateau</p>
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>Case</th>
-                      <th>Unique</th>
-                      <th>Plusieurs</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Sous toutes</td>
-                      <td>15</td>
-                      <td>15</td>
-                    </tr>
-                    <tr>
-                      <td>Orange</td>
-                      <td>12</td>
-                      <td>8</td>
-                    </tr>
-                    <tr>
-                      <td>Jaune</td>
-                      <td>9</td>
-                      <td>6</td>
-                    </tr>
-                    <tr>
-                      <td>Verte</td>
-                      <td>6</td>
-                      <td>4</td>
-                    </tr>
-                    <tr>
-                      <td>Bleue</td>
-                      <td>3</td>
-                      <td>2</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <p>
+                  <strong>Prochaine question:</strong> {nextQuestion.prompt}
+                </p>
+                <div className="footer-actions">
+                  <button className="secondary" onClick={drawRandomQuestion}>
+                    Tirer une autre question
+                  </button>
+                </div>
               </div>
+
             </div>
           )}
         </div>
-
         <div className="card row">
-          <h2>Scores</h2>
-          {leaderBoard.length === 0 ? (
-            <p>Ajoutez des joueurs pour lancer la partie.</p>
-          ) : (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Joueur</th>
-                  <th>Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                {leaderBoard.map((player) => (
-                  <tr key={player.id}>
-                    <td>{player.name}</td>
-                    <td className="highlight">{player.score}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <h2>Joueurs</h2>
+          {players.length === 0 && <p>Aucun joueur pour le moment.</p>}
+          <div className="player-list">
+            {players.map((player) => (
+              <div className="player-row" key={player.id}>
+                <input
+                  type="text"
+                  value={player.name}
+                  disabled={!canEditPlayers}
+                  onChange={(event) => updatePlayerName(player.id, event.target.value)}
+                />
+                {phase === "answer" && (
+                  <input
+                    type="number"
+                    placeholder="Reponse"
+                    value={player.answer ?? ""}
+                    onChange={(event) => updateAnswer(player.id, event.target.value)}
+                  />
+                )}
+                {phase !== "answer" && <span className="badge">Score {player.score}</span>}
+                {canEditPlayers && (
+                  <button className="ghost" onClick={() => removePlayer(player.id)}>
+                    Retirer
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+          {canEditPlayers && (
+            <div className="player-row">
+              <input
+                type="text"
+                placeholder="Nouveau joueur"
+                value={newPlayerName}
+                onChange={(event) => setNewPlayerName(event.target.value)}
+              />
+              <button onClick={addPlayer}>Ajouter</button>
+            </div>
+          )}
+          {players.length > MAX_PLAYERS && (
+            <div className="error">Trop de joueurs pour Gambit 7.</div>
           )}
           <div className="footer-actions">
-            <button className="ghost" onClick={resetGame}>
+            <button className="ghost reset-button" onClick={resetGame}>
               Reinitialiser la partie
             </button>
           </div>
         </div>
-      </section>
-
-      <section className="card row">
-        <h2>Joueurs</h2>
-        {players.length === 0 && <p>Aucun joueur pour le moment.</p>}
-        <div className="player-list">
-          {players.map((player) => (
-            <div className="player-row" key={player.id}>
-              <input
-                type="text"
-                value={player.name}
-                disabled={!canEditPlayers}
-                onChange={(event) => updatePlayerName(player.id, event.target.value)}
-              />
-              {phase === "answer" && (
-                <input
-                  type="number"
-                  placeholder="Reponse"
-                  value={player.answer ?? ""}
-                  onChange={(event) => updateAnswer(player.id, event.target.value)}
-                />
-              )}
-              {phase !== "answer" && <span className="badge">Score {player.score}</span>}
-              {canEditPlayers && (
-                <button className="ghost" onClick={() => removePlayer(player.id)}>
-                  Retirer
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-        {canEditPlayers && (
-          <div className="player-row">
-            <input
-              type="text"
-              placeholder="Nouveau joueur"
-              value={newPlayerName}
-              onChange={(event) => setNewPlayerName(event.target.value)}
-            />
-            <button onClick={addPlayer}>Ajouter</button>
-          </div>
-        )}
-        {players.length > MAX_PLAYERS && (
-          <div className="error">Trop de joueurs pour Gambit 7.</div>
-        )}
       </section>
 
       {phase === "setup" && (
@@ -1087,20 +953,11 @@ export default function HomePage() {
                   slot.slotIndex === null
                     ? null
                     : answerAssignments[slot.slotIndex];
-                const positionLabel =
-                  slot.slotIndex === null
-                    ? ""
-                    : slot.slotIndex === 3
-                    ? "Centre"
-                    : slot.slotIndex < 3
-                    ? "Bas"
-                    : "Haut";
+                const positionLabel = getSlotPositionLabel(slot.slotIndex);
                 return (
                   <tr key={`reveal-${slot.id}`}>
                     <td>
-                      {slot.slotIndex === null
-                        ? "Sous toutes"
-                        : `${getSlotName(slot.tier)} (${positionLabel})`}
+                      {positionLabel}
                     </td>
                     <td>
                       {slot.slotIndex === null
@@ -1200,14 +1057,7 @@ export default function HomePage() {
               const assignment =
                 slot.slotIndex === null ? null : answerAssignments[slot.slotIndex];
               const hasAnswer = slot.slotIndex === null || !!assignment;
-              const positionLabel =
-                slot.slotIndex === null
-                  ? "Sous toutes"
-                  : slot.slotIndex === 3
-                  ? "Centre"
-                  : slot.slotIndex < 3
-                  ? "Bas"
-                  : "Haut";
+              const positionLabel = getSlotPositionLabel(slot.slotIndex);
               const isSelectedByActive = activeVoter
                 ? activeVoter.gambitActive
                   ? activeVoter.gambitTarget === slot.id
@@ -1224,27 +1074,53 @@ export default function HomePage() {
                   onClick={() => placeTokenForActiveVoter(slot.id)}
                 >
                   <div className="slot-head">
-                    <span className="slot-index">
-                      {slot.slotIndex === null
-                        ? "Sous toutes"
-                        : `${getSlotName(slot.tier)} (${positionLabel})`}
-                    </span>
-                    <span className="slot-value">
-                      {slot.slotIndex === null
-                        ? slot.pointsShared
-                        : `${slot.pointsUnique}/${slot.pointsShared}`}
+                    {positionLabel && (
+                      <span className="slot-index">{positionLabel}</span>
+                    )}
+                    <span className="slot-points">
+                      {slot.slotIndex === null ? (
+                        <span className="slot-points-row">
+                          <span className="player-icon" aria-hidden="true" />
+                          <span className="slot-points-value">
+                            {slot.pointsShared}
+                          </span>
+                        </span>
+                      ) : (
+                        <>
+                          <span className="slot-points-row">
+                            <span className="player-icon" aria-hidden="true" />
+                            <span className="slot-points-value">
+                              {slot.pointsUnique}
+                            </span>
+                          </span>
+                          <span className="slot-points-row secondary">
+                            <span className="slot-points-icons">
+                              <span className="player-icon" aria-hidden="true" />
+                              <span className="plus-icon" aria-hidden="true" />
+                            </span>
+                            <span className="slot-points-value">
+                              {slot.pointsShared}
+                            </span>
+                          </span>
+                        </>
+                      )}
                     </span>
                   </div>
-                  <div className="slot-label">
-                    {slot.slotIndex === null
-                      ? "Si toutes les reponses sont au-dessus."
-                      : assignment
-                      ? `${assignment.value} ${currentQuestion?.unit ?? ""}`
-                      : "Aucune reponse"}
+                  <div className="slot-answer">
+                    <span className="slot-answer-value">
+                      {slot.slotIndex === null
+                        ? "Si toutes les reponses sont au-dessus."
+                        : assignment
+                        ? `${assignment.value} ${currentQuestion?.unit ?? ""}`
+                        : "Aucune reponse"}
+                    </span>
                   </div>
                   {assignment && (
                     <div className="slot-meta">
-                      {assignment.players.map((player) => player.name).join(", ")}
+                      <span className="slot-meta-label">Joueur</span>
+                      <span className="slot-meta-value">
+                        {assignment.players.map((player) => player.name).join(", ")}
+                      </span>
                     </div>
                   )}
                   <div className="slot-tokens">
@@ -1335,21 +1211,6 @@ export default function HomePage() {
 
       {error && <div className="error">{error}</div>}
 
-      <section className="card row">
-        <h2>Regles express</h2>
-        <p>
-          - Chaque joueur donne une reponse entiere.
-          <br />- Les reponses identiques comptent comme une seule case pour le placement.
-          <br />- Les reponses sont placees depuis le centre, avec autant au-dessus qu'en dessous.
-          <br />- La reponse gagnante est la plus proche sans depasser la valeur exacte.
-          <br />- Si toutes les reponses sont au-dessus, la case "Sous toutes" gagne.
-          <br />- Bareme: sous toutes = 15, bleue 3/2, verte 6/4, jaune 9/6, orange 12/8 (unique / plusieurs).
-          <br />- Chaque joueur pose 2 jetons de vote ou un jeton Gambit 7 a chaque manche.
-          <br />- Le joueur de la reponse gagnante marque les points "plusieurs" de sa case.
-          <br />- Gambit 7: si la case gagne, points de manche x7, sinon 0.
-        </p>
-      </section>
-
       {phase === "bet" && (
         <section className="card row">
           <h2>Votes poses</h2>
@@ -1388,6 +1249,23 @@ export default function HomePage() {
               ))}
             </tbody>
           </table>
+        </section>
+      )}
+        </>
+      ) : (
+        <section className="card row">
+          <h2>Regles express</h2>
+          <p>
+            - Chaque joueur donne une reponse entiere.
+            <br />- Les reponses identiques comptent comme une seule case pour le placement.
+            <br />- Les reponses sont placees depuis le centre, avec autant au-dessus qu'en dessous.
+            <br />- La reponse gagnante est la plus proche sans depasser la valeur exacte.
+            <br />- Si toutes les reponses sont au-dessus, la case "Sous toutes" gagne.
+            <br />- Bareme: sous toutes = 15, bleue 3/2, verte 6/4, jaune 9/6, orange 12/8 (unique / plusieurs).
+            <br />- Chaque joueur pose 2 jetons de vote ou un jeton Gambit 7 a chaque manche.
+            <br />- Le joueur de la reponse gagnante marque les points "plusieurs" de sa case.
+            <br />- Gambit 7: si la case gagne, points de manche x7, sinon 0.
+          </p>
         </section>
       )}
     </main>
