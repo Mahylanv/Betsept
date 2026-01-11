@@ -493,6 +493,7 @@ export default function HomePage() {
 
   const onlinePhase = onlineRoom?.phase ?? "lobby";
   const onlineQuestion = onlineRoom?.question ?? null;
+  const onlineLastResult = onlineRoom?.lastResult ?? null;
   const onlineRound = onlineRoom?.round ?? 1;
   const onlineReadyCount = onlinePlayers.filter((player) => player.ready).length;
   const onlineReadyNextCount = onlinePlayers.filter(
@@ -1910,20 +1911,20 @@ export default function HomePage() {
                 </section>
               )}
 
-              {onlinePhase === "score" && onlineRoom.lastResult && (
+              {onlinePhase === "score" && onlineLastResult && (
                 <section className="card row">
                   <h2>Resultats de la manche</h2>
                   <p>
                     Reponse exacte:{" "}
                     <span className="highlight">
-                      {onlineRoom.lastResult.question.answer}
+                      {onlineLastResult.question.answer}
                     </span>{" "}
-                    {onlineRoom.lastResult.question.unit ?? ""}
+                    {onlineLastResult.question.unit ?? ""}
                   </p>
                   <p>
-                    Reponse gagnante: {onlineRoom.lastResult.winning.below
+                    Reponse gagnante: {onlineLastResult.winning.below
                       ? "Sous toutes les reponses"
-                      : onlineRoom.lastResult.winning.answerValue}
+                      : onlineLastResult.winning.answerValue}
                   </p>
                   <table className="table">
                     <thead>
@@ -1938,30 +1939,30 @@ export default function HomePage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {onlineRoom.lastResult.ordered.map((player) => (
+                      {onlineLastResult.ordered.map((player) => (
                         <tr key={player.id}>
                           <td>{player.name}</td>
                           <td>
-                            {player.answer} {onlineRoom.lastResult?.question.unit ?? ""}
+                            {player.answer} {onlineLastResult.question.unit ?? ""}
                           </td>
                           <td>
-                            {onlineRoom.lastResult.answerPoints[player.id] ?? 0}
+                            {onlineLastResult.answerPoints[player.id] ?? 0}
                           </td>
                           <td>
-                            {onlineRoom.lastResult.votePoints[player.id] ?? 0}
+                            {onlineLastResult.votePoints[player.id] ?? 0}
                           </td>
                           <td>
-                            {onlineRoom.lastResult.gambit[player.id]?.used
-                              ? onlineRoom.lastResult.gambit[player.id]?.success
+                            {onlineLastResult.gambit[player.id]?.used
+                              ? onlineLastResult.gambit[player.id]?.success
                                 ? "x7"
                                 : "0"
                               : "-"}
                           </td>
                           <td>
-                            {onlineRoom.lastResult.roundPoints[player.id] ?? 0}
+                            {onlineLastResult.roundPoints[player.id] ?? 0}
                           </td>
                           <td className="highlight">
-                            {onlineRoom.lastResult.finalScores[player.id] ?? 0}
+                            {onlineLastResult.finalScores[player.id] ?? 0}
                           </td>
                         </tr>
                       ))}
