@@ -52,6 +52,7 @@ type OnlineRoom = {
   phase: OnlinePhase;
   round: number;
   question: Question | null;
+  questionDeck: string[];
   players: OnlinePlayer[];
   answerDeadline: number | null;
   betDeadline: number | null;
@@ -139,8 +140,17 @@ const VALID_SLOT_IDS = new Set([BELOW_SLOT.id, ...ANSWER_SLOTS.map((slot) => slo
 const makeId = () => Math.random().toString(36).slice(2, 10);
 const roomKey = (code: string) => `room:${code}`;
 
-const drawRandomQuestion = () =>
-  QUESTION_BANK[Math.floor(Math.random() * QUESTION_BANK.length)];
+const QUESTION_BY_ID = new Map(QUESTION_BANK.map((question) => [question.id, question]));
+
+const shuffleQuestionIds = () =>
+  QUESTION_BANK.map((question) => question.id).sort(() => Math.random() - 0.5);
+
+const drawFromDeck = (deck: string[]) => {
+  const nextDeck = deck.length ? [...deck] : shuffleQuestionIds();
+  const nextId = nextDeck.shift();
+  const question = (nextId && QUESTION_BY_ID.get(nextId)) ?? QUESTION_BANK[0];
+  return { question, deck: nextDeck };
+};
 
 const isPlayerDone = (player: OnlinePlayer) => {
   if (player.gambitActive) {
@@ -197,12 +207,13 @@ const computeWinning = (question: Question, ordered: RankedPlayer[]) => {
 };
 
 const startRound = (room: OnlineRoom, now: number, nextRound: number) => {
-  const question = drawRandomQuestion();
+  const { question, deck } = drawFromDeck(room.questionDeck ?? []);
   return {
     ...room,
     phase: "answer" as OnlinePhase,
     round: nextRound,
     question,
+    questionDeck: deck,
     answerDeadline: now + ANSWER_DURATION_MS,
     betDeadline: null,
     lastResult: null,

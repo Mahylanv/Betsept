@@ -1,6 +1,6 @@
 import { kv } from "@vercel/kv";
 import { NextResponse } from "next/server";
-import type { Question } from "../../lib/questions";
+import { QUESTION_BANK, type Question } from "../../lib/questions";
 
 type OnlinePlayer = {
   id: string;
@@ -21,6 +21,7 @@ type OnlineRoom = {
   phase: "lobby" | "answer" | "bet" | "score" | "over";
   round: number;
   question: Question | null;
+  questionDeck: string[];
   players: OnlinePlayer[];
   answerDeadline: number | null;
   betDeadline: number | null;
@@ -37,6 +38,8 @@ const makeCode = () =>
   Math.random().toString(36).slice(2, 6).toUpperCase();
 
 const roomKey = (code: string) => `room:${code}`;
+const shuffleQuestionIds = () =>
+  QUESTION_BANK.map((question) => question.id).sort(() => Math.random() - 0.5);
 
 const createUniqueCode = async () => {
   for (let attempt = 0; attempt < 8; attempt += 1) {
@@ -85,6 +88,7 @@ export async function POST(request: Request) {
     phase: "lobby",
     round: 1,
     question: null,
+    questionDeck: shuffleQuestionIds(),
     players: [player],
     answerDeadline: null,
     betDeadline: null,

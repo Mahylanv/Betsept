@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { DEFAULT_QUESTION, QUESTION_BANK, type Question } from "./lib/questions";
 
-type Phase = "setup" | "answer" | "reveal" | "bet" | "score";
+type Phase = "setup" | "answer" | "bet" | "score";
 
 type Player = {
   id: string;
@@ -58,6 +58,7 @@ type OnlineRoom = {
   phase: OnlinePhase;
   round: number;
   question: Question | null;
+  questionDeck?: string[];
   players: OnlinePlayer[];
   answerDeadline: number | null;
   betDeadline: number | null;
@@ -68,6 +69,8 @@ type OnlineRoom = {
 
 const MAX_PLAYERS = 7;
 const GAMBIT_MULTIPLIER = 7;
+const shuffleQuestions = (questions: Question[]) =>
+  [...questions].sort(() => Math.random() - 0.5);
 
 const BELOW_SLOT = {
   id: "below",
@@ -140,7 +143,6 @@ const SLOT_BY_ID: Map<string, BoardSlot> = new Map(
 const phaseLabels: Record<Phase, string> = {
   setup: "Preparation",
   answer: "Reponses",
-  reveal: "Plateau",
   bet: "Votes",
   score: "Scores"
 };
@@ -218,7 +220,10 @@ export default function HomePage() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [round, setRound] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
-  const [nextQuestion, setNextQuestion] = useState<Question>(DEFAULT_QUESTION);
+  const [questionDeck, setQuestionDeck] = useState<Question[]>(() =>
+    shuffleQuestions(QUESTION_BANK)
+  );
+  const nextQuestion = questionDeck[0] ?? DEFAULT_QUESTION;
   const [newPlayerName, setNewPlayerName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [lastRound, setLastRound] = useState<RoundResult | null>(null);
@@ -528,6 +533,9 @@ export default function HomePage() {
       setOnlineAnswerDraft("");
       return;
     }
+    if (onlinePhase === "answer") {
+      autoSubmitAnswerRef.current = false;
+    }
     if (onlineSelf?.answer !== null && onlineSelf?.answer !== undefined) {
       setOnlineAnswerDraft(String(onlineSelf.answer));
     } else {
@@ -535,15 +543,74 @@ export default function HomePage() {
     }
   }, [mode, onlinePhase, onlineSelf?.answer]);
 
+  const autoSubmitAnswerRef = useRef(false);
+
+  useEffect(() => {
+    if (mode !== "online" || onlinePhase !== "answer") {
+      return;
+    }
+    if (answerTimeLeft !== 0) {
+      return;
+    }
+    if (autoSubmitAnswerRef.current) {
+      return;
+    }
+    if (!onlineSelf || onlineSelf.answer !== null) {
+      return;
+    }
+    const trimmed = onlineAnswerDraft.trim();
+    if (!trimmed) {
+      return;
+    }
+    autoSubmitAnswerRef.current = true;
+    setOnlineAnswer(trimmed);
+  }, [mode, onlinePhase, answerTimeLeft, onlineSelf, onlineAnswerDraft]);
+
   const canEditPlayers = phase === "setup";
   const canStartRound =
     players.length >= 2 &&
     players.length <= MAX_PLAYERS &&
     nextQuestion.prompt.trim().length > 0;
 
+  const leaderboard = useMemo(
+    () => [...players].sort((a, b) => b.score - a.score),
+    [players]
+  );
+  const maxScore = Math.max(1, ...leaderboard.map((player) => player.score));
+  const onlineLeaderboard = useMemo(
+    () => [...onlinePlayers].sort((a, b) => b.score - a.score),
+    [onlinePlayers]
+  );
+  const onlineMaxScore = Math.max(
+    1,
+    ...onlineLeaderboard.map((player) => player.score)
+  );
+
+  const getRankClass = (index: number) => {
+    if (index === 0) {
+      return "rank-1";
+    }
+    if (index === 1) {
+      return "rank-2";
+    }
+    if (index === 2) {
+      return "rank-3";
+    }
+    return "rank-default";
+  };
+
+  const getWinnerNames = (result: RoundResult) => {
+    if (result.winning.below) {
+      return ["Sous toutes les reponses"];
+    }
+    return result.ordered
+      .filter((player) => result.winning.winnerIds.includes(player.id))
+      .map((player) => player.name);
+  };
+
   const drawRandomQuestion = () => {
-    const next = QUESTION_BANK[Math.floor(Math.random() * QUESTION_BANK.length)];
-    setNextQuestion(next);
+    const nextDeck = shuffleQuestions(QUESTION_BANK);
+    setQuestionDeck(nextDeck);
   };
 
   const requestRoom = async (path: string, payload?: Record<string, unknown>) => {
@@ -806,6 +873,11 @@ export default function HomePage() {
       setError("Ajoutez au moins deux joueurs et choisissez une question.");
       return;
     }
+    const nextDeck = questionDeck.length
+      ? [...questionDeck]
+      : shuffleQuestions(QUESTION_BANK);
+    const selectedQuestion = nextDeck.shift() ?? DEFAULT_QUESTION;
+    setQuestionDeck(nextDeck);
     setPlayers((prev) =>
       prev.map((player) => ({
         ...player,
@@ -817,7 +889,7 @@ export default function HomePage() {
         readyNext: false
       }))
     );
-    setCurrentQuestion(nextQuestion);
+    setCurrentQuestion(selectedQuestion);
     setPhase("answer");
     setCurrentVoterIndex(0);
     setError(null);
@@ -829,11 +901,6 @@ export default function HomePage() {
       setError("Toutes les reponses doivent etre remplies avant de continuer.");
       return;
     }
-    setPhase("reveal");
-    setError(null);
-  };
-
-  const proceedToBet = () => {
     setPhase("bet");
     setCurrentVoterIndex(0);
     setError(null);
@@ -1146,6 +1213,11 @@ export default function HomePage() {
 
             </div>
           )}
+          <div className="footer-actions">
+            <button className="ghost reset-button" onClick={resetGame}>
+              Reinitialiser la partie
+            </button>
+          </div>
         </div>
         <div className="card row">
           <h2>Joueurs</h2>
@@ -1190,12 +1262,50 @@ export default function HomePage() {
           {players.length > MAX_PLAYERS && (
             <div className="error">Trop de joueurs pour Gambit 7.</div>
           )}
-          <div className="footer-actions">
-            <button className="ghost reset-button" onClick={resetGame}>
-              Reinitialiser la partie
-            </button>
-          </div>
         </div>
+              </section>
+
+              <section className="card row scoreboard-card">
+                <div className="scoreboard-header">
+                  <h2>Tableau des scores</h2>
+                  <span className="badge">Manche {round}</span>
+                </div>
+                {leaderboard.length === 0 ? (
+                  <p>Aucun score pour le moment.</p>
+                ) : (
+                  <table className="score-table">
+                    <thead>
+                      <tr>
+                        <th>Rang</th>
+                        <th>Joueur</th>
+                        <th>Progression</th>
+                        <th>Score</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {leaderboard.map((player, index) => (
+                        <tr key={`score-${player.id}`}>
+                          <td>
+                            <span className={`rank-badge ${getRankClass(index)}`}>
+                              #{index + 1}
+                            </span>
+                          </td>
+                          <td>{player.name}</td>
+                          <td>
+                            <div className="score-meter">
+                              <span
+                                style={{
+                                  width: `${(player.score / maxScore) * 100}%`
+                                }}
+                              />
+                            </div>
+                          </td>
+                          <td className="score-value">{player.score}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </section>
 
               {phase === "setup" && (
@@ -1227,61 +1337,6 @@ export default function HomePage() {
                 </section>
               )}
 
-              {phase === "reveal" && (
-                <section className="card row">
-          <h2>Plateau des reponses</h2>
-          <p>
-            Les reponses sont placees depuis le centre, avec le meme nombre au-dessus
-            et en dessous. Les doublons restent sur la meme case.
-          </p>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Case</th>
-                <th>Points (U/M)</th>
-                <th>Reponse</th>
-                <th>Joueurs</th>
-              </tr>
-            </thead>
-            <tbody>
-              {boardSlotsForDisplay.map((slot) => {
-                const assignment =
-                  slot.slotIndex === null
-                    ? null
-                    : answerAssignments[slot.slotIndex];
-                const positionLabel = getSlotPositionLabel(slot.slotIndex);
-                return (
-                  <tr key={`reveal-${slot.id}`}>
-                    <td>
-                      {positionLabel}
-                    </td>
-                    <td>
-                      {slot.slotIndex === null
-                        ? slot.pointsShared
-                        : `${slot.pointsUnique}/${slot.pointsShared}`}
-                    </td>
-                    <td>
-                      {slot.slotIndex === null
-                        ? "Si tout est au-dessus"
-                        : assignment
-                        ? `${assignment.value} ${currentQuestion?.unit ?? ""}`
-                        : "-"}
-                    </td>
-                    <td>
-                      {assignment
-                        ? assignment.players.map((player) => player.name).join(", ")
-                        : "-"}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <div className="footer-actions">
-            <button onClick={proceedToBet}>Passer aux votes</button>
-          </div>
-                </section>
-              )}
 
               {phase === "bet" && (
                 <section className="card row">
@@ -1454,18 +1509,33 @@ export default function HomePage() {
               {phase === "score" && lastRound && (
                 <section className="card row">
           <h2>Resultats de la manche</h2>
-          <p>
-            Reponse exacte: <span className="highlight">{lastRound.question.answer}</span>{" "}
-            {lastRound.question.unit ?? ""}
-          </p>
-          <p>
-            Reponse gagnante: {lastRound.winning.below
-              ? "Sous toutes les reponses"
-              : lastRound.winning.answerValue}
-          </p>
-          <table className="table">
+          <div className="result-summary">
+            <div className="result-pill">
+              <span className="result-label">Reponse exacte</span>
+              <span className="result-value">
+                {lastRound.question.answer} {lastRound.question.unit ?? ""}
+              </span>
+            </div>
+            <div className="result-pill">
+              <span className="result-label">Reponse gagnante</span>
+              <span className="result-value">
+                {lastRound.winning.below
+                  ? "Sous toutes les reponses"
+                  : `${lastRound.winning.answerValue ?? "-"} ${
+                      lastRound.question.unit ?? ""
+                    }`}
+              </span>
+            </div>
+            <div className="result-pill">
+              <span className="result-label">Gagnant(s)</span>
+              <span className="result-value">{getWinnerNames(lastRound).join(", ")}</span>
+            </div>
+          </div>
+          <div className="table-scroll">
+            <table className="round-table">
             <thead>
               <tr>
+                <th>Rang</th>
                 <th>Joueur</th>
                 <th>Reponse</th>
                 <th>Gain reponse</th>
@@ -1476,8 +1546,13 @@ export default function HomePage() {
               </tr>
             </thead>
             <tbody>
-              {lastRound.ordered.map((player) => (
+              {lastRound.ordered.map((player, index) => (
                 <tr key={player.id}>
+                  <td>
+                    <span className={`rank-badge ${getRankClass(index)}`}>
+                      #{index + 1}
+                    </span>
+                  </td>
                   <td>{player.name}</td>
                   <td>
                     {player.answer} {lastRound.question.unit ?? ""}
@@ -1498,7 +1573,8 @@ export default function HomePage() {
                 </tr>
               ))}
             </tbody>
-          </table>
+            </table>
+          </div>
           <div className="footer-actions">
             <button onClick={nextRound}>Manche suivante</button>
           </div>
@@ -1556,8 +1632,8 @@ export default function HomePage() {
               <p>
                 Creez une partie ou rejoignez-en une avec un code partage.
               </p>
-              <div className="grid">
-                <label>
+              <div className="grid online-form">
+                <label className="form-field">
                   Nom du joueur
                   <input
                     type="text"
@@ -1565,7 +1641,7 @@ export default function HomePage() {
                     onChange={(event) => setOnlineName(event.target.value)}
                   />
                 </label>
-                <label>
+                <label className="form-field">
                   Code de partie
                   <input
                     type="text"
@@ -1646,37 +1722,63 @@ export default function HomePage() {
                     <p className="badge">En attente du lancement...</p>
                   )}
                 </div>
-                <div className="card row">
-                  <h2>Joueurs</h2>
-                  {onlinePlayers.length === 0 && (
-                    <p>Aucun joueur pour le moment.</p>
-                  )}
-                  <div className="player-list">
-                    {onlinePlayers.map((player) => {
-                      const isSelf = player.id === onlinePlayerId;
-                      const isReady =
-                        onlinePhase === "lobby"
-                          ? player.ready
-                          : onlinePhase === "score"
-                          ? player.readyNext
-                          : false;
-                      return (
-                        <div className="player-row" key={player.id}>
-                          <span
-                            className={`player-name ${isSelf ? "self" : ""}`}
-                          >
-                            {player.name}
-                          </span>
-                          <span className="badge">Score {player.score}</span>
-                          <span
-                            className={`ready-dot ${isReady ? "active" : ""}`}
-                            title={isReady ? "Pret" : "En attente"}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
+              </section>
+
+              <section className="card row scoreboard-card">
+                <div className="scoreboard-header">
+                  <h2>Tableau des scores</h2>
+                  <span className="badge">Manche {onlineRound}</span>
                 </div>
+                {onlineLeaderboard.length === 0 ? (
+                  <p>Aucun score pour le moment.</p>
+                ) : (
+                  <table className="score-table">
+                    <thead>
+                      <tr>
+                        <th>Rang</th>
+                        <th>Joueur</th>
+                        <th>Progression</th>
+                        <th>Score</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {onlineLeaderboard.map((player, index) => {
+                        const isReady =
+                          onlinePhase === "lobby"
+                            ? player.ready
+                            : onlinePhase === "score"
+                            ? player.readyNext
+                            : false;
+                        return (
+                        <tr key={`online-score-${player.id}`}>
+                          <td>
+                            <span className="rank-cell">
+                              <span
+                                className={`ready-dot ${isReady ? "active" : ""}`}
+                                title={isReady ? "Pret" : "En attente"}
+                              />
+                              <span className={`rank-badge ${getRankClass(index)}`}>
+                                #{index + 1}
+                              </span>
+                            </span>
+                          </td>
+                          <td>{player.name}</td>
+                          <td>
+                            <div className="score-meter">
+                              <span
+                                style={{
+                                  width: `${(player.score / onlineMaxScore) * 100}%`
+                                }}
+                              />
+                            </div>
+                          </td>
+                          <td className="score-value">{player.score}</td>
+                        </tr>
+                      );
+                      })}
+                    </tbody>
+                  </table>
+                )}
               </section>
 
               {onlinePhase === "lobby" && (
@@ -1912,23 +2014,38 @@ export default function HomePage() {
               )}
 
               {onlinePhase === "score" && onlineLastResult && (
-                <section className="card row">
+                <section className="card row result-card">
                   <h2>Resultats de la manche</h2>
-                  <p>
-                    Reponse exacte:{" "}
-                    <span className="highlight">
-                      {onlineLastResult.question.answer}
-                    </span>{" "}
-                    {onlineLastResult.question.unit ?? ""}
-                  </p>
-                  <p>
-                    Reponse gagnante: {onlineLastResult.winning.below
-                      ? "Sous toutes les reponses"
-                      : onlineLastResult.winning.answerValue}
-                  </p>
-                  <table className="table">
+                  <div className="result-summary">
+                    <div className="result-pill">
+                      <span className="result-label">Reponse exacte</span>
+                      <span className="result-value">
+                        {onlineLastResult.question.answer}{" "}
+                        {onlineLastResult.question.unit ?? ""}
+                      </span>
+                    </div>
+                    <div className="result-pill">
+                      <span className="result-label">Reponse gagnante</span>
+                      <span className="result-value">
+                        {onlineLastResult.winning.below
+                          ? "Sous toutes les reponses"
+                          : `${onlineLastResult.winning.answerValue ?? "-"} ${
+                              onlineLastResult.question.unit ?? ""
+                            }`}
+                      </span>
+                    </div>
+                    <div className="result-pill">
+                      <span className="result-label">Gagnant(s)</span>
+                      <span className="result-value">
+                        {getWinnerNames(onlineLastResult).join(", ")}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="table-scroll">
+                    <table className="round-table">
                     <thead>
                       <tr>
+                        <th>Rang</th>
                         <th>Joueur</th>
                         <th>Reponse</th>
                         <th>Gain reponse</th>
@@ -1939,8 +2056,13 @@ export default function HomePage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {onlineLastResult.ordered.map((player) => (
+                      {onlineLastResult.ordered.map((player, index) => (
                         <tr key={player.id}>
+                          <td>
+                            <span className={`rank-badge ${getRankClass(index)}`}>
+                              #{index + 1}
+                            </span>
+                          </td>
                           <td>{player.name}</td>
                           <td>
                             {player.answer} {onlineLastResult.question.unit ?? ""}
@@ -1967,7 +2089,8 @@ export default function HomePage() {
                         </tr>
                       ))}
                     </tbody>
-                  </table>
+                    </table>
+                  </div>
                   <div className="footer-actions">
                     <button
                       onClick={() => setOnlineReadyNext(!onlineSelf?.readyNext)}
