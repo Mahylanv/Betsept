@@ -148,7 +148,7 @@ const shuffleQuestionIds = () =>
 const drawFromDeck = (deck: string[]) => {
   const nextDeck = deck.length ? [...deck] : shuffleQuestionIds();
   const nextId = nextDeck.shift();
-  const question = (nextId && QUESTION_BY_ID.get(nextId)) ?? QUESTION_BANK[0];
+  const question = (nextId ? QUESTION_BY_ID.get(nextId) : undefined) ?? QUESTION_BANK[0];
   return { question, deck: nextDeck };
 };
 
