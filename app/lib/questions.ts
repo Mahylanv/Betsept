@@ -25,40 +25,16 @@ export const QUESTION_BANK: Question[] = [
     unit: "annee"
   },
   {
-    id: "piano",
-    prompt: "Combien de touches compte un piano standard ?",
-    answer: 88,
-    unit: "touches"
-  },
-  {
-    id: "os-humains",
-    prompt: "Combien d'os compte le corps humain adulte ?",
-    answer: 206,
-    unit: "os"
-  },
-  {
     id: "mur-berlin",
     prompt: "En quelle annee est tombee la chute du mur de Berlin ?",
     answer: 1989,
     unit: "annee"
   },
   {
-    id: "ue",
-    prompt: "Combien de pays composent l'Union europeenne en 2024 ?",
-    answer: 27,
-    unit: "pays"
-  },
-  {
     id: "terre-lune",
     prompt: "Quelle est la distance moyenne Terre-Lune ?",
     answer: 384400,
     unit: "km"
-  },
-  {
-    id: "minutes-journee",
-    prompt: "Combien de minutes compte une journee complete ?",
-    answer: 1440,
-    unit: "minutes"
   },
   {
     id: "finale-1930",
@@ -72,4055 +48,1431 @@ export const QUESTION_BANK: Question[] = [
     answer: 1
   },
   {
-    id: "pt-hydrogen-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Hydrogen (H) (en kelvins, arrondi) ?",
-    answer: 14,
-    unit: "K"
-  },
-  {
-    id: "pt-hydrogen-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Hydrogen (H) (en kelvins, arrondi) ?",
-    answer: 20,
-    unit: "K"
-  },
-  {
-    id: "pt-hydrogen-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Hydrogen (H) (arrondie a 3 decimales) ?",
-    answer: 1.007,
-    unit: "u"
-  },
-  {
-    id: "pt-hydrogen-annee-decouverte",
-    prompt: "En quelle annee l'element Hydrogen (H) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1766,
-    unit: "annee"
-  },
-  {
-    id: "pt-hydrogen-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Hydrogen (H) ?",
-    answer: 1,
-    unit: "couches"
-  },
-  {
-    id: "pt-hydrogen-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Hydrogen (H) (valeur usuelle) ?",
-    answer: 1,
-    unit: "electrons"
-  },
-  {
-    id: "pt-hydrogen-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Hydrogen (H) ?",
-    answer: 1,
-    unit: "periode"
-  },
-  {
-    id: "pt-hydrogen-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Hydrogen (H) ?",
-    answer: 1,
-    unit: "groupe"
-  },
-  {
     id: "pt-helium-numero-atomique",
     prompt: "Quel est le numero atomique de l'element Helium (He) ?",
     answer: 2
   },
-  {
-    id: "pt-helium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Helium (He) (en kelvins, arrondi) ?",
-    answer: 4,
-    unit: "K"
-  },
-  {
-    id: "pt-helium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Helium (He) (arrondie a 3 decimales) ?",
-    answer: 4.002,
-    unit: "u"
-  },
-  {
-    id: "pt-helium-annee-decouverte",
-    prompt: "En quelle annee l'element Helium (He) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1868,
-    unit: "annee"
-  },
-  {
-    id: "pt-helium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Helium (He) ?",
-    answer: 1,
-    unit: "couches"
-  },
-  {
-    id: "pt-helium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Helium (He) ?",
-    answer: 1,
-    unit: "periode"
-  },
-  {
-    id: "pt-helium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Helium (He) ?",
-    answer: 18,
-    unit: "groupe"
-  },
-  {
-    id: "pt-lithium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Lithium (Li) ?",
-    answer: 3
-  },
-  {
-    id: "pt-lithium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Lithium (Li) (en kelvins, arrondi) ?",
-    answer: 454,
-    unit: "K"
-  },
-  {
-    id: "pt-lithium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Lithium (Li) (en kelvins, arrondi) ?",
-    answer: 1615,
-    unit: "K"
-  },
-  {
-    id: "pt-lithium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Lithium (Li) (arrondie a 3 decimales) ?",
-    answer: 6.941,
-    unit: "u"
-  },
-  {
-    id: "pt-lithium-annee-decouverte",
-    prompt: "En quelle annee l'element Lithium (Li) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1817,
-    unit: "annee"
-  },
-  {
-    id: "pt-lithium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Lithium (Li) ?",
-    answer: 2,
-    unit: "couches"
-  },
-  {
-    id: "pt-lithium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Lithium (Li) (valeur usuelle) ?",
-    answer: 1,
-    unit: "electrons"
-  },
-  {
-    id: "pt-lithium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Lithium (Li) ?",
-    answer: 2,
-    unit: "periode"
-  },
-  {
-    id: "pt-lithium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Lithium (Li) ?",
-    answer: 1,
-    unit: "groupe"
-  },
-  {
-    id: "pt-beryllium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Beryllium (Be) ?",
-    answer: 4
-  },
-  {
-    id: "pt-beryllium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Beryllium (Be) (en kelvins, arrondi) ?",
-    answer: 1560,
-    unit: "K"
-  },
-  {
-    id: "pt-beryllium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Beryllium (Be) (en kelvins, arrondi) ?",
-    answer: 2742,
-    unit: "K"
-  },
-  {
-    id: "pt-beryllium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Beryllium (Be) (arrondie a 3 decimales) ?",
-    answer: 9.012,
-    unit: "u"
-  },
-  {
-    id: "pt-beryllium-annee-decouverte",
-    prompt: "En quelle annee l'element Beryllium (Be) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1798,
-    unit: "annee"
-  },
-  {
-    id: "pt-beryllium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Beryllium (Be) ?",
-    answer: 2,
-    unit: "couches"
-  },
-  {
-    id: "pt-beryllium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Beryllium (Be) (valeur usuelle) ?",
-    answer: 2,
-    unit: "electrons"
-  },
-  {
-    id: "pt-beryllium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Beryllium (Be) ?",
-    answer: 2,
-    unit: "periode"
-  },
-  {
-    id: "pt-beryllium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Beryllium (Be) ?",
-    answer: 2,
-    unit: "groupe"
-  },
-  {
-    id: "pt-boron-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Boron (B) ?",
-    answer: 5
-  },
-  {
-    id: "pt-boron-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Boron (B) (en kelvins, arrondi) ?",
-    answer: 2573,
-    unit: "K"
-  },
-  {
-    id: "pt-boron-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Boron (B) (en kelvins, arrondi) ?",
-    answer: 4200,
-    unit: "K"
-  },
-  {
-    id: "pt-boron-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Boron (B) (arrondie a 3 decimales) ?",
-    answer: 10.811,
-    unit: "u"
-  },
-  {
-    id: "pt-boron-annee-decouverte",
-    prompt: "En quelle annee l'element Boron (B) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1808,
-    unit: "annee"
-  },
-  {
-    id: "pt-boron-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Boron (B) ?",
-    answer: 2,
-    unit: "couches"
-  },
-  {
-    id: "pt-boron-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Boron (B) (valeur usuelle) ?",
-    answer: 3,
-    unit: "electrons"
-  },
-  {
-    id: "pt-boron-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Boron (B) ?",
-    answer: 2,
-    unit: "periode"
-  },
-  {
-    id: "pt-boron-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Boron (B) ?",
-    answer: 13,
-    unit: "groupe"
-  },
-  {
-    id: "pt-carbon-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Carbon (C) ?",
-    answer: 6
-  },
-  {
-    id: "pt-carbon-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Carbon (C) (en kelvins, arrondi) ?",
-    answer: 3948,
-    unit: "K"
-  },
-  {
-    id: "pt-carbon-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Carbon (C) (en kelvins, arrondi) ?",
-    answer: 4300,
-    unit: "K"
-  },
-  {
-    id: "pt-carbon-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Carbon (C) (arrondie a 3 decimales) ?",
-    answer: 12.011,
-    unit: "u"
-  },
-  {
-    id: "pt-carbon-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Carbon (C) ?",
-    answer: 2,
-    unit: "couches"
-  },
-  {
-    id: "pt-carbon-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Carbon (C) (valeur usuelle) ?",
-    answer: 4,
-    unit: "electrons"
-  },
-  {
-    id: "pt-carbon-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Carbon (C) ?",
-    answer: 2,
-    unit: "periode"
-  },
-  {
-    id: "pt-carbon-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Carbon (C) ?",
-    answer: 14,
-    unit: "groupe"
-  },
-  {
-    id: "pt-nitrogen-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Nitrogen (N) ?",
-    answer: 7
-  },
-  {
-    id: "pt-nitrogen-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Nitrogen (N) (en kelvins, arrondi) ?",
-    answer: 63,
-    unit: "K"
-  },
-  {
-    id: "pt-nitrogen-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Nitrogen (N) (en kelvins, arrondi) ?",
-    answer: 77,
-    unit: "K"
-  },
-  {
-    id: "pt-nitrogen-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Nitrogen (N) (arrondie a 3 decimales) ?",
-    answer: 14.007,
-    unit: "u"
-  },
-  {
-    id: "pt-nitrogen-annee-decouverte",
-    prompt: "En quelle annee l'element Nitrogen (N) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1772,
-    unit: "annee"
-  },
-  {
-    id: "pt-nitrogen-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Nitrogen (N) ?",
-    answer: 2,
-    unit: "couches"
-  },
-  {
-    id: "pt-nitrogen-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Nitrogen (N) (valeur usuelle) ?",
-    answer: 5,
-    unit: "electrons"
-  },
-  {
-    id: "pt-nitrogen-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Nitrogen (N) ?",
-    answer: 2,
-    unit: "periode"
-  },
-  {
-    id: "pt-nitrogen-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Nitrogen (N) ?",
-    answer: 15,
-    unit: "groupe"
-  },
+
   {
     id: "pt-oxygen-numero-atomique",
     prompt: "Quel est le numero atomique de l'element Oxygen (O) ?",
     answer: 8
   },
   {
-    id: "pt-oxygen-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Oxygen (O) (en kelvins, arrondi) ?",
-    answer: 50,
-    unit: "K"
-  },
-  {
-    id: "pt-oxygen-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Oxygen (O) (en kelvins, arrondi) ?",
-    answer: 90,
-    unit: "K"
-  },
-  {
-    id: "pt-oxygen-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Oxygen (O) (arrondie a 3 decimales) ?",
-    answer: 15.999,
-    unit: "u"
-  },
-  {
-    id: "pt-oxygen-annee-decouverte",
-    prompt: "En quelle annee l'element Oxygen (O) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1774,
+    id: "culture-empire-romain-occident",
+    prompt: "En quelle annee l'Empire romain d'Occident est-il traditionnellement tombe ?",
+    answer: 476,
     unit: "annee"
   },
   {
-    id: "pt-oxygen-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Oxygen (O) ?",
-    answer: 2,
-    unit: "couches"
-  },
-  {
-    id: "pt-oxygen-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Oxygen (O) (valeur usuelle) ?",
-    answer: 6,
-    unit: "electrons"
-  },
-  {
-    id: "pt-oxygen-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Oxygen (O) ?",
-    answer: 2,
-    unit: "periode"
-  },
-  {
-    id: "pt-oxygen-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Oxygen (O) ?",
-    answer: 16,
-    unit: "groupe"
-  },
-  {
-    id: "pt-fluorine-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Fluorine (F) ?",
-    answer: 9
-  },
-  {
-    id: "pt-fluorine-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Fluorine (F) (en kelvins, arrondi) ?",
-    answer: 54,
-    unit: "K"
-  },
-  {
-    id: "pt-fluorine-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Fluorine (F) (en kelvins, arrondi) ?",
-    answer: 85,
-    unit: "K"
-  },
-  {
-    id: "pt-fluorine-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Fluorine (F) (arrondie a 3 decimales) ?",
-    answer: 18.998,
-    unit: "u"
-  },
-  {
-    id: "pt-fluorine-annee-decouverte",
-    prompt: "En quelle annee l'element Fluorine (F) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1886,
+    id: "culture-rome-fondation",
+    prompt: "En quelle annee traditionnelle la ville de Rome est-elle fondee ?",
+    answer: -753,
     unit: "annee"
   },
   {
-    id: "pt-fluorine-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Fluorine (F) ?",
-    answer: 2,
-    unit: "couches"
-  },
-  {
-    id: "pt-fluorine-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Fluorine (F) (valeur usuelle) ?",
-    answer: 7,
-    unit: "electrons"
-  },
-  {
-    id: "pt-fluorine-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Fluorine (F) ?",
-    answer: 2,
-    unit: "periode"
-  },
-  {
-    id: "pt-fluorine-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Fluorine (F) ?",
-    answer: 17,
-    unit: "groupe"
-  },
-  {
-    id: "pt-neon-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Neon (Ne) ?",
-    answer: 10
-  },
-  {
-    id: "pt-neon-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Neon (Ne) (en kelvins, arrondi) ?",
-    answer: 25,
-    unit: "K"
-  },
-  {
-    id: "pt-neon-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Neon (Ne) (en kelvins, arrondi) ?",
-    answer: 27,
-    unit: "K"
-  },
-  {
-    id: "pt-neon-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Neon (Ne) (arrondie a 3 decimales) ?",
-    answer: 20.18,
-    unit: "u"
-  },
-  {
-    id: "pt-neon-annee-decouverte",
-    prompt: "En quelle annee l'element Neon (Ne) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1898,
+    id: "culture-charlemagne-sacre",
+    prompt: "En quelle annee Charlemagne a-t-il ete sacre empereur ?",
+    answer: 800,
     unit: "annee"
   },
   {
-    id: "pt-neon-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Neon (Ne) ?",
-    answer: 2,
-    unit: "couches"
-  },
-  {
-    id: "pt-neon-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Neon (Ne) (valeur usuelle) ?",
-    answer: 8,
-    unit: "electrons"
-  },
-  {
-    id: "pt-neon-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Neon (Ne) ?",
-    answer: 2,
-    unit: "periode"
-  },
-  {
-    id: "pt-neon-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Neon (Ne) ?",
-    answer: 18,
-    unit: "groupe"
-  },
-  {
-    id: "pt-sodium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Sodium (Na) ?",
-    answer: 11
-  },
-  {
-    id: "pt-sodium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Sodium (Na) (en kelvins, arrondi) ?",
-    answer: 371,
-    unit: "K"
-  },
-  {
-    id: "pt-sodium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Sodium (Na) (en kelvins, arrondi) ?",
-    answer: 1156,
-    unit: "K"
-  },
-  {
-    id: "pt-sodium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Sodium (Na) (arrondie a 3 decimales) ?",
-    answer: 22.99,
-    unit: "u"
-  },
-  {
-    id: "pt-sodium-annee-decouverte",
-    prompt: "En quelle annee l'element Sodium (Na) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1807,
+    id: "culture-hastings",
+    prompt: "En quelle annee a eu lieu la bataille d'Hastings ?",
+    answer: 1066,
     unit: "annee"
   },
   {
-    id: "pt-sodium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Sodium (Na) ?",
-    answer: 3,
-    unit: "couches"
-  },
-  {
-    id: "pt-sodium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Sodium (Na) (valeur usuelle) ?",
-    answer: 1,
-    unit: "electrons"
-  },
-  {
-    id: "pt-sodium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Sodium (Na) ?",
-    answer: 3,
-    unit: "periode"
-  },
-  {
-    id: "pt-sodium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Sodium (Na) ?",
-    answer: 1,
-    unit: "groupe"
-  },
-  {
-    id: "pt-magnesium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Magnesium (Mg) ?",
-    answer: 12
-  },
-  {
-    id: "pt-magnesium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Magnesium (Mg) (en kelvins, arrondi) ?",
-    answer: 923,
-    unit: "K"
-  },
-  {
-    id: "pt-magnesium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Magnesium (Mg) (en kelvins, arrondi) ?",
-    answer: 1363,
-    unit: "K"
-  },
-  {
-    id: "pt-magnesium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Magnesium (Mg) (arrondie a 3 decimales) ?",
-    answer: 24.305,
-    unit: "u"
-  },
-  {
-    id: "pt-magnesium-annee-decouverte",
-    prompt: "En quelle annee l'element Magnesium (Mg) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1755,
+    id: "culture-magna-carta",
+    prompt: "En quelle annee la Magna Carta a-t-elle ete scellee ?",
+    answer: 1215,
     unit: "annee"
   },
   {
-    id: "pt-magnesium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Magnesium (Mg) ?",
-    answer: 3,
-    unit: "couches"
-  },
-  {
-    id: "pt-magnesium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Magnesium (Mg) (valeur usuelle) ?",
-    answer: 2,
-    unit: "electrons"
-  },
-  {
-    id: "pt-magnesium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Magnesium (Mg) ?",
-    answer: 3,
-    unit: "periode"
-  },
-  {
-    id: "pt-magnesium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Magnesium (Mg) ?",
-    answer: 2,
-    unit: "groupe"
-  },
-  {
-    id: "pt-aluminum-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Aluminum (Al) ?",
-    answer: 13
-  },
-  {
-    id: "pt-aluminum-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Aluminum (Al) (en kelvins, arrondi) ?",
-    answer: 933,
-    unit: "K"
-  },
-  {
-    id: "pt-aluminum-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Aluminum (Al) (en kelvins, arrondi) ?",
-    answer: 2792,
-    unit: "K"
-  },
-  {
-    id: "pt-aluminum-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Aluminum (Al) (arrondie a 3 decimales) ?",
-    answer: 26.982,
-    unit: "u"
-  },
-  {
-    id: "pt-aluminum-annee-decouverte",
-    prompt: "En quelle annee l'element Aluminum (Al) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1827,
+    id: "culture-constantinople",
+    prompt: "En quelle annee Constantinople est-elle tombee ?",
+    answer: 1453,
     unit: "annee"
   },
   {
-    id: "pt-aluminum-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Aluminum (Al) ?",
-    answer: 3,
-    unit: "couches"
-  },
-  {
-    id: "pt-aluminum-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Aluminum (Al) (valeur usuelle) ?",
-    answer: 3,
-    unit: "electrons"
-  },
-  {
-    id: "pt-aluminum-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Aluminum (Al) ?",
-    answer: 3,
-    unit: "periode"
-  },
-  {
-    id: "pt-aluminum-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Aluminum (Al) ?",
-    answer: 13,
-    unit: "groupe"
-  },
-  {
-    id: "pt-silicon-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Silicon (Si) ?",
-    answer: 14
-  },
-  {
-    id: "pt-silicon-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Silicon (Si) (en kelvins, arrondi) ?",
-    answer: 1683,
-    unit: "K"
-  },
-  {
-    id: "pt-silicon-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Silicon (Si) (en kelvins, arrondi) ?",
-    answer: 3538,
-    unit: "K"
-  },
-  {
-    id: "pt-silicon-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Silicon (Si) (arrondie a 3 decimales) ?",
-    answer: 28.086,
-    unit: "u"
-  },
-  {
-    id: "pt-silicon-annee-decouverte",
-    prompt: "En quelle annee l'element Silicon (Si) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1824,
+    id: "culture-imprimerie-gutenberg",
+    prompt: "En quelle annee approximative Gutenberg met-il au point l'imprimerie a caracteres mobiles (approx.) ?",
+    answer: 1450,
     unit: "annee"
   },
   {
-    id: "pt-silicon-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Silicon (Si) ?",
-    answer: 3,
-    unit: "couches"
-  },
-  {
-    id: "pt-silicon-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Silicon (Si) (valeur usuelle) ?",
-    answer: 4,
-    unit: "electrons"
-  },
-  {
-    id: "pt-silicon-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Silicon (Si) ?",
-    answer: 3,
-    unit: "periode"
-  },
-  {
-    id: "pt-silicon-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Silicon (Si) ?",
-    answer: 14,
-    unit: "groupe"
-  },
-  {
-    id: "pt-phosphorus-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Phosphorus (P) ?",
-    answer: 15
-  },
-  {
-    id: "pt-phosphorus-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Phosphorus (P) (en kelvins, arrondi) ?",
-    answer: 317,
-    unit: "K"
-  },
-  {
-    id: "pt-phosphorus-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Phosphorus (P) (en kelvins, arrondi) ?",
-    answer: 553,
-    unit: "K"
-  },
-  {
-    id: "pt-phosphorus-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Phosphorus (P) (arrondie a 3 decimales) ?",
-    answer: 30.974,
-    unit: "u"
-  },
-  {
-    id: "pt-phosphorus-annee-decouverte",
-    prompt: "En quelle annee l'element Phosphorus (P) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1669,
+    id: "culture-decouverte-amerique",
+    prompt: "En quelle annee Christophe Colomb atteint-il les Ameriques ?",
+    answer: 1492,
     unit: "annee"
   },
   {
-    id: "pt-phosphorus-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Phosphorus (P) ?",
-    answer: 3,
-    unit: "couches"
-  },
-  {
-    id: "pt-phosphorus-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Phosphorus (P) (valeur usuelle) ?",
-    answer: 5,
-    unit: "electrons"
-  },
-  {
-    id: "pt-phosphorus-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Phosphorus (P) ?",
-    answer: 3,
-    unit: "periode"
-  },
-  {
-    id: "pt-phosphorus-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Phosphorus (P) ?",
-    answer: 15,
-    unit: "groupe"
-  },
-  {
-    id: "pt-sulfur-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Sulfur (S) ?",
-    answer: 16
-  },
-  {
-    id: "pt-sulfur-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Sulfur (S) (en kelvins, arrondi) ?",
-    answer: 389,
-    unit: "K"
-  },
-  {
-    id: "pt-sulfur-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Sulfur (S) (en kelvins, arrondi) ?",
-    answer: 718,
-    unit: "K"
-  },
-  {
-    id: "pt-sulfur-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Sulfur (S) (arrondie a 3 decimales) ?",
-    answer: 32.065,
-    unit: "u"
-  },
-  {
-    id: "pt-sulfur-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Sulfur (S) ?",
-    answer: 3,
-    unit: "couches"
-  },
-  {
-    id: "pt-sulfur-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Sulfur (S) (valeur usuelle) ?",
-    answer: 6,
-    unit: "electrons"
-  },
-  {
-    id: "pt-sulfur-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Sulfur (S) ?",
-    answer: 3,
-    unit: "periode"
-  },
-  {
-    id: "pt-sulfur-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Sulfur (S) ?",
-    answer: 16,
-    unit: "groupe"
-  },
-  {
-    id: "pt-chlorine-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Chlorine (Cl) ?",
-    answer: 17
-  },
-  {
-    id: "pt-chlorine-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Chlorine (Cl) (en kelvins, arrondi) ?",
-    answer: 172,
-    unit: "K"
-  },
-  {
-    id: "pt-chlorine-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Chlorine (Cl) (en kelvins, arrondi) ?",
-    answer: 239,
-    unit: "K"
-  },
-  {
-    id: "pt-chlorine-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Chlorine (Cl) (arrondie a 3 decimales) ?",
-    answer: 35.453,
-    unit: "u"
-  },
-  {
-    id: "pt-chlorine-annee-decouverte",
-    prompt: "En quelle annee l'element Chlorine (Cl) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1774,
+    id: "culture-reforme-luther",
+    prompt: "En quelle annee Luther affiche-t-il ses 95 theses ?",
+    answer: 1517,
     unit: "annee"
   },
   {
-    id: "pt-chlorine-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Chlorine (Cl) ?",
-    answer: 3,
-    unit: "couches"
-  },
-  {
-    id: "pt-chlorine-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Chlorine (Cl) (valeur usuelle) ?",
-    answer: 7,
-    unit: "electrons"
-  },
-  {
-    id: "pt-chlorine-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Chlorine (Cl) ?",
-    answer: 3,
-    unit: "periode"
-  },
-  {
-    id: "pt-chlorine-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Chlorine (Cl) ?",
-    answer: 17,
-    unit: "groupe"
-  },
-  {
-    id: "pt-argon-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Argon (Ar) ?",
-    answer: 18
-  },
-  {
-    id: "pt-argon-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Argon (Ar) (en kelvins, arrondi) ?",
-    answer: 84,
-    unit: "K"
-  },
-  {
-    id: "pt-argon-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Argon (Ar) (en kelvins, arrondi) ?",
-    answer: 87,
-    unit: "K"
-  },
-  {
-    id: "pt-argon-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Argon (Ar) (arrondie a 3 decimales) ?",
-    answer: 39.948,
-    unit: "u"
-  },
-  {
-    id: "pt-argon-annee-decouverte",
-    prompt: "En quelle annee l'element Argon (Ar) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1894,
+    id: "culture-armada",
+    prompt: "En quelle annee l'Invincible Armada est-elle vaincue ?",
+    answer: 1588,
     unit: "annee"
   },
   {
-    id: "pt-argon-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Argon (Ar) ?",
-    answer: 3,
-    unit: "couches"
-  },
-  {
-    id: "pt-argon-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Argon (Ar) (valeur usuelle) ?",
-    answer: 8,
-    unit: "electrons"
-  },
-  {
-    id: "pt-argon-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Argon (Ar) ?",
-    answer: 3,
-    unit: "periode"
-  },
-  {
-    id: "pt-argon-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Argon (Ar) ?",
-    answer: 18,
-    unit: "groupe"
-  },
-  {
-    id: "pt-potassium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Potassium (K) ?",
-    answer: 19
-  },
-  {
-    id: "pt-potassium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Potassium (K) (en kelvins, arrondi) ?",
-    answer: 336,
-    unit: "K"
-  },
-  {
-    id: "pt-potassium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Potassium (K) (en kelvins, arrondi) ?",
-    answer: 1032,
-    unit: "K"
-  },
-  {
-    id: "pt-potassium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Potassium (K) (arrondie a 3 decimales) ?",
-    answer: 39.098,
-    unit: "u"
-  },
-  {
-    id: "pt-potassium-annee-decouverte",
-    prompt: "En quelle annee l'element Potassium (K) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1807,
-    unit: "annee"
-  },
-  {
-    id: "pt-potassium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Potassium (K) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-potassium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Potassium (K) (valeur usuelle) ?",
-    answer: 1,
-    unit: "electrons"
-  },
-  {
-    id: "pt-potassium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Potassium (K) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-potassium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Potassium (K) ?",
-    answer: 1,
-    unit: "groupe"
-  },
-  {
-    id: "pt-calcium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Calcium (Ca) ?",
-    answer: 20
-  },
-  {
-    id: "pt-calcium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Calcium (Ca) (en kelvins, arrondi) ?",
-    answer: 1112,
-    unit: "K"
-  },
-  {
-    id: "pt-calcium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Calcium (Ca) (en kelvins, arrondi) ?",
-    answer: 1757,
-    unit: "K"
-  },
-  {
-    id: "pt-calcium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Calcium (Ca) (arrondie a 3 decimales) ?",
-    answer: 40.078,
-    unit: "u"
-  },
-  {
-    id: "pt-calcium-annee-decouverte",
-    prompt: "En quelle annee l'element Calcium (Ca) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1808,
-    unit: "annee"
-  },
-  {
-    id: "pt-calcium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Calcium (Ca) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-calcium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Calcium (Ca) (valeur usuelle) ?",
-    answer: 2,
-    unit: "electrons"
-  },
-  {
-    id: "pt-calcium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Calcium (Ca) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-calcium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Calcium (Ca) ?",
-    answer: 2,
-    unit: "groupe"
-  },
-  {
-    id: "pt-scandium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Scandium (Sc) ?",
-    answer: 21
-  },
-  {
-    id: "pt-scandium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Scandium (Sc) (en kelvins, arrondi) ?",
-    answer: 1812,
-    unit: "K"
-  },
-  {
-    id: "pt-scandium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Scandium (Sc) (en kelvins, arrondi) ?",
-    answer: 3109,
-    unit: "K"
-  },
-  {
-    id: "pt-scandium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Scandium (Sc) (arrondie a 3 decimales) ?",
-    answer: 44.956,
-    unit: "u"
-  },
-  {
-    id: "pt-scandium-annee-decouverte",
-    prompt: "En quelle annee l'element Scandium (Sc) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1878,
-    unit: "annee"
-  },
-  {
-    id: "pt-scandium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Scandium (Sc) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-scandium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Scandium (Sc) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-scandium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Scandium (Sc) ?",
-    answer: 3,
-    unit: "groupe"
-  },
-  {
-    id: "pt-titanium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Titanium (Ti) ?",
-    answer: 22
-  },
-  {
-    id: "pt-titanium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Titanium (Ti) (en kelvins, arrondi) ?",
-    answer: 1933,
-    unit: "K"
-  },
-  {
-    id: "pt-titanium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Titanium (Ti) (en kelvins, arrondi) ?",
-    answer: 3560,
-    unit: "K"
-  },
-  {
-    id: "pt-titanium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Titanium (Ti) (arrondie a 3 decimales) ?",
-    answer: 47.867,
-    unit: "u"
-  },
-  {
-    id: "pt-titanium-annee-decouverte",
-    prompt: "En quelle annee l'element Titanium (Ti) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1791,
-    unit: "annee"
-  },
-  {
-    id: "pt-titanium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Titanium (Ti) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-titanium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Titanium (Ti) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-titanium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Titanium (Ti) ?",
-    answer: 4,
-    unit: "groupe"
-  },
-  {
-    id: "pt-vanadium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Vanadium (V) ?",
-    answer: 23
-  },
-  {
-    id: "pt-vanadium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Vanadium (V) (en kelvins, arrondi) ?",
-    answer: 2175,
-    unit: "K"
-  },
-  {
-    id: "pt-vanadium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Vanadium (V) (en kelvins, arrondi) ?",
-    answer: 3680,
-    unit: "K"
-  },
-  {
-    id: "pt-vanadium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Vanadium (V) (arrondie a 3 decimales) ?",
-    answer: 50.942,
-    unit: "u"
-  },
-  {
-    id: "pt-vanadium-annee-decouverte",
-    prompt: "En quelle annee l'element Vanadium (V) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1801,
-    unit: "annee"
-  },
-  {
-    id: "pt-vanadium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Vanadium (V) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-vanadium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Vanadium (V) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-vanadium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Vanadium (V) ?",
-    answer: 5,
-    unit: "groupe"
-  },
-  {
-    id: "pt-chromium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Chromium (Cr) ?",
-    answer: 24
-  },
-  {
-    id: "pt-chromium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Chromium (Cr) (en kelvins, arrondi) ?",
-    answer: 2130,
-    unit: "K"
-  },
-  {
-    id: "pt-chromium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Chromium (Cr) (en kelvins, arrondi) ?",
-    answer: 2944,
-    unit: "K"
-  },
-  {
-    id: "pt-chromium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Chromium (Cr) (arrondie a 3 decimales) ?",
-    answer: 51.996,
-    unit: "u"
-  },
-  {
-    id: "pt-chromium-annee-decouverte",
-    prompt: "En quelle annee l'element Chromium (Cr) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1797,
-    unit: "annee"
-  },
-  {
-    id: "pt-chromium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Chromium (Cr) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-chromium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Chromium (Cr) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-chromium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Chromium (Cr) ?",
-    answer: 6,
-    unit: "groupe"
-  },
-  {
-    id: "pt-manganese-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Manganese (Mn) ?",
-    answer: 25
-  },
-  {
-    id: "pt-manganese-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Manganese (Mn) (en kelvins, arrondi) ?",
-    answer: 1519,
-    unit: "K"
-  },
-  {
-    id: "pt-manganese-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Manganese (Mn) (en kelvins, arrondi) ?",
-    answer: 2334,
-    unit: "K"
-  },
-  {
-    id: "pt-manganese-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Manganese (Mn) (arrondie a 3 decimales) ?",
-    answer: 54.938,
-    unit: "u"
-  },
-  {
-    id: "pt-manganese-annee-decouverte",
-    prompt: "En quelle annee l'element Manganese (Mn) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1774,
-    unit: "annee"
-  },
-  {
-    id: "pt-manganese-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Manganese (Mn) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-manganese-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Manganese (Mn) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-manganese-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Manganese (Mn) ?",
-    answer: 7,
-    unit: "groupe"
-  },
-  {
-    id: "pt-iron-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Iron (Fe) ?",
-    answer: 26
-  },
-  {
-    id: "pt-iron-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Iron (Fe) (en kelvins, arrondi) ?",
-    answer: 1808,
-    unit: "K"
-  },
-  {
-    id: "pt-iron-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Iron (Fe) (en kelvins, arrondi) ?",
-    answer: 3134,
-    unit: "K"
-  },
-  {
-    id: "pt-iron-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Iron (Fe) (arrondie a 3 decimales) ?",
-    answer: 55.845,
-    unit: "u"
-  },
-  {
-    id: "pt-iron-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Iron (Fe) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-iron-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Iron (Fe) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-iron-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Iron (Fe) ?",
-    answer: 8,
-    unit: "groupe"
-  },
-  {
-    id: "pt-cobalt-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Cobalt (Co) ?",
-    answer: 27
-  },
-  {
-    id: "pt-cobalt-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Cobalt (Co) (en kelvins, arrondi) ?",
-    answer: 1768,
-    unit: "K"
-  },
-  {
-    id: "pt-cobalt-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Cobalt (Co) (en kelvins, arrondi) ?",
-    answer: 3200,
-    unit: "K"
-  },
-  {
-    id: "pt-cobalt-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Cobalt (Co) (arrondie a 3 decimales) ?",
-    answer: 58.933,
-    unit: "u"
-  },
-  {
-    id: "pt-cobalt-annee-decouverte",
-    prompt: "En quelle annee l'element Cobalt (Co) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1735,
-    unit: "annee"
-  },
-  {
-    id: "pt-cobalt-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Cobalt (Co) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-cobalt-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Cobalt (Co) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-cobalt-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Cobalt (Co) ?",
-    answer: 9,
-    unit: "groupe"
-  },
-  {
-    id: "pt-nickel-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Nickel (Ni) ?",
-    answer: 28
-  },
-  {
-    id: "pt-nickel-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Nickel (Ni) (en kelvins, arrondi) ?",
-    answer: 1726,
-    unit: "K"
-  },
-  {
-    id: "pt-nickel-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Nickel (Ni) (en kelvins, arrondi) ?",
-    answer: 3186,
-    unit: "K"
-  },
-  {
-    id: "pt-nickel-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Nickel (Ni) (arrondie a 3 decimales) ?",
-    answer: 58.693,
-    unit: "u"
-  },
-  {
-    id: "pt-nickel-annee-decouverte",
-    prompt: "En quelle annee l'element Nickel (Ni) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1751,
-    unit: "annee"
-  },
-  {
-    id: "pt-nickel-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Nickel (Ni) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-nickel-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Nickel (Ni) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-nickel-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Nickel (Ni) ?",
-    answer: 10,
-    unit: "groupe"
-  },
-  {
-    id: "pt-copper-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Copper (Cu) ?",
-    answer: 29
-  },
-  {
-    id: "pt-copper-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Copper (Cu) (en kelvins, arrondi) ?",
-    answer: 1358,
-    unit: "K"
-  },
-  {
-    id: "pt-copper-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Copper (Cu) (en kelvins, arrondi) ?",
-    answer: 2835,
-    unit: "K"
-  },
-  {
-    id: "pt-copper-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Copper (Cu) (arrondie a 3 decimales) ?",
-    answer: 63.546,
-    unit: "u"
-  },
-  {
-    id: "pt-copper-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Copper (Cu) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-copper-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Copper (Cu) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-copper-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Copper (Cu) ?",
-    answer: 11,
-    unit: "groupe"
-  },
-  {
-    id: "pt-zinc-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Zinc (Zn) ?",
-    answer: 30
-  },
-  {
-    id: "pt-zinc-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Zinc (Zn) (en kelvins, arrondi) ?",
-    answer: 693,
-    unit: "K"
-  },
-  {
-    id: "pt-zinc-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Zinc (Zn) (en kelvins, arrondi) ?",
-    answer: 1180,
-    unit: "K"
-  },
-  {
-    id: "pt-zinc-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Zinc (Zn) (arrondie a 3 decimales) ?",
-    answer: 65.38,
-    unit: "u"
-  },
-  {
-    id: "pt-zinc-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Zinc (Zn) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-zinc-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Zinc (Zn) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-zinc-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Zinc (Zn) ?",
-    answer: 12,
-    unit: "groupe"
-  },
-  {
-    id: "pt-gallium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Gallium (Ga) ?",
-    answer: 31
-  },
-  {
-    id: "pt-gallium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Gallium (Ga) (en kelvins, arrondi) ?",
-    answer: 303,
-    unit: "K"
-  },
-  {
-    id: "pt-gallium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Gallium (Ga) (en kelvins, arrondi) ?",
-    answer: 2477,
-    unit: "K"
-  },
-  {
-    id: "pt-gallium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Gallium (Ga) (arrondie a 3 decimales) ?",
-    answer: 69.723,
-    unit: "u"
-  },
-  {
-    id: "pt-gallium-annee-decouverte",
-    prompt: "En quelle annee l'element Gallium (Ga) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1875,
-    unit: "annee"
-  },
-  {
-    id: "pt-gallium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Gallium (Ga) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-gallium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Gallium (Ga) (valeur usuelle) ?",
-    answer: 3,
-    unit: "electrons"
-  },
-  {
-    id: "pt-gallium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Gallium (Ga) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-gallium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Gallium (Ga) ?",
-    answer: 13,
-    unit: "groupe"
-  },
-  {
-    id: "pt-germanium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Germanium (Ge) ?",
-    answer: 32
-  },
-  {
-    id: "pt-germanium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Germanium (Ge) (en kelvins, arrondi) ?",
-    answer: 1211,
-    unit: "K"
-  },
-  {
-    id: "pt-germanium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Germanium (Ge) (en kelvins, arrondi) ?",
-    answer: 3106,
-    unit: "K"
-  },
-  {
-    id: "pt-germanium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Germanium (Ge) (arrondie a 3 decimales) ?",
-    answer: 72.64,
-    unit: "u"
-  },
-  {
-    id: "pt-germanium-annee-decouverte",
-    prompt: "En quelle annee l'element Germanium (Ge) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1886,
-    unit: "annee"
-  },
-  {
-    id: "pt-germanium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Germanium (Ge) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-germanium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Germanium (Ge) (valeur usuelle) ?",
-    answer: 4,
-    unit: "electrons"
-  },
-  {
-    id: "pt-germanium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Germanium (Ge) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-germanium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Germanium (Ge) ?",
-    answer: 14,
-    unit: "groupe"
-  },
-  {
-    id: "pt-arsenic-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Arsenic (As) ?",
-    answer: 33
-  },
-  {
-    id: "pt-arsenic-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Arsenic (As) (en kelvins, arrondi) ?",
-    answer: 1090,
-    unit: "K"
-  },
-  {
-    id: "pt-arsenic-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Arsenic (As) (en kelvins, arrondi) ?",
-    answer: 887,
-    unit: "K"
-  },
-  {
-    id: "pt-arsenic-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Arsenic (As) (arrondie a 3 decimales) ?",
-    answer: 74.922,
-    unit: "u"
-  },
-  {
-    id: "pt-arsenic-annee-decouverte",
-    prompt: "En quelle annee l'element Arsenic (As) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1250,
-    unit: "annee"
-  },
-  {
-    id: "pt-arsenic-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Arsenic (As) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-arsenic-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Arsenic (As) (valeur usuelle) ?",
-    answer: 5,
-    unit: "electrons"
-  },
-  {
-    id: "pt-arsenic-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Arsenic (As) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-arsenic-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Arsenic (As) ?",
-    answer: 15,
-    unit: "groupe"
-  },
-  {
-    id: "pt-selenium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Selenium (Se) ?",
-    answer: 34
-  },
-  {
-    id: "pt-selenium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Selenium (Se) (en kelvins, arrondi) ?",
-    answer: 494,
-    unit: "K"
-  },
-  {
-    id: "pt-selenium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Selenium (Se) (en kelvins, arrondi) ?",
-    answer: 958,
-    unit: "K"
-  },
-  {
-    id: "pt-selenium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Selenium (Se) (arrondie a 3 decimales) ?",
-    answer: 78.96,
-    unit: "u"
-  },
-  {
-    id: "pt-selenium-annee-decouverte",
-    prompt: "En quelle annee l'element Selenium (Se) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1817,
-    unit: "annee"
-  },
-  {
-    id: "pt-selenium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Selenium (Se) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-selenium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Selenium (Se) (valeur usuelle) ?",
-    answer: 6,
-    unit: "electrons"
-  },
-  {
-    id: "pt-selenium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Selenium (Se) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-selenium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Selenium (Se) ?",
-    answer: 16,
-    unit: "groupe"
-  },
-  {
-    id: "pt-bromine-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Bromine (Br) ?",
-    answer: 35
-  },
-  {
-    id: "pt-bromine-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Bromine (Br) (en kelvins, arrondi) ?",
-    answer: 266,
-    unit: "K"
-  },
-  {
-    id: "pt-bromine-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Bromine (Br) (en kelvins, arrondi) ?",
-    answer: 332,
-    unit: "K"
-  },
-  {
-    id: "pt-bromine-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Bromine (Br) (arrondie a 3 decimales) ?",
-    answer: 79.904,
-    unit: "u"
-  },
-  {
-    id: "pt-bromine-annee-decouverte",
-    prompt: "En quelle annee l'element Bromine (Br) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1826,
-    unit: "annee"
-  },
-  {
-    id: "pt-bromine-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Bromine (Br) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-bromine-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Bromine (Br) (valeur usuelle) ?",
-    answer: 7,
-    unit: "electrons"
-  },
-  {
-    id: "pt-bromine-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Bromine (Br) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-bromine-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Bromine (Br) ?",
-    answer: 17,
-    unit: "groupe"
-  },
-  {
-    id: "pt-krypton-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Krypton (Kr) ?",
-    answer: 36
-  },
-  {
-    id: "pt-krypton-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Krypton (Kr) (en kelvins, arrondi) ?",
-    answer: 116,
-    unit: "K"
-  },
-  {
-    id: "pt-krypton-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Krypton (Kr) (en kelvins, arrondi) ?",
-    answer: 120,
-    unit: "K"
-  },
-  {
-    id: "pt-krypton-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Krypton (Kr) (arrondie a 3 decimales) ?",
-    answer: 83.798,
-    unit: "u"
-  },
-  {
-    id: "pt-krypton-annee-decouverte",
-    prompt: "En quelle annee l'element Krypton (Kr) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1898,
-    unit: "annee"
-  },
-  {
-    id: "pt-krypton-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Krypton (Kr) ?",
-    answer: 4,
-    unit: "couches"
-  },
-  {
-    id: "pt-krypton-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Krypton (Kr) (valeur usuelle) ?",
-    answer: 8,
-    unit: "electrons"
-  },
-  {
-    id: "pt-krypton-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Krypton (Kr) ?",
-    answer: 4,
-    unit: "periode"
-  },
-  {
-    id: "pt-krypton-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Krypton (Kr) ?",
-    answer: 18,
-    unit: "groupe"
-  },
-  {
-    id: "pt-rubidium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Rubidium (Rb) ?",
-    answer: 37
-  },
-  {
-    id: "pt-rubidium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Rubidium (Rb) (en kelvins, arrondi) ?",
-    answer: 313,
-    unit: "K"
-  },
-  {
-    id: "pt-rubidium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Rubidium (Rb) (en kelvins, arrondi) ?",
-    answer: 961,
-    unit: "K"
-  },
-  {
-    id: "pt-rubidium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Rubidium (Rb) (arrondie a 3 decimales) ?",
-    answer: 85.468,
-    unit: "u"
-  },
-  {
-    id: "pt-rubidium-annee-decouverte",
-    prompt: "En quelle annee l'element Rubidium (Rb) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1861,
-    unit: "annee"
-  },
-  {
-    id: "pt-rubidium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Rubidium (Rb) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-rubidium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Rubidium (Rb) (valeur usuelle) ?",
-    answer: 1,
-    unit: "electrons"
-  },
-  {
-    id: "pt-rubidium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Rubidium (Rb) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-rubidium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Rubidium (Rb) ?",
-    answer: 1,
-    unit: "groupe"
-  },
-  {
-    id: "pt-strontium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Strontium (Sr) ?",
-    answer: 38
-  },
-  {
-    id: "pt-strontium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Strontium (Sr) (en kelvins, arrondi) ?",
-    answer: 1042,
-    unit: "K"
-  },
-  {
-    id: "pt-strontium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Strontium (Sr) (en kelvins, arrondi) ?",
-    answer: 1655,
-    unit: "K"
-  },
-  {
-    id: "pt-strontium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Strontium (Sr) (arrondie a 3 decimales) ?",
-    answer: 87.62,
-    unit: "u"
-  },
-  {
-    id: "pt-strontium-annee-decouverte",
-    prompt: "En quelle annee l'element Strontium (Sr) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1808,
-    unit: "annee"
-  },
-  {
-    id: "pt-strontium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Strontium (Sr) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-strontium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Strontium (Sr) (valeur usuelle) ?",
-    answer: 2,
-    unit: "electrons"
-  },
-  {
-    id: "pt-strontium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Strontium (Sr) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-strontium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Strontium (Sr) ?",
-    answer: 2,
-    unit: "groupe"
-  },
-  {
-    id: "pt-yttrium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Yttrium (Y) ?",
-    answer: 39
-  },
-  {
-    id: "pt-yttrium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Yttrium (Y) (en kelvins, arrondi) ?",
-    answer: 1799,
-    unit: "K"
-  },
-  {
-    id: "pt-yttrium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Yttrium (Y) (en kelvins, arrondi) ?",
-    answer: 3609,
-    unit: "K"
-  },
-  {
-    id: "pt-yttrium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Yttrium (Y) (arrondie a 3 decimales) ?",
-    answer: 88.906,
-    unit: "u"
-  },
-  {
-    id: "pt-yttrium-annee-decouverte",
-    prompt: "En quelle annee l'element Yttrium (Y) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1794,
-    unit: "annee"
-  },
-  {
-    id: "pt-yttrium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Yttrium (Y) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-yttrium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Yttrium (Y) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-yttrium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Yttrium (Y) ?",
-    answer: 3,
-    unit: "groupe"
-  },
-  {
-    id: "pt-zirconium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Zirconium (Zr) ?",
-    answer: 40
-  },
-  {
-    id: "pt-zirconium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Zirconium (Zr) (en kelvins, arrondi) ?",
-    answer: 2125,
-    unit: "K"
-  },
-  {
-    id: "pt-zirconium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Zirconium (Zr) (en kelvins, arrondi) ?",
-    answer: 4682,
-    unit: "K"
-  },
-  {
-    id: "pt-zirconium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Zirconium (Zr) (arrondie a 3 decimales) ?",
-    answer: 91.224,
-    unit: "u"
-  },
-  {
-    id: "pt-zirconium-annee-decouverte",
-    prompt: "En quelle annee l'element Zirconium (Zr) a-t-il ete isole ou decrit (selon les references) ?",
+    id: "culture-revolution-francaise",
+    prompt: "En quelle annee debute la Revolution francaise ?",
     answer: 1789,
     unit: "annee"
   },
   {
-    id: "pt-zirconium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Zirconium (Zr) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-zirconium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Zirconium (Zr) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-zirconium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Zirconium (Zr) ?",
-    answer: 4,
-    unit: "groupe"
-  },
-  {
-    id: "pt-niobium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Niobium (Nb) ?",
-    answer: 41
-  },
-  {
-    id: "pt-niobium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Niobium (Nb) (en kelvins, arrondi) ?",
-    answer: 2741,
-    unit: "K"
-  },
-  {
-    id: "pt-niobium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Niobium (Nb) (en kelvins, arrondi) ?",
-    answer: 5017,
-    unit: "K"
-  },
-  {
-    id: "pt-niobium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Niobium (Nb) (arrondie a 3 decimales) ?",
-    answer: 92.906,
-    unit: "u"
-  },
-  {
-    id: "pt-niobium-annee-decouverte",
-    prompt: "En quelle annee l'element Niobium (Nb) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1801,
+    id: "culture-prise-bastille",
+    prompt: "En quelle annee la prise de la Bastille a-t-elle eu lieu ?",
+    answer: 1789,
     unit: "annee"
   },
   {
-    id: "pt-niobium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Niobium (Nb) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-niobium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Niobium (Nb) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-niobium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Niobium (Nb) ?",
-    answer: 5,
-    unit: "groupe"
-  },
-  {
-    id: "pt-molybdenum-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Molybdenum (Mo) ?",
-    answer: 42
-  },
-  {
-    id: "pt-molybdenum-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Molybdenum (Mo) (en kelvins, arrondi) ?",
-    answer: 2890,
-    unit: "K"
-  },
-  {
-    id: "pt-molybdenum-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Molybdenum (Mo) (en kelvins, arrondi) ?",
-    answer: 4912,
-    unit: "K"
-  },
-  {
-    id: "pt-molybdenum-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Molybdenum (Mo) (arrondie a 3 decimales) ?",
-    answer: 95.96,
-    unit: "u"
-  },
-  {
-    id: "pt-molybdenum-annee-decouverte",
-    prompt: "En quelle annee l'element Molybdenum (Mo) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1778,
+    id: "culture-ddhc",
+    prompt: "En quelle annee la Declaration des droits de l'homme et du citoyen est-elle adoptee ?",
+    answer: 1789,
     unit: "annee"
   },
   {
-    id: "pt-molybdenum-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Molybdenum (Mo) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-molybdenum-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Molybdenum (Mo) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-molybdenum-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Molybdenum (Mo) ?",
-    answer: 6,
-    unit: "groupe"
-  },
-  {
-    id: "pt-technetium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Technetium (Tc) ?",
-    answer: 43
-  },
-  {
-    id: "pt-technetium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Technetium (Tc) (en kelvins, arrondi) ?",
-    answer: 2473,
-    unit: "K"
-  },
-  {
-    id: "pt-technetium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Technetium (Tc) (en kelvins, arrondi) ?",
-    answer: 5150,
-    unit: "K"
-  },
-  {
-    id: "pt-technetium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Technetium (Tc) (arrondie a 3 decimales) ?",
-    answer: 98,
-    unit: "u"
-  },
-  {
-    id: "pt-technetium-annee-decouverte",
-    prompt: "En quelle annee l'element Technetium (Tc) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1937,
-    unit: "annee"
-  },
-  {
-    id: "pt-technetium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Technetium (Tc) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-technetium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Technetium (Tc) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-technetium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Technetium (Tc) ?",
-    answer: 7,
-    unit: "groupe"
-  },
-  {
-    id: "pt-ruthenium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Ruthenium (Ru) ?",
-    answer: 44
-  },
-  {
-    id: "pt-ruthenium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Ruthenium (Ru) (en kelvins, arrondi) ?",
-    answer: 2523,
-    unit: "K"
-  },
-  {
-    id: "pt-ruthenium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Ruthenium (Ru) (en kelvins, arrondi) ?",
-    answer: 4423,
-    unit: "K"
-  },
-  {
-    id: "pt-ruthenium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Ruthenium (Ru) (arrondie a 3 decimales) ?",
-    answer: 101.07,
-    unit: "u"
-  },
-  {
-    id: "pt-ruthenium-annee-decouverte",
-    prompt: "En quelle annee l'element Ruthenium (Ru) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1844,
-    unit: "annee"
-  },
-  {
-    id: "pt-ruthenium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Ruthenium (Ru) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-ruthenium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Ruthenium (Ru) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-ruthenium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Ruthenium (Ru) ?",
-    answer: 8,
-    unit: "groupe"
-  },
-  {
-    id: "pt-rhodium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Rhodium (Rh) ?",
-    answer: 45
-  },
-  {
-    id: "pt-rhodium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Rhodium (Rh) (en kelvins, arrondi) ?",
-    answer: 2239,
-    unit: "K"
-  },
-  {
-    id: "pt-rhodium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Rhodium (Rh) (en kelvins, arrondi) ?",
-    answer: 3968,
-    unit: "K"
-  },
-  {
-    id: "pt-rhodium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Rhodium (Rh) (arrondie a 3 decimales) ?",
-    answer: 102.906,
-    unit: "u"
-  },
-  {
-    id: "pt-rhodium-annee-decouverte",
-    prompt: "En quelle annee l'element Rhodium (Rh) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1803,
-    unit: "annee"
-  },
-  {
-    id: "pt-rhodium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Rhodium (Rh) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-rhodium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Rhodium (Rh) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-rhodium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Rhodium (Rh) ?",
-    answer: 9,
-    unit: "groupe"
-  },
-  {
-    id: "pt-palladium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Palladium (Pd) ?",
-    answer: 46
-  },
-  {
-    id: "pt-palladium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Palladium (Pd) (en kelvins, arrondi) ?",
-    answer: 1825,
-    unit: "K"
-  },
-  {
-    id: "pt-palladium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Palladium (Pd) (en kelvins, arrondi) ?",
-    answer: 3236,
-    unit: "K"
-  },
-  {
-    id: "pt-palladium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Palladium (Pd) (arrondie a 3 decimales) ?",
-    answer: 106.42,
-    unit: "u"
-  },
-  {
-    id: "pt-palladium-annee-decouverte",
-    prompt: "En quelle annee l'element Palladium (Pd) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1803,
-    unit: "annee"
-  },
-  {
-    id: "pt-palladium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Palladium (Pd) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-palladium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Palladium (Pd) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-palladium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Palladium (Pd) ?",
-    answer: 10,
-    unit: "groupe"
-  },
-  {
-    id: "pt-silver-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Silver (Ag) ?",
-    answer: 47
-  },
-  {
-    id: "pt-silver-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Silver (Ag) (en kelvins, arrondi) ?",
-    answer: 1234,
-    unit: "K"
-  },
-  {
-    id: "pt-silver-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Silver (Ag) (en kelvins, arrondi) ?",
-    answer: 2435,
-    unit: "K"
-  },
-  {
-    id: "pt-silver-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Silver (Ag) (arrondie a 3 decimales) ?",
-    answer: 107.868,
-    unit: "u"
-  },
-  {
-    id: "pt-silver-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Silver (Ag) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-silver-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Silver (Ag) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-silver-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Silver (Ag) ?",
-    answer: 11,
-    unit: "groupe"
-  },
-  {
-    id: "pt-cadmium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Cadmium (Cd) ?",
-    answer: 48
-  },
-  {
-    id: "pt-cadmium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Cadmium (Cd) (en kelvins, arrondi) ?",
-    answer: 594,
-    unit: "K"
-  },
-  {
-    id: "pt-cadmium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Cadmium (Cd) (en kelvins, arrondi) ?",
-    answer: 1040,
-    unit: "K"
-  },
-  {
-    id: "pt-cadmium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Cadmium (Cd) (arrondie a 3 decimales) ?",
-    answer: 112.411,
-    unit: "u"
-  },
-  {
-    id: "pt-cadmium-annee-decouverte",
-    prompt: "En quelle annee l'element Cadmium (Cd) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1817,
-    unit: "annee"
-  },
-  {
-    id: "pt-cadmium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Cadmium (Cd) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-cadmium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Cadmium (Cd) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-cadmium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Cadmium (Cd) ?",
-    answer: 12,
-    unit: "groupe"
-  },
-  {
-    id: "pt-indium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Indium (In) ?",
-    answer: 49
-  },
-  {
-    id: "pt-indium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Indium (In) (en kelvins, arrondi) ?",
-    answer: 430,
-    unit: "K"
-  },
-  {
-    id: "pt-indium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Indium (In) (en kelvins, arrondi) ?",
-    answer: 2345,
-    unit: "K"
-  },
-  {
-    id: "pt-indium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Indium (In) (arrondie a 3 decimales) ?",
-    answer: 114.818,
-    unit: "u"
-  },
-  {
-    id: "pt-indium-annee-decouverte",
-    prompt: "En quelle annee l'element Indium (In) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1863,
-    unit: "annee"
-  },
-  {
-    id: "pt-indium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Indium (In) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-indium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Indium (In) (valeur usuelle) ?",
-    answer: 3,
-    unit: "electrons"
-  },
-  {
-    id: "pt-indium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Indium (In) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-indium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Indium (In) ?",
-    answer: 13,
-    unit: "groupe"
-  },
-  {
-    id: "pt-tin-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Tin (Sn) ?",
-    answer: 50
-  },
-  {
-    id: "pt-tin-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Tin (Sn) (en kelvins, arrondi) ?",
-    answer: 505,
-    unit: "K"
-  },
-  {
-    id: "pt-tin-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Tin (Sn) (en kelvins, arrondi) ?",
-    answer: 2875,
-    unit: "K"
-  },
-  {
-    id: "pt-tin-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Tin (Sn) (arrondie a 3 decimales) ?",
-    answer: 118.71,
-    unit: "u"
-  },
-  {
-    id: "pt-tin-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Tin (Sn) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-tin-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Tin (Sn) (valeur usuelle) ?",
-    answer: 4,
-    unit: "electrons"
-  },
-  {
-    id: "pt-tin-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Tin (Sn) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-tin-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Tin (Sn) ?",
-    answer: 14,
-    unit: "groupe"
-  },
-  {
-    id: "pt-antimony-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Antimony (Sb) ?",
-    answer: 51
-  },
-  {
-    id: "pt-antimony-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Antimony (Sb) (en kelvins, arrondi) ?",
-    answer: 904,
-    unit: "K"
-  },
-  {
-    id: "pt-antimony-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Antimony (Sb) (en kelvins, arrondi) ?",
-    answer: 1860,
-    unit: "K"
-  },
-  {
-    id: "pt-antimony-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Antimony (Sb) (arrondie a 3 decimales) ?",
-    answer: 121.76,
-    unit: "u"
-  },
-  {
-    id: "pt-antimony-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Antimony (Sb) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-antimony-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Antimony (Sb) (valeur usuelle) ?",
-    answer: 5,
-    unit: "electrons"
-  },
-  {
-    id: "pt-antimony-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Antimony (Sb) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-antimony-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Antimony (Sb) ?",
-    answer: 15,
-    unit: "groupe"
-  },
-  {
-    id: "pt-tellurium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Tellurium (Te) ?",
-    answer: 52
-  },
-  {
-    id: "pt-tellurium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Tellurium (Te) (en kelvins, arrondi) ?",
-    answer: 723,
-    unit: "K"
-  },
-  {
-    id: "pt-tellurium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Tellurium (Te) (en kelvins, arrondi) ?",
-    answer: 1261,
-    unit: "K"
-  },
-  {
-    id: "pt-tellurium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Tellurium (Te) (arrondie a 3 decimales) ?",
-    answer: 127.6,
-    unit: "u"
-  },
-  {
-    id: "pt-tellurium-annee-decouverte",
-    prompt: "En quelle annee l'element Tellurium (Te) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1782,
-    unit: "annee"
-  },
-  {
-    id: "pt-tellurium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Tellurium (Te) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-tellurium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Tellurium (Te) (valeur usuelle) ?",
-    answer: 6,
-    unit: "electrons"
-  },
-  {
-    id: "pt-tellurium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Tellurium (Te) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-tellurium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Tellurium (Te) ?",
-    answer: 16,
-    unit: "groupe"
-  },
-  {
-    id: "pt-iodine-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Iodine (I) ?",
-    answer: 53
-  },
-  {
-    id: "pt-iodine-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Iodine (I) (en kelvins, arrondi) ?",
-    answer: 387,
-    unit: "K"
-  },
-  {
-    id: "pt-iodine-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Iodine (I) (en kelvins, arrondi) ?",
-    answer: 457,
-    unit: "K"
-  },
-  {
-    id: "pt-iodine-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Iodine (I) (arrondie a 3 decimales) ?",
-    answer: 126.904,
-    unit: "u"
-  },
-  {
-    id: "pt-iodine-annee-decouverte",
-    prompt: "En quelle annee l'element Iodine (I) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1811,
-    unit: "annee"
-  },
-  {
-    id: "pt-iodine-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Iodine (I) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-iodine-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Iodine (I) (valeur usuelle) ?",
-    answer: 7,
-    unit: "electrons"
-  },
-  {
-    id: "pt-iodine-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Iodine (I) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-iodine-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Iodine (I) ?",
-    answer: 17,
-    unit: "groupe"
-  },
-  {
-    id: "pt-xenon-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Xenon (Xe) ?",
-    answer: 54
-  },
-  {
-    id: "pt-xenon-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Xenon (Xe) (en kelvins, arrondi) ?",
-    answer: 161,
-    unit: "K"
-  },
-  {
-    id: "pt-xenon-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Xenon (Xe) (en kelvins, arrondi) ?",
-    answer: 165,
-    unit: "K"
-  },
-  {
-    id: "pt-xenon-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Xenon (Xe) (arrondie a 3 decimales) ?",
-    answer: 131.293,
-    unit: "u"
-  },
-  {
-    id: "pt-xenon-annee-decouverte",
-    prompt: "En quelle annee l'element Xenon (Xe) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1898,
-    unit: "annee"
-  },
-  {
-    id: "pt-xenon-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Xenon (Xe) ?",
-    answer: 5,
-    unit: "couches"
-  },
-  {
-    id: "pt-xenon-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Xenon (Xe) (valeur usuelle) ?",
-    answer: 8,
-    unit: "electrons"
-  },
-  {
-    id: "pt-xenon-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Xenon (Xe) ?",
-    answer: 5,
-    unit: "periode"
-  },
-  {
-    id: "pt-xenon-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Xenon (Xe) ?",
-    answer: 18,
-    unit: "groupe"
-  },
-  {
-    id: "pt-cesium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Cesium (Cs) ?",
-    answer: 55
-  },
-  {
-    id: "pt-cesium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Cesium (Cs) (en kelvins, arrondi) ?",
-    answer: 302,
-    unit: "K"
-  },
-  {
-    id: "pt-cesium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Cesium (Cs) (en kelvins, arrondi) ?",
-    answer: 944,
-    unit: "K"
-  },
-  {
-    id: "pt-cesium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Cesium (Cs) (arrondie a 3 decimales) ?",
-    answer: 132.905,
-    unit: "u"
-  },
-  {
-    id: "pt-cesium-annee-decouverte",
-    prompt: "En quelle annee l'element Cesium (Cs) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1860,
-    unit: "annee"
-  },
-  {
-    id: "pt-cesium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Cesium (Cs) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-cesium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Cesium (Cs) (valeur usuelle) ?",
-    answer: 1,
-    unit: "electrons"
-  },
-  {
-    id: "pt-cesium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Cesium (Cs) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-cesium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Cesium (Cs) ?",
-    answer: 1,
-    unit: "groupe"
-  },
-  {
-    id: "pt-barium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Barium (Ba) ?",
-    answer: 56
-  },
-  {
-    id: "pt-barium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Barium (Ba) (en kelvins, arrondi) ?",
-    answer: 1002,
-    unit: "K"
-  },
-  {
-    id: "pt-barium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Barium (Ba) (en kelvins, arrondi) ?",
-    answer: 2170,
-    unit: "K"
-  },
-  {
-    id: "pt-barium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Barium (Ba) (arrondie a 3 decimales) ?",
-    answer: 137.327,
-    unit: "u"
-  },
-  {
-    id: "pt-barium-annee-decouverte",
-    prompt: "En quelle annee l'element Barium (Ba) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1808,
-    unit: "annee"
-  },
-  {
-    id: "pt-barium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Barium (Ba) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-barium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Barium (Ba) (valeur usuelle) ?",
-    answer: 2,
-    unit: "electrons"
-  },
-  {
-    id: "pt-barium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Barium (Ba) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-barium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Barium (Ba) ?",
-    answer: 2,
-    unit: "groupe"
-  },
-  {
-    id: "pt-lanthanum-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Lanthanum (La) ?",
-    answer: 57
-  },
-  {
-    id: "pt-lanthanum-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Lanthanum (La) (en kelvins, arrondi) ?",
-    answer: 1193,
-    unit: "K"
-  },
-  {
-    id: "pt-lanthanum-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Lanthanum (La) (en kelvins, arrondi) ?",
-    answer: 3737,
-    unit: "K"
-  },
-  {
-    id: "pt-lanthanum-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Lanthanum (La) (arrondie a 3 decimales) ?",
-    answer: 138.905,
-    unit: "u"
-  },
-  {
-    id: "pt-lanthanum-annee-decouverte",
-    prompt: "En quelle annee l'element Lanthanum (La) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1839,
-    unit: "annee"
-  },
-  {
-    id: "pt-lanthanum-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Lanthanum (La) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-lanthanum-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Lanthanum (La) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-lanthanum-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Lanthanum (La) ?",
-    answer: 3,
-    unit: "groupe"
-  },
-  {
-    id: "pt-cerium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Cerium (Ce) ?",
-    answer: 58
-  },
-  {
-    id: "pt-cerium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Cerium (Ce) (en kelvins, arrondi) ?",
-    answer: 1071,
-    unit: "K"
-  },
-  {
-    id: "pt-cerium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Cerium (Ce) (en kelvins, arrondi) ?",
-    answer: 3716,
-    unit: "K"
-  },
-  {
-    id: "pt-cerium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Cerium (Ce) (arrondie a 3 decimales) ?",
-    answer: 140.116,
-    unit: "u"
-  },
-  {
-    id: "pt-cerium-annee-decouverte",
-    prompt: "En quelle annee l'element Cerium (Ce) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1803,
-    unit: "annee"
-  },
-  {
-    id: "pt-cerium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Cerium (Ce) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-cerium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Cerium (Ce) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-praseodymium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Praseodymium (Pr) ?",
-    answer: 59
-  },
-  {
-    id: "pt-praseodymium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Praseodymium (Pr) (en kelvins, arrondi) ?",
-    answer: 1204,
-    unit: "K"
-  },
-  {
-    id: "pt-praseodymium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Praseodymium (Pr) (en kelvins, arrondi) ?",
-    answer: 3793,
-    unit: "K"
-  },
-  {
-    id: "pt-praseodymium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Praseodymium (Pr) (arrondie a 3 decimales) ?",
-    answer: 140.908,
-    unit: "u"
-  },
-  {
-    id: "pt-praseodymium-annee-decouverte",
-    prompt: "En quelle annee l'element Praseodymium (Pr) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1885,
-    unit: "annee"
-  },
-  {
-    id: "pt-praseodymium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Praseodymium (Pr) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-praseodymium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Praseodymium (Pr) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-neodymium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Neodymium (Nd) ?",
-    answer: 60
-  },
-  {
-    id: "pt-neodymium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Neodymium (Nd) (en kelvins, arrondi) ?",
-    answer: 1289,
-    unit: "K"
-  },
-  {
-    id: "pt-neodymium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Neodymium (Nd) (en kelvins, arrondi) ?",
-    answer: 3347,
-    unit: "K"
-  },
-  {
-    id: "pt-neodymium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Neodymium (Nd) (arrondie a 3 decimales) ?",
-    answer: 144.242,
-    unit: "u"
-  },
-  {
-    id: "pt-neodymium-annee-decouverte",
-    prompt: "En quelle annee l'element Neodymium (Nd) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1885,
-    unit: "annee"
-  },
-  {
-    id: "pt-neodymium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Neodymium (Nd) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-neodymium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Neodymium (Nd) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-promethium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Promethium (Pm) ?",
-    answer: 61
-  },
-  {
-    id: "pt-promethium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Promethium (Pm) (en kelvins, arrondi) ?",
-    answer: 1204,
-    unit: "K"
-  },
-  {
-    id: "pt-promethium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Promethium (Pm) (en kelvins, arrondi) ?",
-    answer: 3273,
-    unit: "K"
-  },
-  {
-    id: "pt-promethium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Promethium (Pm) (arrondie a 3 decimales) ?",
-    answer: 145,
-    unit: "u"
-  },
-  {
-    id: "pt-promethium-annee-decouverte",
-    prompt: "En quelle annee l'element Promethium (Pm) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1945,
-    unit: "annee"
-  },
-  {
-    id: "pt-promethium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Promethium (Pm) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-promethium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Promethium (Pm) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-samarium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Samarium (Sm) ?",
-    answer: 62
-  },
-  {
-    id: "pt-samarium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Samarium (Sm) (en kelvins, arrondi) ?",
-    answer: 1345,
-    unit: "K"
-  },
-  {
-    id: "pt-samarium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Samarium (Sm) (en kelvins, arrondi) ?",
-    answer: 2067,
-    unit: "K"
-  },
-  {
-    id: "pt-samarium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Samarium (Sm) (arrondie a 3 decimales) ?",
-    answer: 150.36,
-    unit: "u"
-  },
-  {
-    id: "pt-samarium-annee-decouverte",
-    prompt: "En quelle annee l'element Samarium (Sm) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1879,
-    unit: "annee"
-  },
-  {
-    id: "pt-samarium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Samarium (Sm) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-samarium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Samarium (Sm) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-europium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Europium (Eu) ?",
-    answer: 63
-  },
-  {
-    id: "pt-europium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Europium (Eu) (en kelvins, arrondi) ?",
-    answer: 1095,
-    unit: "K"
-  },
-  {
-    id: "pt-europium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Europium (Eu) (en kelvins, arrondi) ?",
-    answer: 1802,
-    unit: "K"
-  },
-  {
-    id: "pt-europium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Europium (Eu) (arrondie a 3 decimales) ?",
-    answer: 151.964,
-    unit: "u"
-  },
-  {
-    id: "pt-europium-annee-decouverte",
-    prompt: "En quelle annee l'element Europium (Eu) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1901,
-    unit: "annee"
-  },
-  {
-    id: "pt-europium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Europium (Eu) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-europium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Europium (Eu) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-gadolinium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Gadolinium (Gd) ?",
-    answer: 64
-  },
-  {
-    id: "pt-gadolinium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Gadolinium (Gd) (en kelvins, arrondi) ?",
-    answer: 1585,
-    unit: "K"
-  },
-  {
-    id: "pt-gadolinium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Gadolinium (Gd) (en kelvins, arrondi) ?",
-    answer: 3546,
-    unit: "K"
-  },
-  {
-    id: "pt-gadolinium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Gadolinium (Gd) (arrondie a 3 decimales) ?",
-    answer: 157.25,
-    unit: "u"
-  },
-  {
-    id: "pt-gadolinium-annee-decouverte",
-    prompt: "En quelle annee l'element Gadolinium (Gd) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1880,
-    unit: "annee"
-  },
-  {
-    id: "pt-gadolinium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Gadolinium (Gd) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-gadolinium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Gadolinium (Gd) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-terbium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Terbium (Tb) ?",
-    answer: 65
-  },
-  {
-    id: "pt-terbium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Terbium (Tb) (en kelvins, arrondi) ?",
-    answer: 1630,
-    unit: "K"
-  },
-  {
-    id: "pt-terbium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Terbium (Tb) (en kelvins, arrondi) ?",
-    answer: 3503,
-    unit: "K"
-  },
-  {
-    id: "pt-terbium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Terbium (Tb) (arrondie a 3 decimales) ?",
-    answer: 158.925,
-    unit: "u"
-  },
-  {
-    id: "pt-terbium-annee-decouverte",
-    prompt: "En quelle annee l'element Terbium (Tb) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1843,
-    unit: "annee"
-  },
-  {
-    id: "pt-terbium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Terbium (Tb) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-terbium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Terbium (Tb) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-dysprosium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Dysprosium (Dy) ?",
-    answer: 66
-  },
-  {
-    id: "pt-dysprosium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Dysprosium (Dy) (en kelvins, arrondi) ?",
-    answer: 1680,
-    unit: "K"
-  },
-  {
-    id: "pt-dysprosium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Dysprosium (Dy) (en kelvins, arrondi) ?",
-    answer: 2840,
-    unit: "K"
-  },
-  {
-    id: "pt-dysprosium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Dysprosium (Dy) (arrondie a 3 decimales) ?",
-    answer: 162.5,
-    unit: "u"
-  },
-  {
-    id: "pt-dysprosium-annee-decouverte",
-    prompt: "En quelle annee l'element Dysprosium (Dy) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1886,
-    unit: "annee"
-  },
-  {
-    id: "pt-dysprosium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Dysprosium (Dy) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-dysprosium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Dysprosium (Dy) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-holmium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Holmium (Ho) ?",
-    answer: 67
-  },
-  {
-    id: "pt-holmium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Holmium (Ho) (en kelvins, arrondi) ?",
-    answer: 1743,
-    unit: "K"
-  },
-  {
-    id: "pt-holmium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Holmium (Ho) (en kelvins, arrondi) ?",
-    answer: 2993,
-    unit: "K"
-  },
-  {
-    id: "pt-holmium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Holmium (Ho) (arrondie a 3 decimales) ?",
-    answer: 164.93,
-    unit: "u"
-  },
-  {
-    id: "pt-holmium-annee-decouverte",
-    prompt: "En quelle annee l'element Holmium (Ho) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1878,
-    unit: "annee"
-  },
-  {
-    id: "pt-holmium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Holmium (Ho) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-holmium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Holmium (Ho) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-erbium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Erbium (Er) ?",
-    answer: 68
-  },
-  {
-    id: "pt-erbium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Erbium (Er) (en kelvins, arrondi) ?",
-    answer: 1795,
-    unit: "K"
-  },
-  {
-    id: "pt-erbium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Erbium (Er) (en kelvins, arrondi) ?",
-    answer: 3503,
-    unit: "K"
-  },
-  {
-    id: "pt-erbium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Erbium (Er) (arrondie a 3 decimales) ?",
-    answer: 167.259,
-    unit: "u"
-  },
-  {
-    id: "pt-erbium-annee-decouverte",
-    prompt: "En quelle annee l'element Erbium (Er) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1843,
-    unit: "annee"
-  },
-  {
-    id: "pt-erbium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Erbium (Er) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-erbium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Erbium (Er) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-thulium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Thulium (Tm) ?",
-    answer: 69
-  },
-  {
-    id: "pt-thulium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Thulium (Tm) (en kelvins, arrondi) ?",
-    answer: 1818,
-    unit: "K"
-  },
-  {
-    id: "pt-thulium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Thulium (Tm) (en kelvins, arrondi) ?",
-    answer: 2223,
-    unit: "K"
-  },
-  {
-    id: "pt-thulium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Thulium (Tm) (arrondie a 3 decimales) ?",
-    answer: 168.934,
-    unit: "u"
-  },
-  {
-    id: "pt-thulium-annee-decouverte",
-    prompt: "En quelle annee l'element Thulium (Tm) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1879,
-    unit: "annee"
-  },
-  {
-    id: "pt-thulium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Thulium (Tm) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-thulium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Thulium (Tm) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-ytterbium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Ytterbium (Yb) ?",
-    answer: 70
-  },
-  {
-    id: "pt-ytterbium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Ytterbium (Yb) (en kelvins, arrondi) ?",
-    answer: 1097,
-    unit: "K"
-  },
-  {
-    id: "pt-ytterbium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Ytterbium (Yb) (en kelvins, arrondi) ?",
-    answer: 1469,
-    unit: "K"
-  },
-  {
-    id: "pt-ytterbium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Ytterbium (Yb) (arrondie a 3 decimales) ?",
-    answer: 173.054,
-    unit: "u"
-  },
-  {
-    id: "pt-ytterbium-annee-decouverte",
-    prompt: "En quelle annee l'element Ytterbium (Yb) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1878,
-    unit: "annee"
-  },
-  {
-    id: "pt-ytterbium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Ytterbium (Yb) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-ytterbium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Ytterbium (Yb) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-lutetium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Lutetium (Lu) ?",
-    answer: 71
-  },
-  {
-    id: "pt-lutetium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Lutetium (Lu) (en kelvins, arrondi) ?",
-    answer: 1936,
-    unit: "K"
-  },
-  {
-    id: "pt-lutetium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Lutetium (Lu) (en kelvins, arrondi) ?",
-    answer: 3675,
-    unit: "K"
-  },
-  {
-    id: "pt-lutetium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Lutetium (Lu) (arrondie a 3 decimales) ?",
-    answer: 174.967,
-    unit: "u"
-  },
-  {
-    id: "pt-lutetium-annee-decouverte",
-    prompt: "En quelle annee l'element Lutetium (Lu) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1907,
-    unit: "annee"
-  },
-  {
-    id: "pt-lutetium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Lutetium (Lu) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-lutetium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Lutetium (Lu) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-hafnium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Hafnium (Hf) ?",
-    answer: 72
-  },
-  {
-    id: "pt-hafnium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Hafnium (Hf) (en kelvins, arrondi) ?",
-    answer: 2500,
-    unit: "K"
-  },
-  {
-    id: "pt-hafnium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Hafnium (Hf) (en kelvins, arrondi) ?",
-    answer: 4876,
-    unit: "K"
-  },
-  {
-    id: "pt-hafnium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Hafnium (Hf) (arrondie a 3 decimales) ?",
-    answer: 178.49,
-    unit: "u"
-  },
-  {
-    id: "pt-hafnium-annee-decouverte",
-    prompt: "En quelle annee l'element Hafnium (Hf) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1923,
-    unit: "annee"
-  },
-  {
-    id: "pt-hafnium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Hafnium (Hf) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-hafnium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Hafnium (Hf) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-hafnium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Hafnium (Hf) ?",
-    answer: 4,
-    unit: "groupe"
-  },
-  {
-    id: "pt-tantalum-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Tantalum (Ta) ?",
-    answer: 73
-  },
-  {
-    id: "pt-tantalum-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Tantalum (Ta) (en kelvins, arrondi) ?",
-    answer: 3269,
-    unit: "K"
-  },
-  {
-    id: "pt-tantalum-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Tantalum (Ta) (en kelvins, arrondi) ?",
-    answer: 5731,
-    unit: "K"
-  },
-  {
-    id: "pt-tantalum-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Tantalum (Ta) (arrondie a 3 decimales) ?",
-    answer: 180.948,
-    unit: "u"
-  },
-  {
-    id: "pt-tantalum-annee-decouverte",
-    prompt: "En quelle annee l'element Tantalum (Ta) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1801,
-    unit: "annee"
-  },
-  {
-    id: "pt-tantalum-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Tantalum (Ta) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-tantalum-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Tantalum (Ta) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-tantalum-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Tantalum (Ta) ?",
-    answer: 5,
-    unit: "groupe"
-  },
-  {
-    id: "pt-wolfram-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Wolfram (W) ?",
-    answer: 74
-  },
-  {
-    id: "pt-wolfram-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Wolfram (W) (en kelvins, arrondi) ?",
-    answer: 3680,
-    unit: "K"
-  },
-  {
-    id: "pt-wolfram-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Wolfram (W) (en kelvins, arrondi) ?",
-    answer: 5828,
-    unit: "K"
-  },
-  {
-    id: "pt-wolfram-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Wolfram (W) (arrondie a 3 decimales) ?",
-    answer: 183.84,
-    unit: "u"
-  },
-  {
-    id: "pt-wolfram-annee-decouverte",
-    prompt: "En quelle annee l'element Wolfram (W) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1783,
-    unit: "annee"
-  },
-  {
-    id: "pt-wolfram-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Wolfram (W) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-wolfram-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Wolfram (W) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-wolfram-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Wolfram (W) ?",
-    answer: 6,
-    unit: "groupe"
-  },
-  {
-    id: "pt-rhenium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Rhenium (Re) ?",
-    answer: 75
-  },
-  {
-    id: "pt-rhenium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Rhenium (Re) (en kelvins, arrondi) ?",
-    answer: 3453,
-    unit: "K"
-  },
-  {
-    id: "pt-rhenium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Rhenium (Re) (en kelvins, arrondi) ?",
-    answer: 5869,
-    unit: "K"
-  },
-  {
-    id: "pt-rhenium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Rhenium (Re) (arrondie a 3 decimales) ?",
-    answer: 186.207,
-    unit: "u"
-  },
-  {
-    id: "pt-rhenium-annee-decouverte",
-    prompt: "En quelle annee l'element Rhenium (Re) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1925,
-    unit: "annee"
-  },
-  {
-    id: "pt-rhenium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Rhenium (Re) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-rhenium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Rhenium (Re) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-rhenium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Rhenium (Re) ?",
-    answer: 7,
-    unit: "groupe"
-  },
-  {
-    id: "pt-osmium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Osmium (Os) ?",
-    answer: 76
-  },
-  {
-    id: "pt-osmium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Osmium (Os) (en kelvins, arrondi) ?",
-    answer: 3300,
-    unit: "K"
-  },
-  {
-    id: "pt-osmium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Osmium (Os) (en kelvins, arrondi) ?",
-    answer: 5285,
-    unit: "K"
-  },
-  {
-    id: "pt-osmium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Osmium (Os) (arrondie a 3 decimales) ?",
-    answer: 190.23,
-    unit: "u"
-  },
-  {
-    id: "pt-osmium-annee-decouverte",
-    prompt: "En quelle annee l'element Osmium (Os) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1803,
-    unit: "annee"
-  },
-  {
-    id: "pt-osmium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Osmium (Os) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-osmium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Osmium (Os) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-osmium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Osmium (Os) ?",
-    answer: 8,
-    unit: "groupe"
-  },
-  {
-    id: "pt-iridium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Iridium (Ir) ?",
-    answer: 77
-  },
-  {
-    id: "pt-iridium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Iridium (Ir) (en kelvins, arrondi) ?",
-    answer: 2716,
-    unit: "K"
-  },
-  {
-    id: "pt-iridium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Iridium (Ir) (en kelvins, arrondi) ?",
-    answer: 4701,
-    unit: "K"
-  },
-  {
-    id: "pt-iridium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Iridium (Ir) (arrondie a 3 decimales) ?",
-    answer: 192.217,
-    unit: "u"
-  },
-  {
-    id: "pt-iridium-annee-decouverte",
-    prompt: "En quelle annee l'element Iridium (Ir) a-t-il ete isole ou decrit (selon les references) ?",
+    id: "culture-napoleon-empereur",
+    prompt: "En quelle annee Napoleon Ier devient-il empereur ?",
     answer: 1804,
     unit: "annee"
   },
   {
-    id: "pt-iridium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Iridium (Ir) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-iridium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Iridium (Ir) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-iridium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Iridium (Ir) ?",
-    answer: 9,
-    unit: "groupe"
-  },
-  {
-    id: "pt-platinum-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Platinum (Pt) ?",
-    answer: 78
-  },
-  {
-    id: "pt-platinum-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Platinum (Pt) (en kelvins, arrondi) ?",
-    answer: 2045,
-    unit: "K"
-  },
-  {
-    id: "pt-platinum-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Platinum (Pt) (en kelvins, arrondi) ?",
-    answer: 4098,
-    unit: "K"
-  },
-  {
-    id: "pt-platinum-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Platinum (Pt) (arrondie a 3 decimales) ?",
-    answer: 195.084,
-    unit: "u"
-  },
-  {
-    id: "pt-platinum-annee-decouverte",
-    prompt: "En quelle annee l'element Platinum (Pt) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1735,
+    id: "culture-abolition-esclavage-fr",
+    prompt: "En quelle annee l'esclavage est-il aboli en France (deuxieme abolition) ?",
+    answer: 1848,
     unit: "annee"
   },
   {
-    id: "pt-platinum-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Platinum (Pt) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-platinum-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Platinum (Pt) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-platinum-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Platinum (Pt) ?",
-    answer: 10,
-    unit: "groupe"
-  },
-  {
-    id: "pt-gold-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Gold (Au) ?",
-    answer: 79
-  },
-  {
-    id: "pt-gold-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Gold (Au) (en kelvins, arrondi) ?",
-    answer: 1338,
-    unit: "K"
-  },
-  {
-    id: "pt-gold-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Gold (Au) (en kelvins, arrondi) ?",
-    answer: 3129,
-    unit: "K"
-  },
-  {
-    id: "pt-gold-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Gold (Au) (arrondie a 3 decimales) ?",
-    answer: 196.967,
-    unit: "u"
-  },
-  {
-    id: "pt-gold-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Gold (Au) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-gold-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Gold (Au) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-gold-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Gold (Au) ?",
-    answer: 11,
-    unit: "groupe"
-  },
-  {
-    id: "pt-mercury-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Mercury (Hg) ?",
-    answer: 80
-  },
-  {
-    id: "pt-mercury-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Mercury (Hg) (en kelvins, arrondi) ?",
-    answer: 234,
-    unit: "K"
-  },
-  {
-    id: "pt-mercury-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Mercury (Hg) (en kelvins, arrondi) ?",
-    answer: 630,
-    unit: "K"
-  },
-  {
-    id: "pt-mercury-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Mercury (Hg) (arrondie a 3 decimales) ?",
-    answer: 200.59,
-    unit: "u"
-  },
-  {
-    id: "pt-mercury-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Mercury (Hg) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-mercury-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Mercury (Hg) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-mercury-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Mercury (Hg) ?",
-    answer: 12,
-    unit: "groupe"
-  },
-  {
-    id: "pt-thallium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Thallium (Tl) ?",
-    answer: 81
-  },
-  {
-    id: "pt-thallium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Thallium (Tl) (en kelvins, arrondi) ?",
-    answer: 577,
-    unit: "K"
-  },
-  {
-    id: "pt-thallium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Thallium (Tl) (en kelvins, arrondi) ?",
-    answer: 1746,
-    unit: "K"
-  },
-  {
-    id: "pt-thallium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Thallium (Tl) (arrondie a 3 decimales) ?",
-    answer: 204.383,
-    unit: "u"
-  },
-  {
-    id: "pt-thallium-annee-decouverte",
-    prompt: "En quelle annee l'element Thallium (Tl) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1861,
+    id: "culture-guerre-14-18-debut",
+    prompt: "En quelle annee debute la Premiere Guerre mondiale ?",
+    answer: 1914,
     unit: "annee"
   },
   {
-    id: "pt-thallium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Thallium (Tl) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-thallium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Thallium (Tl) (valeur usuelle) ?",
-    answer: 3,
-    unit: "electrons"
-  },
-  {
-    id: "pt-thallium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Thallium (Tl) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-thallium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Thallium (Tl) ?",
-    answer: 13,
-    unit: "groupe"
-  },
-  {
-    id: "pt-lead-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Lead (Pb) ?",
-    answer: 82
-  },
-  {
-    id: "pt-lead-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Lead (Pb) (en kelvins, arrondi) ?",
-    answer: 601,
-    unit: "K"
-  },
-  {
-    id: "pt-lead-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Lead (Pb) (en kelvins, arrondi) ?",
-    answer: 2022,
-    unit: "K"
-  },
-  {
-    id: "pt-lead-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Lead (Pb) (arrondie a 3 decimales) ?",
-    answer: 207.2,
-    unit: "u"
-  },
-  {
-    id: "pt-lead-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Lead (Pb) ?",
-    answer: 6,
-    unit: "couches"
-  },
-  {
-    id: "pt-lead-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Lead (Pb) (valeur usuelle) ?",
-    answer: 4,
-    unit: "electrons"
-  },
-  {
-    id: "pt-lead-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Lead (Pb) ?",
-    answer: 6,
-    unit: "periode"
-  },
-  {
-    id: "pt-lead-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Lead (Pb) ?",
-    answer: 14,
-    unit: "groupe"
-  },
-  {
-    id: "pt-bismuth-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Bismuth (Bi) ?",
-    answer: 83
-  },
-  {
-    id: "pt-bismuth-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Bismuth (Bi) (en kelvins, arrondi) ?",
-    answer: 545,
-    unit: "K"
-  },
-  {
-    id: "pt-bismuth-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Bismuth (Bi) (en kelvins, arrondi) ?",
-    answer: 1837,
-    unit: "K"
-  },
-  {
-    id: "pt-bismuth-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Bismuth (Bi) (arrondie a 3 decimales) ?",
-    answer: 208.98,
-    unit: "u"
-  },
-  {
-    id: "pt-bismuth-annee-decouverte",
-    prompt: "En quelle annee l'element Bismuth (Bi) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1753,
+    id: "culture-guerre-14-18-fin",
+    prompt: "En quelle annee se termine la Premiere Guerre mondiale ?",
+    answer: 1918,
     unit: "annee"
   },
   {
-    id: "pt-bismuth-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Bismuth (Bi) ?",
-    answer: 6,
-    unit: "couches"
+    id: "culture-guerre-39-45-debut",
+    prompt: "En quelle annee debute la Seconde Guerre mondiale ?",
+    answer: 1939,
+    unit: "annee"
   },
   {
-    id: "pt-bismuth-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Bismuth (Bi) (valeur usuelle) ?",
-    answer: 5,
-    unit: "electrons"
+    id: "culture-guerre-39-45-fin",
+    prompt: "En quelle annee se termine la Seconde Guerre mondiale ?",
+    answer: 1945,
+    unit: "annee"
   },
   {
-    id: "pt-bismuth-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Bismuth (Bi) ?",
-    answer: 6,
-    unit: "periode"
+    id: "culture-onu",
+    prompt: "En quelle annee l'ONU est-elle fondee ?",
+    answer: 1945,
+    unit: "annee"
   },
   {
-    id: "pt-bismuth-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Bismuth (Bi) ?",
+    id: "culture-premiers-jo-modernes",
+    prompt: "En quelle annee ont lieu les premiers Jeux olympiques modernes ?",
+    answer: 1896,
+    unit: "annee"
+  },
+  {
+    id: "culture-1er-homme-lune",
+    prompt: "En quelle annee l'homme marche-t-il pour la premiere fois sur la Lune ?",
+    answer: 1969,
+    unit: "annee"
+  },
+  {
+    id: "culture-chute-mur-berlin",
+    prompt: "En quelle annee le mur de Berlin tombe-t-il ?",
+    answer: 1989,
+    unit: "annee"
+  },
+  {
+    id: "culture-ue-maastricht",
+    prompt: "En quelle annee le traite de Maastricht est-il signe ?",
+    answer: 1992,
+    unit: "annee"
+  },
+  {
+    id: "culture-euro-circulation",
+    prompt: "En quelle annee l'euro entre-t-il en circulation fiduciaire ?",
+    answer: 2002,
+    unit: "annee"
+  },
+  {
+    id: "culture-declaration-indep-us",
+    prompt: "En quelle annee la declaration d'independance des Etats-Unis est-elle adoptee ?",
+    answer: 1776,
+    unit: "annee"
+  },
+  {
+    id: "culture-constitution-us",
+    prompt: "En quelle annee la Constitution des Etats-Unis est-elle adoptee ?",
+    answer: 1787,
+    unit: "annee"
+  },
+  {
+    id: "culture-revolution-russe",
+    prompt: "En quelle annee a lieu la Revolution russe d'Octobre ?",
+    answer: 1917,
+    unit: "annee"
+  },
+  {
+    id: "culture-premiere-republique-fr",
+    prompt: "En quelle annee est proclamee la Premiere Republique francaise ?",
+    answer: 1792,
+    unit: "annee"
+  },
+  {
+    id: "culture-abolition-monarchie-fr",
+    prompt: "En quelle annee la monarchie est-elle abolie en France ?",
+    answer: 1792,
+    unit: "annee"
+  },
+  {
+    id: "culture-traites-rome",
+    prompt: "En quelle annee les traites de Rome sont-ils signes ?",
+    answer: 1957,
+    unit: "annee"
+  },
+  {
+    id: "culture-fin-guerre-froide",
+    prompt: "En quelle annee l'URSS est-elle dissoute ?",
+    answer: 1991,
+    unit: "annee"
+  },
+  {
+    id: "culture-canal-suez",
+    prompt: "En quelle annee le canal de Suez est-il inaugure ?",
+    answer: 1869,
+    unit: "annee"
+  },
+  {
+    id: "culture-canal-panama",
+    prompt: "En quelle annee le canal de Panama est-il inaugure ?",
+    answer: 1914,
+    unit: "annee"
+  },
+  {
+    id: "culture-tour-pise",
+    prompt: "En quelle annee la construction de la tour de Pise commence-t-elle ?",
+    answer: 1173,
+    unit: "annee"
+  },
+  {
+    id: "culture-louvre-musee",
+    prompt: "En quelle annee le musee du Louvre ouvre-t-il ?",
+    answer: 1793,
+    unit: "annee"
+  },
+  {
+    id: "culture-universite-bologne",
+    prompt: "En quelle annee traditionnelle l'universite de Bologne est-elle fondee ?",
+    answer: 1088,
+    unit: "annee"
+  },
+  {
+    id: "culture-bastille",
+    prompt: "En quelle annee la Bastille est-elle prise ?",
+    answer: 1789,
+    unit: "annee"
+  },
+  {
+    id: "culture-trafalgar",
+    prompt: "En quelle annee a lieu la bataille de Trafalgar ?",
+    answer: 1805,
+    unit: "annee"
+  },
+  {
+    id: "culture-waterloo",
+    prompt: "En quelle annee a lieu la bataille de Waterloo ?",
+    answer: 1815,
+    unit: "annee"
+  },
+  {
+    id: "culture-independance-algerie",
+    prompt: "En quelle annee l'Algerie devient-elle independante ?",
+    answer: 1962,
+    unit: "annee"
+  },
+  {
+    id: "culture-berlin-airlift",
+    prompt: "En quelle annee debute le pont aerien de Berlin ?",
+    answer: 1948,
+    unit: "annee"
+  },
+  {
+    id: "culture-premier-transistor",
+    prompt: "En quelle annee le transistor est-il invente ?",
+    answer: 1947,
+    unit: "annee"
+  },
+  {
+    id: "culture-telephone-bell",
+    prompt: "En quelle annee Alexander Graham Bell depose-t-il le brevet du telephone ?",
+    answer: 1876,
+    unit: "annee"
+  },
+  {
+    id: "culture-ampoule-edison",
+    prompt: "En quelle annee Edison depose-t-il un brevet pour l'ampoule a incandescence ?",
+    answer: 1879,
+    unit: "annee"
+  },
+  {
+    id: "culture-premier-avion-wright",
+    prompt: "En quelle annee a lieu le premier vol motorise des freres Wright ?",
+    answer: 1903,
+    unit: "annee"
+  },
+  {
+    id: "culture-titanic",
+    prompt: "En quelle annee le Titanic coule-t-il ?",
+    answer: 1912,
+    unit: "annee"
+  },
+  {
+    id: "culture-crash-1929",
+    prompt: "En quelle annee a lieu le krach boursier de 1929 ?",
+    answer: 1929,
+    unit: "annee"
+  },
+  {
+    id: "culture-annee-bicentenaire-us",
+    prompt: "En quelle annee a eu lieu le bicentenaire des Etats-Unis ?",
+    answer: 1976,
+    unit: "annee"
+  },
+  {
+    id: "culture-16e-amendement-us",
+    prompt: "En quelle annee le 16e amendement US est-il ratifie ?",
+    answer: 1913,
+    unit: "annee"
+  },
+  {
+    id: "culture-1re-revolution-industrielle",
+    prompt: "En quelle annee approximative debute la premiere Revolution industrielle (approx.) ?",
+    answer: 1760,
+    unit: "annee"
+  },
+  {
+    id: "culture-fin-moyen-age",
+    prompt: "En quelle annee la fin du Moyen Age est-elle traditionnellement placee (chute de Constantinople) ?",
+    answer: 1453,
+    unit: "annee"
+  },
+  {
+    id: "culture-debut-renaissance",
+    prompt: "En quelle annee approximative debute la Renaissance en Italie (approx.) ?",
+    answer: 1400,
+    unit: "annee"
+  },
+  {
+    id: "culture-premier-roman-astro",
+    prompt: "En quelle annee Sputnik 1 est-il lance ?",
+    answer: 1957,
+    unit: "annee"
+  },
+  {
+    id: "culture-premier-homme-espace",
+    prompt: "En quelle annee Youri Gagarine devient-il le premier homme dans l'espace ?",
+    answer: 1961,
+    unit: "annee"
+  },
+  {
+    id: "culture-attaque-pearl-harbor",
+    prompt: "En quelle annee l'attaque de Pearl Harbor a-t-elle lieu ?",
+    answer: 1941,
+    unit: "annee"
+  },
+  {
+    id: "culture-fin-apartheid",
+    prompt: "En quelle annee Nelson Mandela devient-il president de l'Afrique du Sud ?",
+    answer: 1994,
+    unit: "annee"
+  },
+  {
+    id: "culture-11-septembre",
+    prompt: "En quelle annee ont lieu les attentats du 11 septembre ?",
+    answer: 2001,
+    unit: "annee"
+  },
+  {
+    id: "culture-premier-ipad",
+    prompt: "En quelle annee le premier iPad est-il lance ?",
+    answer: 2010,
+    unit: "annee"
+  },
+  {
+    id: "culture-premier-iphone",
+    prompt: "En quelle annee le premier iPhone est-il lance ?",
+    answer: 2007,
+    unit: "annee"
+  },
+  {
+    id: "culture-y2k",
+    prompt: "En quelle annee a lieu le passage a l'an 2000 ?",
+    answer: 2000,
+    unit: "annee"
+  },
+  {
+    id: "culture-bombe-hiroshima",
+    prompt: "Quelle est la puissance approximate de la bombe d'Hiroshima (Little Boy) en kilotonnes de TNT ?",
     answer: 15,
-    unit: "groupe"
+    unit: "kt"
   },
   {
-    id: "pt-polonium-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Polonium (Po) ?",
-    answer: 84
+    id: "culture-tour-eiffel-hauteur",
+    prompt: "Quelle est la hauteur historique de la tour Eiffel (sans antennes modernes, approx.) ?",
+    answer: 300,
+    unit: "m"
   },
   {
-    id: "pt-polonium-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Polonium (Po) (en kelvins, arrondi) ?",
-    answer: 527,
-    unit: "K"
-  },
-  {
-    id: "pt-polonium-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Polonium (Po) (en kelvins, arrondi) ?",
-    answer: 1235,
-    unit: "K"
-  },
-  {
-    id: "pt-polonium-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Polonium (Po) (arrondie a 3 decimales) ?",
-    answer: 210,
-    unit: "u"
-  },
-  {
-    id: "pt-polonium-annee-decouverte",
-    prompt: "En quelle annee l'element Polonium (Po) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1898,
+    id: "culture-mona-lisa",
+    prompt: "En quelle annee la Joconde est-elle peinte approximativement (approx.) ?",
+    answer: 1503,
     unit: "annee"
   },
   {
-    id: "pt-polonium-couches-electroniques",
-    prompt: "Combien de couches electroniques a l'element Polonium (Po) ?",
-    answer: 6,
-    unit: "couches"
+    id: "culture-impression-soleil-levant",
+    prompt: "En quelle annee Monet peint-il 'Impression, soleil levant' ?",
+    answer: 1872,
+    unit: "annee"
   },
   {
-    id: "pt-polonium-valence-electrons",
-    prompt: "Combien d'electrons de valence a l'element Polonium (Po) (valeur usuelle) ?",
-    answer: 6,
-    unit: "electrons"
+    id: "culture-cine-1er-film",
+    prompt: "En quelle annee a lieu la premiere projection publique des freres Lumiere ?",
+    answer: 1895,
+    unit: "annee"
   },
   {
-    id: "pt-polonium-periode",
-    prompt: "Dans quelle periode du tableau periodique se trouve l'element Polonium (Po) ?",
-    answer: 6,
-    unit: "periode"
+    id: "culture-premier-oscar",
+    prompt: "En quelle annee a lieu la premiere ceremonie des Oscars ?",
+    answer: 1929,
+    unit: "annee"
   },
   {
-    id: "pt-polonium-groupe",
-    prompt: "Dans quel groupe du tableau periodique se trouve l'element Polonium (Po) ?",
+    id: "culture-facebook-lancement",
+    prompt: "En quelle annee Facebook est-il lance ?",
+    answer: 2004,
+    unit: "annee"
+  },
+  {
+    id: "culture-wikipedia-lancement",
+    prompt: "En quelle annee Wikipedia est-elle lancee ?",
+    answer: 2001,
+    unit: "annee"
+  },
+  {
+    id: "culture-google-fonde",
+    prompt: "En quelle annee Google est-il fonde ?",
+    answer: 1998,
+    unit: "annee"
+  },
+  {
+    id: "culture-apple-fonde",
+    prompt: "En quelle annee Apple est-elle fondee ?",
+    answer: 1976,
+    unit: "annee"
+  },
+  {
+    id: "culture-microprocesseur-4004",
+    prompt: "En quelle annee l'Intel 4004 (premier microprocesseur) est-il lance ?",
+    answer: 1971,
+    unit: "annee"
+  },
+  {
+    id: "culture-premiere-missile",
+    prompt: "En quelle annee Apollo 13 est-il lance ?",
+    answer: 1970,
+    unit: "annee"
+  },
+  {
+    id: "culture-berlin-jo",
+    prompt: "En quelle annee ont lieu les JO de Berlin ?",
+    answer: 1936,
+    unit: "annee"
+  },
+  {
+    id: "culture-vitesse-lumiere",
+    prompt: "Quelle est la vitesse de la lumiere dans le vide (arrondie) ?",
+    answer: 300000,
+    unit: "km/s"
+  },
+  {
+    id: "culture-age-univers",
+    prompt: "Quel est l'age approximatif de l'Univers (arrondi) ?",
+    answer: 13800000000,
+    unit: "ans"
+  },
+  {
+    id: "culture-age-terre",
+    prompt: "Quel est l'age approximatif de la Terre (arrondi) ?",
+    answer: 4540000000,
+    unit: "ans"
+  },
+  {
+    id: "culture-son-vitesse",
+    prompt: "Quelle est la vitesse du son dans l'air (approx. a 20C) ?",
+    answer: 343,
+    unit: "m/s"
+  },
+  {
+    id: "culture-shakespeare-songs",
+    prompt: "En quelle annee Shakespeare nait-il ?",
+    answer: 1564,
+    unit: "annee"
+  },
+  {
+    id: "culture-mort-newton",
+    prompt: "En quelle annee Isaac Newton meurt-il ?",
+    answer: 1727,
+    unit: "annee"
+  },
+  {
+    id: "culture-mort-einstein",
+    prompt: "En quelle annee Albert Einstein meurt-il ?",
+    answer: 1955,
+    unit: "annee"
+  },
+  {
+    id: "culture-mort-curie",
+    prompt: "En quelle annee Marie Curie meurt-elle ?",
+    answer: 1934,
+    unit: "annee"
+  },
+  {
+    id: "culture-naissance-darwin",
+    prompt: "En quelle annee Charles Darwin nait-il ?",
+    answer: 1809,
+    unit: "annee"
+  },
+  {
+    id: "math-square-19",
+    prompt: "Quel est le carre de 19 ?",
+    answer: 361
+  },
+  {
+    id: "math-cube-16",
+    prompt: "Quel est le cube de 16 ?",
+    answer: 4096
+  },
+  {
+    id: "geo-aire-carre-12",
+    prompt: "Quelle est l'aire d'un carre de cote 12 ?",
+    answer: 144,
+    unit: "unites2"
+  },
+
+  {
+    id: "geo-perimetre-rectangle-6x8",
+    prompt: "Quel est le perimetre d'un rectangle de 6 par 8 ?",
+    answer: 28,
+    unit: "unites"
+  },
+  {
+    id: "decalee-humain-litres-sang",
+    prompt: "Quel est le volume de sang d'un adulte (approx.) ?",
+    answer: 5,
+    unit: "L"
+  },
+  {
+    id: "decalee-cameleon-langue",
+    prompt: "La langue d'un camaleon peut mesurer environ combien de fois la longueur de son corps ?",
+    answer: 2,
+    unit: "fois"
+  },
+  {
+    id: "decalee-eclair-vitesse",
+    prompt: "Quelle est la temperature approximative d'un eclair (arrondie) ?",
+    answer: 30000,
+    unit: "C"
+  },
+  {
+    id: "gwr-most-shots-on-goal-both-teams-nhl-postseason-game",
+    prompt: "Quel est le record du plus grand nombre de tirs cadrés (les deux équipes) dans un match de playoffs de NHL ?",
+    answer: 151,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-skateboard-half-cab-blunt-fakies-in-one-minute",
+    prompt: "Quel est le record du plus grand nombre de figures « half-cab blunt fakie » en skateboard en une minute ?",
+    answer: 29,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-highest-restaurant-in-a-building",
+    prompt: "Quel est le record du restaurant situé le plus haut dans un bâtiment ?",
+    answer: 556.36,
+    unit: "mètres"
+  },
+  {
+    id: "gwr-most-tricks-performed-by-a-guinea-pig-in-30-seconds",
+    prompt: "Quel est le record du plus grand nombre de tours réalisés par un cochon d’Inde en 30 secondes ?",
+    answer: 10,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-neutral-grip-pull-ups-in-one-minute-male",
+    prompt: "Quel est le record du plus grand nombre de tractions en prise neutre en une minute (homme) ?",
+    answer: 56,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-grammy-nominations-for-a-female-country-artist",
+    prompt: "Quel est le record du plus grand nombre de nominations aux Grammy Awards pour une artiste country (femme) ?",
+    answer: 55,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-longest-sword-non-ceremonial",
+    prompt: "Quel est le record de l’épée la plus longue (non cérémonielle) ?",
+    answer: 3.77,
+    unit: "mètres"
+  },
+  {
+    id: "gwr-most-money-raised-by-a-videogame-speedrunning-event",
+    prompt: "Quel est le record du plus grand montant d’argent récolté par un événement de speedrun de jeux vidéo ?",
+    answer: 3416729,
+    unit: "dollars US"
+  },
+  {
+    id: "gwr-highest-heat-total-at-the-isa-para-surfing-world-championship-female",
+    prompt: "Quel est le record du total de points (« heat total ») le plus élevé aux Championnats du monde ISA de para-surf (femme) ?",
+    answer: 17.27,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-song-of-the-year-awards-won-at-the-all-africa-music-awards",
+    prompt: "Quel est le record du plus grand nombre de prix « Chanson de l’année » remportés aux All Africa Music Awards ?",
+    answer: 3,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-heaviest-vehicle-pulled-over-100-ft-with-the-teeth-male",
+    prompt: "Quel est le record du véhicule le plus lourd tracté sur plus de 100 ft avec les dents (homme) ?",
+    answer: 7225,
+    unit: "kilogrammes"
+  },
+  {
+    id: "gwr-farthest-distance-traversed-using-rings-in-one-minute-female",
+    prompt: "Quel est le record de la plus grande distance parcourue avec des anneaux en une minute (femme) ?",
+    answer: 38,
+    unit: "mètres"
+  },
+  {
+    id: "gwr-most-awards-won-by-a-show-at-the-national-television-awards",
+    prompt: "Quel est le record du plus grand nombre de récompenses remportées par une émission aux National Television Awards ?",
+    answer: 36,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-longest-unbeaten-run-in-competitive-men-s-international-football-soccer-matches",
+    prompt: "Quel est le record de la plus longue série d’invincibilité en matchs internationaux officiels de football masculin ?",
+    answer: 37,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-led-illuminated-racetrack",
+    prompt: "Quel est le record du plus grand circuit de course illuminé par LED ?",
+    answer: 112958.27,
+    unit: "m²"
+  },
+  {
+    id: "gwr-most-consecutive-olympic-swimming-gold-medals-in-the-same-event-female",
+    prompt: "Quel est le record du plus grand nombre de médailles d’or olympiques consécutives en natation sur la même épreuve (femme) ?",
+    answer: 4,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-knee-to-feet-jumps-in-one-minute-male-aa3",
+    prompt: "Quel est le record du plus grand nombre de sauts « genoux vers pieds » en une minute (homme) – AA3 ?",
+    answer: 24,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-studio-albums-released-by-a-female-country-singer",
+    prompt: "Quel est le record du plus grand nombre d’albums studio sortis par une chanteuse country ?",
+    answer: 66,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-expensive-pokemon-trading-card-sold-at-a-private-sale",
+    prompt: "Quel est le record de la carte Pokémon la plus chère vendue lors d’une vente privée ?",
+    answer: 5275000,
+    unit: "dollars US"
+  },
+  {
+    id: "gwr-most-points-scored-in-a-national-rugby-league-career",
+    prompt: "Quel est le record du plus grand nombre de points marqués en carrière en National Rugby League ?",
+    answer: 2786,
+    unit: "points"
+  },
+  {
+    id: "gwr-most-bafta-film-awards-won-for-best-costume-design",
+    prompt: "Quel est le record du plus grand nombre de BAFTA Film Awards remportés pour la meilleure création de costumes ?",
+    answer: 4,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-brands-advertising-on-a-single-sportswear-item",
+    prompt: "Quel est le record du plus grand nombre de marques faisant de la publicité sur un seul article de sport ?",
+    answer: 116,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-weight-lifted-by-dumbbell-curls-in-one-hour",
+    prompt: "Quel est le record du plus grand poids total soulevé en curls avec haltères en une heure ?",
+    answer: 19395.2,
+    unit: "kilogrammes"
+  },
+  {
+    id: "gwr-largest-indoor-artificial-wave",
+    prompt: "Quel est le record de la plus grande vague artificielle en intérieur ?",
+    answer: 3.2,
+    unit: "mètres"
+  },
+  {
+    id: "gwr-heaviest-weight-supported-with-the-mouth-on-parallel-bars",
+    prompt: "Quel est le record du poids le plus lourd soutenu avec la bouche sur barres parallèles ?",
+    answer: 90.3,
+    unit: "kilogrammes"
+  },
+  {
+    id: "gwr-most-single-arm-handstands-in-one-minute-male",
+    prompt: "Quel est le record du plus grand nombre d’équilibres sur une main en une minute (homme) ?",
+    answer: 23,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-highest-altitude-skydiving-with-a-banner-flag",
+    prompt: "Quel est le record du saut en parachute à la plus haute altitude avec une bannière / un drapeau ?",
+    answer: 12933,
+    unit: "mètres"
+  },
+  {
+    id: "gwr-most-marathon-appearances-at-the-world-athletics-championships",
+    prompt: "Quel est le record du plus grand nombre de participations au marathon aux Championnats du monde d’athlétisme ?",
+    answer: 11,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-push-ups-in-one-hour-with-a-40-lb-pack",
+    prompt: "Quel est le record du plus grand nombre de pompes en une heure avec un sac de 40 lb ?",
+    answer: 1240,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-stars-projected-by-a-planetarium-projector-one-off",
+    prompt: "Quel est le record du plus grand nombre d’étoiles projetées par un projecteur de planétarium (événement unique) ?",
+    answer: 700000000,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-earthquake-recorded-on-another-world",
+    prompt: "Quel est le record du plus grand séisme enregistré sur un autre monde ?",
+    answer: 5,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-back-of-hand-push-ups-carrying-a-80-lb-pack-in-one-minute-male",
+    prompt: "Quel est le record du plus grand nombre de pompes sur le dos des mains avec un sac de 80 lb en une minute (homme) ?",
+    answer: 47,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-lowest-putt-putt-miniature-golf-score-in-competition",
+    prompt: "Quel est le record du score le plus bas au mini-golf (putt-putt) en compétition ?",
+    answer: 18,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-awards-won-at-the-japan-academy-film-prize-japanese-academy-awards-in-a-single-year",
+    prompt: "Quel est le record du plus grand nombre de récompenses remportées aux Japan Academy Film Prize (Japan Academy Awards) en une seule année ?",
+    answer: 13,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-heaviest-weight-lifted-by-tongue",
+    prompt: "Quel est le record du poids le plus lourd soulevé avec la langue ?",
+    answer: 13,
+    unit: "kilogrammes"
+  },
+  {
+    id: "gwr-most-eisner-comic-award-wins-in-one-category",
+    prompt: "Quel est le record du plus grand nombre de récompenses Eisner remportées dans une seule catégorie ?",
+    answer: 18,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-winter-paralympics-cross-country-skiing-gold-medals-male",
+    prompt: "Quel est le record du plus grand nombre de médailles d’or en ski de fond aux Jeux paralympiques d’hiver (homme) ?",
     answer: 16,
-    unit: "groupe"
+    unit: "nombre total"
   },
   {
-    id: "pt-astatine-numero-atomique",
-    prompt: "Quel est le numero atomique de l'element Astatine (At) ?",
-    answer: 85
+    id: "gwr-largest-underwater-photography-exhibition",
+    prompt: "Quel est le record de la plus grande exposition de photographie sous-marine ?",
+    answer: 150,
+    unit: "nombre total"
   },
   {
-    id: "pt-astatine-fusion-k",
-    prompt: "Quel est le point de fusion de l'element Astatine (At) (en kelvins, arrondi) ?",
-    answer: 575,
-    unit: "K"
+    id: "gwr-farthest-basketball-hook-shot",
+    prompt: "Quel est le record du tir en crochet (« hook shot ») au basket le plus lointain ?",
+    answer: 25,
+    unit: "mètres"
   },
   {
-    id: "pt-astatine-ebullition-k",
-    prompt: "Quel est le point d'ebullition de l'element Astatine (At) (en kelvins, arrondi) ?",
-    answer: 610,
-    unit: "K"
+    id: "gwr-most-pull-ups-from-a-helicopter-in-one-minute",
+    prompt: "Quel est le record du plus grand nombre de tractions depuis un hélicoptère en une minute ?",
+    answer: 32,
+    unit: "nombre total"
   },
   {
-    id: "pt-astatine-masse-atomique",
-    prompt: "Quelle est la masse atomique de l'element Astatine (At) (arrondie a 3 decimales) ?",
-    answer: 210,
-    unit: "u"
+    id: "gwr-most-times-sacked-in-an-nfl-career",
+    prompt: "Quel est le record du plus grand nombre de fois où un joueur a été « sacké » en carrière NFL ?",
+    answer: 571,
+    unit: "nombre total"
   },
   {
-    id: "pt-astatine-annee-decouverte",
-    prompt: "En quelle annee l'element Astatine (At) a-t-il ete isole ou decrit (selon les references) ?",
-    answer: 1940,
-    unit: "annee"
-  }
+    id: "gwr-longest-cucumber",
+    prompt: "Quel est le record du concombre le plus long ?",
+    answer: 113.4,
+    unit: "centimètres"
+  },
+  {
+    id: "gwr-largest-jiaozi-gyoza-dumpling-word",
+    prompt: "Quel est le record du plus grand ravioli jiaozi/gyoza ?",
+    answer: 10295,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-laser-light-beam-sentence",
+    prompt: "Quel est le record de la plus grande « phrase » réalisée au faisceau laser ?",
+    answer: 3289.056,
+    unit: "m²"
+  },
+  {
+    id: "gwr-highest-vertical-leap-running-start",
+    prompt: "Quel est le record de la détente verticale la plus haute avec élan (départ en course) ?",
+    answer: 1.27,
+    unit: "mètres"
+  },
+  {
+    id: "gwr-most-goals-scored-with-the-goalkeeper-on-fifa-22",
+    prompt: "Quel est le record du plus grand nombre de buts marqués avec le gardien sur FIFA 22 ?",
+    answer: 31,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-pizza",
+    prompt: "Quel est le record de la plus grande pizza ?",
+    answer: 1296.72,
+    unit: "m²"
+  },
+  {
+    id: "gwr-most-people-exchanging-garlands-simultaneously",
+    prompt: "Quel est le record du plus grand nombre de personnes échangeant des guirlandes simultanément ?",
+    answer: 552,
+    unit: "paires"
+  },
+  {
+    id: "gwr-highest-score-in-figure-skating-short-programme-men",
+    prompt: "Quel est le record du score le plus élevé en programme court de patinage artistique (hommes) ?",
+    answer: 113.97,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-users-in-a-tea-video-hangout",
+    prompt: "Quel est le record du plus grand nombre d’utilisateurs dans un hangout vidéo autour du thé ?",
+    answer: 3475,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-streamed-album-on-spotify-in-24-hours",
+    prompt: "Quel est le record de l’album le plus streamé sur Spotify en 24 heures ?",
+    answer: 313747178,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-spiderman-knuckle-push-ups-with-a-80-lb-pack-in-one-minute",
+    prompt: "Quel est le record du plus grand nombre de « spiderman knuckle push-ups » avec un sac de 80 lb en une minute ?",
+    answer: 33,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-ves-awards-won-for-outstanding-visual-effects-in-a-photoreal-feature-by-an-individual",
+    prompt: "Quel est le record du plus grand nombre de VES Awards remportés pour des effets visuels exceptionnels dans un long-métrage photoréaliste (par une personne) ?",
+    answer: 7,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-blood-plasma-donated-male",
+    prompt: "Quel est le record du plus grand volume de plasma sanguin donné (homme) ?",
+    answer: 1064.568,
+    unit: "litres"
+  },
+  {
+    id: "gwr-most-knuckle-push-ups-carrying-a-60-lb-pack-in-one-minute-male",
+    prompt: "Quel est le record du plus grand nombre de pompes sur les jointures avec un sac de 60 lb en une minute (homme) ?",
+    answer: 79,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-wins-of-the-football-soccer-european-cup-champions-league-team",
+    prompt: "Quel est le record du plus grand nombre de victoires en Coupe d’Europe / Ligue des champions (équipe) ?",
+    answer: 15,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-longest-distance-swum-underwater-with-one-breath-with-fins-la1",
+    prompt: "Quel est le record de la plus longue distance nagée sous l’eau en apnée avec palmes (LA1) ?",
+    answer: 76.7,
+    unit: "mètres"
+  },
+  {
+    id: "gwr-most-participants-in-a-tea-tasting-event-online-and-in-a-single-venue",
+    prompt: "Quel est le record du plus grand nombre de participants à une dégustation de thé, en ligne et dans un lieu unique ?",
+    answer: 290,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-expensive-cognac-sold-in-a-private-sale",
+    prompt: "Quel est le record du cognac le plus cher vendu lors d’une vente privée ?",
+    answer: 1725286,
+    unit: "livres sterling"
+  },
+  {
+    id: "gwr-most-pool-balls-potted-off-the-break",
+    prompt: "Quel est le record du plus grand nombre de billes de billard empochées dès la casse ?",
+    answer: 6,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-kills-against-cpu-bots-in-league-of-legends-using-a-mouth-operated-joystick",
+    prompt: "Quel est le record du plus grand nombre d’éliminations contre des bots (CPU) sur League of Legends avec un joystick commandé par la bouche ?",
+    answer: 216,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-awards-won-by-a-female-actor-entertainer-at-the-national-television-awards",
+    prompt: "Quel est le record du plus grand nombre de récompenses remportées par une actrice / animatrice aux National Television Awards ?",
+    answer: 4,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-tracked-flight",
+    prompt: "Quel est le record du vol le plus suivi (tracked flight) ?",
+    answer: 4790000,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-gold-medals-won-at-the-ifsc-climbing-world-cup",
+    prompt: "Quel est le record du plus grand nombre de médailles d’or remportées en Coupe du monde IFSC d’escalade ?",
+    answer: 37,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-smallest-wooden-spoon",
+    prompt: "Quel est le record de la plus petite cuillère en bois ?",
+    answer: 1.09,
+    unit: "millimètres"
+  },
+  {
+    id: "gwr-most-rotating-puzzle-cubes-solved-while-running-a-marathon",
+    prompt: "Quel est le record du plus grand nombre de Rubik’s Cubes rotatifs résolus en courant un marathon ?",
+    answer: 520,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-hops-while-spinning-a-hula-hoop-on-the-ankle-in-30-seconds",
+    prompt: "Quel est le record du plus grand nombre de sauts tout en faisant tourner un hula-hoop autour de la cheville en 30 secondes ?",
+    answer: 59,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-highest-transaction-volume-for-an-nft-collectible-game",
+    prompt: "Quel est le record du plus grand volume de transactions pour un jeu NFT à collectionner ?",
+    answer: 4039319819,
+    unit: "dollars US"
+  },
+  {
+    id: "gwr-most-caps-removed-from-the-head-with-an-excavator-in-one-minute",
+    prompt: "Quel est le record du plus grand nombre de casquettes retirées d’une tête avec une excavatrice en une minute ?",
+    answer: 15,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-fish-colony",
+    prompt: "Quel est le record de la plus grande colonie de poissons ?",
+    answer: 240,
+    unit: "km²"
+  },
+  {
+    id: "gwr-most-one-arm-one-leg-push-ups-carrying-a-60-lb-pack-in-one-minute-male",
+    prompt: "Quel est le record du plus grand nombre de pompes « un bras / une jambe » avec un sac de 60 lb en une minute (homme) ?",
+    answer: 15,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-shiny-pokemon-collecting-online-community-event",
+    prompt: "Quel est le record du plus grand événement communautaire en ligne de collecte de Pokémon shiny ?",
+    answer: 172,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-people-watering-plants-simultaneously-multiple-venues",
+    prompt: "Quel est le record du plus grand nombre de personnes arrosant des plantes simultanément (plusieurs lieux) ?",
+    answer: 1755,
+    unit: "personnes"
+  },
+  {
+    id: "gwr-largest-toy-car-number",
+    prompt: "Quel est le record du plus grand nombre de voitures miniatures ?",
+    answer: 2360,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-rueda-de-casino-dance",
+    prompt: "Quel est le record de la plus grande danse « rueda de casino » ?",
+    answer: 1585,
+    unit: "personnes"
+  },
+  {
+    id: "gwr-most-participants-in-an-online-cake-tasting-event",
+    prompt: "Quel est le record du plus grand nombre de participants à une dégustation de gâteau en ligne ?",
+    answer: 166,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-tallest-freestanding-structure",
+    prompt: "Quel est le record de la structure autoportante la plus haute ?",
+    answer: 828,
+    unit: "mètres"
+  },
+  {
+    id: "gwr-most-triple-under-crossovers-criss-cross-while-skipping-backwards-in-30-seconds",
+    prompt: "Quel est le record du plus grand nombre de « triple unders crossovers (criss-cross) » en sautant à la corde à reculons en 30 secondes ?",
+    answer: 43,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-longest-bicycle-switchback-wheelie",
+    prompt: "Quel est le record du plus long wheeling « switchback » à vélo ?",
+    answer: 331.78,
+    unit: "mètres"
+  },
+  {
+    id: "gwr-most-consecutive-wins-by-a-team-in-the-fa-women-s-super-league",
+    prompt: "Quel est le record du plus grand nombre de victoires consécutives par une équipe en FA Women’s Super League ?",
+    answer: 14,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-school-snacks-delivered-in-a-year",
+    prompt: "Quel est le record du plus grand nombre de collations scolaires livrées en un an ?",
+    answer: 600426453,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-freshwater-fish-species",
+    prompt: "Quel est le record de la plus grande espèce de poisson d’eau douce ?",
+    answer: 300,
+    unit: "kilogrammes"
+  },
+  {
+    id: "gwr-highest-installed-solar-power-capacity-country",
+    prompt: "Quel est le record de la plus grande capacité solaire installée (pays) ?",
+    answer: 204700,
+    unit: "mégawatt"
+  },
+  {
+    id: "gwr-most-consecutive-jump-rope-triple-unders-male",
+    prompt: "Quel est le record du plus grand nombre de « triple unders » consécutifs à la corde à sauter (homme) ?",
+    answer: 1052,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-appearances-in-the-rugby-union-english-premiership",
+    prompt: "Quel est le record du plus grand nombre d’apparitions en Premiership anglaise de rugby à XV ?",
+    answer: 318,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-goals-scored-at-a-uefa-womens-european-championships-by-a-football-soccer-player",
+    prompt: "Quel est le record du plus grand nombre de buts marqués aux Championnats d’Europe féminins de l’UEFA par une joueuse de football ?",
+    answer: 6,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-heaviest-combined-weight-throwing-people-over-a-bar-in-three-minutes-male",
+    prompt: "Quel est le record du poids total le plus élevé (cumulé) en projetant des personnes par-dessus une barre en trois minutes (homme) ?",
+    answer: 1203.6,
+    unit: "kilogrammes"
+  },
+  {
+    id: "gwr-highest-grossing-merfolk-movie",
+    prompt: "Quel est le record du film de sirènes (« merfolk ») ayant généré le plus de recettes ?",
+    answer: 525018479,
+    unit: "dollars US"
+  },
+  {
+    id: "gwr-most-handball-goals-at-a-single-olympic-games-male",
+    prompt: "Quel est le record du plus grand nombre de buts de handball marqués lors d’une seule édition des Jeux olympiques (homme) ?",
+    answer: 61,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-lens-in-a-lighthouse-relative-to-size",
+    prompt: "Quel est le record de la plus grande lentille de phare (rapportée à la taille) ?",
+    answer: 26,
+    unit: "pourcentage"
+  },
+  {
+    id: "gwr-most-football-soccer-penalties-taken-in-one-hour-la1",
+    prompt: "Quel est le record du plus grand nombre de penalties tirés au football en une heure (LA1) ?",
+    answer: 356,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-plastic-material-sculpture-of-a-sphere-supported",
+    prompt: "Quel est le record de la plus grande sculpture en plastique d’une sphère (supportée) ?",
+    answer: 10.02,
+    unit: "mètres"
+  },
+  {
+    id: "gwr-most-subscribers-for-an-entertainment-channel-on-youtube",
+    prompt: "Quel est le record du plus grand nombre d’abonnés pour une chaîne YouTube de divertissement ?",
+    answer: 146720986,
+    unit: "abonnés"
+  },
+  {
+    id: "gwr-heaviest-brain-in-humans",
+    prompt: "Quel est le record du cerveau humain le plus lourd ?",
+    answer: 2850,
+    unit: "grammes"
+  },
+  {
+    id: "gwr-tallest-brussel-sprout-plant",
+    prompt: "Quel est le record du plant de choux de Bruxelles le plus haut ?",
+    answer: 3.35,
+    unit: "mètres"
+  },
+  {
+    id: "gwr-most-riffle-shuffles-of-a-deck-of-playing-cards-in-one-minute",
+    prompt: "Quel est le record du plus grand nombre de mélanges « à l’américaine » (riffle shuffles) d’un jeu de cartes en une minute ?",
+    answer: 35,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-hula-hoop-rotations-around-one-knee-in-one-minute",
+    prompt: "Quel est le record du plus grand nombre de rotations de hula-hoop autour d’un genou en une minute ?",
+    answer: 209,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-margin-of-victory-in-a-wnba-playoff-game",
+    prompt: "Quel est le record du plus grand écart de victoire lors d’un match de playoffs WNBA ?",
+    answer: 38,
+    unit: "points"
+  },
+  {
+    id: "gwr-most-no-1-albums-on-the-us-billboard-200-in-a-calendar-year-female",
+    prompt: "Quel est le record du plus grand nombre d’albums n°1 au Billboard 200 (USA) sur une année civile (femme) ?",
+    answer: 3,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-fina-swimming-world-cup-titles-male",
+    prompt: "Quel est le record du plus grand nombre de titres en Coupe du monde de natation FINA (homme) ?",
+    answer: 4,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-collection-of-kansas-city-chiefs-memorabilia",
+    prompt: "Quel est le record de la plus grande collection de souvenirs des Kansas City Chiefs ?",
+    answer: 1110,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-viewers-for-an-entrepreneurial-live-stream-on-a-bespoke-platform",
+    prompt: "Quel est le record du plus grand nombre de spectateurs pour un live entrepreneurial sur une plateforme dédiée ?",
+    answer: 33819,
+    unit: "personnes"
+  },
+  {
+    id: "gwr-most-remote-controlled-rc-fixed-wing-aircrafts-manually-flown-simultaneously",
+    prompt: "Quel est le record du plus grand nombre d’avions radiocommandés (RC) à voilure fixe pilotés manuellement simultanément ?",
+    answer: 2,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-valuable-cryptocurrency",
+    prompt: "Quel est le record de la cryptomonnaie ayant la plus grande valeur (capitalisation) ?",
+    answer: 816693608869,
+    unit: "dollars US"
+  },
+  {
+    id: "gwr-greatest-distance-on-an-electric-motor-scooter-in-24-hours-individual",
+    prompt: "Quel est le record de la plus grande distance parcourue en trottinette électrique en 24 heures (individuel) ?",
+    answer: 1158.72,
+    unit: "kilomètres"
+  },
+  {
+    id: "gwr-most-full-contact-martial-arts-kicks-on-a-treadmill-in-30-seconds",
+    prompt: "Quel est le record du plus grand nombre de coups de pied d’arts martiaux en plein contact sur tapis de course en 30 secondes ?",
+    answer: 91,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-people-performing-the-wheel-pose-simultaneously-yoga",
+    prompt: "Quel est le record du plus grand nombre de personnes réalisant simultanément la posture de la roue (yoga) ?",
+    answer: 351,
+    unit: "personnes"
+  },
+  {
+    id: "gwr-highest-annual-earnings-for-a-film-actor-current-year",
+    prompt: "Quel est le record des gains annuels les plus élevés pour un acteur de cinéma (année en cours) ?",
+    answer: 73000000,
+    unit: "dollars US"
+  },
+  {
+    id: "gwr-longest-journey-by-stand-up-paddleboard-sup",
+    prompt: "Quel est le record du plus long voyage en stand up paddle (SUP) ?",
+    answer: 2677.34,
+    unit: "kilomètres"
+  },
+  {
+    id: "gwr-most-winning-drives-in-fourth-quarter-or-overtime-by-an-nfl-quarterback",
+    prompt: "Quel est le record du plus grand nombre de séries victorieuses (« winning drives ») dans le 4e quart-temps ou en prolongation par un quarterback NFL ?",
+    answer: 55,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-doughnut-mosaic-logo",
+    prompt: "Quel est le record du plus grand logo en mosaïque de donuts ?",
+    answer: 83.91,
+    unit: "m²"
+  },
+  {
+    id: "gwr-most-hula-hoop-rotations-around-the-knees-in-one-minute",
+    prompt: "Quel est le record du plus grand nombre de rotations de hula-hoop autour des genoux en une minute ?",
+    answer: 213,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-light-art-festival",
+    prompt: "Quel est le record du plus grand festival d’art lumineux ?",
+    answer: 201,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-longest-bowling-run-up-male",
+    prompt: "Quel est le record de la plus longue course d’élan (« run-up ») au cricket (homme) ?",
+    answer: 24.36,
+    unit: "kilomètres"
+  },
+  {
+    id: "gwr-largest-tongue-circumference-female",
+    prompt: "Quel est le record du plus grand tour de langue (femme) ?",
+    answer: 13.83,
+    unit: "centimètres"
+  },
+  {
+    id: "gwr-most-wins-of-the-fiba-3x3-world-cup-men",
+    prompt: "Quel est le record du plus grand nombre de victoires en Coupe du monde FIBA 3x3 (hommes) ?",
+    answer: 6,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-nfl-postseason-touchdown-passes-in-a-career",
+    prompt: "Quel est le record du plus grand nombre de passes de touchdown en playoffs NFL sur une carrière ?",
+    answer: 88,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-tony-award-nominations-for-a-play",
+    prompt: "Quel est le record du plus grand nombre de nominations aux Tony Awards pour une pièce de théâtre ?",
+    answer: 13,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-heaviest-eggplant-aubergine",
+    prompt: "Quel est le record de l’aubergine la plus lourde ?",
+    answer: 5.078,
+    unit: "kilogrammes"
+  },
+  {
+    id: "gwr-largest-pixel-art-mural",
+    prompt: "Quel est le record de la plus grande fresque en pixel art ?",
+    answer: 134.23,
+    unit: "m²"
+  },
+  {
+    id: "gwr-most-wins-of-the-football-soccer-concacaf-gold-cup-by-a-team-male",
+    prompt: "Quel est le record du plus grand nombre de victoires en Gold Cup CONCACAF au football par une équipe (hommes) ?",
+    answer: 10,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-fastest-selling-album-in-the-us-by-a-country-artist",
+    prompt: "Quel est le record de l’album le plus rapidement vendu aux États-Unis par un artiste country ?",
+    answer: 1208000,
+    unit: "unités vendues"
+  },
+  {
+    id: "gwr-largest-lighthouse-lenses",
+    prompt: "Quel est le record des plus grandes lentilles de phare ?",
+    answer: 1330,
+    unit: "millimètres"
+  },
+  {
+    id: "gwr-most-360-degree-spins-while-hanging-upside-down-from-aerial-straps-in-one-minute-male",
+    prompt: "Quel est le record du plus grand nombre de rotations à 360° en étant suspendu la tête en bas à des sangles aériennes en une minute (homme) ?",
+    answer: 164,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-best-selling-debut-album-in-the-uk-by-a-female-artist",
+    prompt: "Quel est le record du premier album (« debut ») le plus vendu au Royaume-Uni par une artiste (femme) ?",
+    answer: 3170000,
+    unit: "unités vendues"
+  },
+  {
+    id: "gwr-heaviest-bony-fish",
+    prompt: "Quel est le record du poisson osseux le plus lourd ?",
+    answer: 2.744,
+    unit: "tonnes (métriques)"
+  },
+  {
+    id: "gwr-most-football-soccer-passes-with-the-soles-in-30-seconds-team-of-two",
+    prompt: "Quel est le record du plus grand nombre de passes au football avec les semelles en 30 secondes (équipe de deux) ?",
+    answer: 33,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-paddle-board-yoga-class",
+    prompt: "Quel est le record du plus grand cours de yoga sur paddle ?",
+    answer: 305,
+    unit: "personnes"
+  },
+  {
+    id: "gwr-largest-mexican-folk-dance",
+    prompt: "Quel est le record de la plus grande danse folklorique mexicaine ?",
+    answer: 1095,
+    unit: "personnes"
+  },
+  {
+    id: "gwr-most-runs-scored-in-one-day-internationals-female",
+    prompt: "Quel est le record du plus grand nombre de runs marqués en matchs internationaux d’un jour (« One Day Internationals ») (femme) ?",
+    answer: 7805,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-social-media-marketing-lesson",
+    prompt: "Quel est le record de la plus grande leçon de marketing sur les réseaux sociaux ?",
+    answer: 2185,
+    unit: "personnes"
+  },
+  {
+    id: "gwr-largest-online-photo-album-of-oaths-pledges",
+    prompt: "Quel est le record du plus grand album photo en ligne de serments / engagements ?",
+    answer: 138454,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-longest-glass-bottomed-bridge",
+    prompt: "Quel est le record du plus long pont à fond de verre ?",
+    answer: 526.14,
+    unit: "mètres"
+  },
+  {
+    id: "gwr-most-lateral-bench-hop-overs-in-one-minute-male",
+    prompt: "Quel est le record du plus grand nombre de sauts latéraux par-dessus un banc en une minute (homme) ?",
+    answer: 111,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-powerful-rocket-lift-capacity-current",
+    prompt: "Quel est le record de la capacité d’emport (« lift capacity ») la plus élevée pour une fusée (actuelle) ?",
+    answer: 95000,
+    unit: "kilogrammes"
+  },
+  {
+    id: "gwr-largest-waltz",
+    prompt: "Quel est le record de la plus grande valse ?",
+    answer: 1598,
+    unit: "paires"
+  },
+  {
+    id: "gwr-most-consecutive-samurai-sword-juggling-catches-three-swords",
+    prompt: "Quel est le record du plus grand nombre de réceptions consécutives en jonglant avec des sabres de samouraï (trois sabres) ?",
+    answer: 191,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-cumulative-weeks-on-uk-albums-chart-group-individual-album",
+    prompt: "Quel est le record du plus grand nombre cumulé de semaines dans le classement des albums au Royaume-Uni (groupe / album individuel) ?",
+    answer: 828,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-license-plates-torn-in-one-minute",
+    prompt: "Quel est le record du plus grand nombre de plaques d’immatriculation déchirées en une minute ?",
+    answer: 29,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-robots-dancing-simultaneously",
+    prompt: "Quel est le record du plus grand nombre de robots dansant simultanément ?",
+    answer: 1372,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-competitive-147-breaks-in-snooker",
+    prompt: "Quel est le record du plus grand nombre de breaks de 147 en snooker en compétition ?",
+    answer: 17,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-most-expensive-city-to-eat-in-restaurants",
+    prompt: "Quel est le record de la ville la plus chère pour manger au restaurant ?",
+    answer: 72.3,
+    unit: "livres sterling"
+  },
+  {
+    id: "gwr-most-participants-in-an-underwater-clean-up-in-12-hours",
+    prompt: "Quel est le record du plus grand nombre de participants à un nettoyage sous-marin en 12 heures ?",
+    answer: 597,
+    unit: "personnes"
+  },
+  {
+    id: "gwr-fewest-games-for-a-coach-to-win-250-nba-matches",
+    prompt: "Quel est le record du plus petit nombre de matchs nécessaires à un coach pour atteindre 250 victoires NBA ?",
+    answer: 250,
+    unit: "nombre total"
+  },
+  {
+    id: "gwr-largest-deep-water-reef",
+    prompt: "Quel est le record du plus grand récif d’eau profonde ?",
+    answer: 100,
+    unit: "km²"
+  },
+  {
+    id: "gwr-most-consecutive-juggling-catches-3-mauls",
+    prompt: "Quel est le record du plus grand nombre de réceptions consécutives en jonglage (3 massues) ?",
+    answer: 122,
+    unit: "nombre total"
+  },
 ];
 
 export const DEFAULT_QUESTION = QUESTION_BANK[0];
