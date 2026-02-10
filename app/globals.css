@@ -37,6 +37,18 @@ body {
   background-attachment: fixed;
 }
 
+@supports (-webkit-touch-callout: none) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .card {
+    backdrop-filter: none;
+    animation: none;
+    transform: none;
+  }
+}
+
 main {
   width: min(1100px, 92vw);
   margin: 0 auto;
@@ -227,6 +239,15 @@ button,
 input,
 select {
   font: inherit;
+}
+
+input,
+select,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 button {
