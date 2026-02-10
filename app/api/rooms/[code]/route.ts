@@ -601,11 +601,12 @@ export async function POST(
           { status: 400 }
         );
       }
-      const answer =
+      const normalized =
         body?.answer === "" || body?.answer === null || body?.answer === undefined
           ? null
-          : Number.parseInt(String(body?.answer), 10);
-      player.answer = Number.isFinite(answer) ? answer : null;
+          : String(body?.answer).trim().replace(/\s/g, "").replace(",", ".");
+      const parsed = normalized === null ? null : Number.parseFloat(normalized);
+      player.answer = Number.isFinite(parsed as number) ? parsed : null;
       break;
     }
     case "toggleGambit": {

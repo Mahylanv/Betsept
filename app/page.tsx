@@ -10,6 +10,7 @@ type Player = {
   name: string;
   score: number;
   answer: number | null;
+  answerDraft?: string;
   votes: string[];
   gambitActive: boolean;
   gambitTarget: string;
@@ -140,6 +141,8 @@ const SLOT_BY_ID: Map<string, BoardSlot> = new Map(
   [BELOW_SLOT, ...ANSWER_SLOTS].map((slot) => [slot.id, slot])
 );
 
+const STORAGE_KEY = "betsept.local.v1";
+
 const phaseLabels: Record<Phase, string> = {
   setup: "Preparation",
   answer: "Reponses",
@@ -228,7 +231,9 @@ export default function HomePage() {
   const [error, setError] = useState<string | null>(null);
   const [lastRound, setLastRound] = useState<RoundResult | null>(null);
   const [currentVoterIndex, setCurrentVoterIndex] = useState(0);
-  const [activeTab, setActiveTab] = useState<"game" | "rules">("game");
+  const [activeTab, setActiveTab] = useState<"game" | "scores" | "rules">(
+    "game"
+  );
   const [mode, setMode] = useState<"local" | "online">("local");
   const [onlineRoom, setOnlineRoom] = useState<OnlineRoom | null>(null);
   const [onlinePlayerId, setOnlinePlayerId] = useState<string | null>(null);
@@ -238,6 +243,77 @@ export default function HomePage() {
   const [onlineError, setOnlineError] = useState<string | null>(null);
   const [onlineLoading, setOnlineLoading] = useState(false);
   const [now, setNow] = useState(Date.now());
+  const [hasHydrated, setHasHydrated] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      return;
+    }
+    try {
+      const data = JSON.parse(raw) as {
+        version?: number;
+        mode?: "local" | "online";
+        phase?: Phase;
+        players?: Player[];
+        round?: number;
+        currentQuestion?: Question | null;
+        questionDeck?: Question[];
+        lastRound?: RoundResult | null;
+        currentVoterIndex?: number;
+      };
+      if (data?.version !== 1 || data.mode !== "local") {
+        return;
+      }
+      setMode("local");
+      setPhase(data.phase ?? "setup");
+      setPlayers(Array.isArray(data.players) ? data.players : []);
+      setRound(typeof data.round === "number" ? data.round : 1);
+      setCurrentQuestion(data.currentQuestion ?? null);
+      setQuestionDeck(
+        Array.isArray(data.questionDeck)
+          ? data.questionDeck
+          : shuffleQuestions(QUESTION_BANK)
+      );
+      setLastRound(data.lastRound ?? null);
+      setCurrentVoterIndex(
+        typeof data.currentVoterIndex === "number" ? data.currentVoterIndex : 0
+      );
+    } catch {
+      window.localStorage.removeItem(STORAGE_KEY);
+    }
+    setHasHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hasHydrated || mode !== "local" || typeof window === "undefined") {
+      return;
+    }
+    const payload = {
+      version: 1,
+      mode: "local",
+      phase,
+      players,
+      round,
+      currentQuestion,
+      questionDeck,
+      lastRound,
+      currentVoterIndex
+    };
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  }, [
+    mode,
+    phase,
+    players,
+    round,
+    currentQuestion,
+    questionDeck,
+    lastRound,
+    currentVoterIndex
+  ]);
 
   useEffect(() => {
     if (players.length === 0) {
@@ -566,11 +642,17 @@ export default function HomePage() {
     setOnlineAnswer(trimmed);
   }, [mode, onlinePhase, answerTimeLeft, onlineSelf, onlineAnswerDraft]);
 
-  const canEditPlayers = phase === "setup";
+  const canEditPlayers = phase === "setup" && round === 1;
   const canStartRound =
     players.length >= 2 &&
     players.length <= MAX_PLAYERS &&
     nextQuestion.prompt.trim().length > 0;
+  const maxPlayersMessage = `Le jeu se joue jusqu'a ${MAX_PLAYERS} joueurs.`;
+  const maxPlayersError = error === maxPlayersMessage;
+  const gameStarted = round > 1 || phase !== "setup";
+  const phaseSteps: Phase[] = gameStarted
+    ? ["answer", "bet", "score"]
+    : ["setup", "answer", "bet", "score"];
 
   const leaderboard = useMemo(
     () => [...players].sort((a, b) => b.score - a.score),
@@ -743,7 +825,7 @@ export default function HomePage() {
       return;
     }
     if (players.length >= MAX_PLAYERS) {
-      setError(`Le jeu se joue jusqu'a ${MAX_PLAYERS} joueurs.`);
+      setError(maxPlayersMessage);
       return;
     }
     setPlayers((prev) => [
@@ -753,6 +835,7 @@ export default function HomePage() {
         name: trimmed,
         score: 0,
         answer: null,
+        answerDraft: "",
         votes: ["", ""],
         gambitActive: false,
         gambitTarget: "",
@@ -775,16 +858,26 @@ export default function HomePage() {
     setPlayers((prev) => prev.filter((player) => player.id !== id));
   };
 
+  const parseNumericInput = (value: string) => {
+    const normalized = value.trim().replace(/\s/g, "").replace(",", ".");
+    if (!normalized) {
+      return null;
+    }
+    const parsed = Number.parseFloat(normalized);
+    return Number.isFinite(parsed) ? parsed : null;
+  };
+
   const updateAnswer = (id: string, value: string) => {
     setPlayers((prev) =>
       prev.map((player) => {
         if (player.id !== id) {
           return player;
         }
-        if (value === "") {
-          return { ...player, answer: null };
-        }
-        return { ...player, answer: Number.parseInt(value, 10) };
+        return {
+          ...player,
+          answerDraft: value,
+          answer: parseNumericInput(value)
+        };
       })
     );
   };
@@ -868,10 +961,13 @@ export default function HomePage() {
     setError(null);
   };
 
-  const startRound = () => {
+  const startRound = (advanceRound = false) => {
     if (!canStartRound) {
       setError("Ajoutez au moins deux joueurs et choisissez une question.");
       return;
+    }
+    if (advanceRound) {
+      setRound((prev) => prev + 1);
     }
     const nextDeck = questionDeck.length
       ? [...questionDeck]
@@ -882,6 +978,7 @@ export default function HomePage() {
       prev.map((player) => ({
         ...player,
         answer: null,
+        answerDraft: "",
         votes: ["", ""],
         gambitActive: false,
         gambitTarget: "",
@@ -950,7 +1047,7 @@ export default function HomePage() {
       return;
     }
     if (!votesAreValid()) {
-      setError("Chaque joueur doit placer ses 2 jetons ou son Gambit avant de reveler.");
+      setError("Chaque joueur doit placer ses 2 jetons ou son Gambit avant de révéler.");
       return;
     }
 
@@ -1074,10 +1171,7 @@ export default function HomePage() {
   };
 
   const nextRound = () => {
-    setRound((prev) => prev + 1);
-    setCurrentQuestion(null);
-    setPhase("setup");
-    setCurrentVoterIndex(0);
+    startRound(true);
   };
 
   const resetGame = () => {
@@ -1086,6 +1180,7 @@ export default function HomePage() {
         ...player,
         score: 0,
         answer: null,
+        answerDraft: "",
         votes: ["", ""],
         gambitActive: false,
         gambitTarget: "",
@@ -1101,6 +1196,12 @@ export default function HomePage() {
     setError(null);
   };
 
+  const confirmResetGame = () => {
+    if (window.confirm("Etes vous sur de vouloir quitter la partie en cours ?")) {
+      resetGame();
+    }
+  };
+
   const formatTarget = (targetId: string, unit?: string) => {
     if (!targetId) {
       return "-";
@@ -1110,14 +1211,14 @@ export default function HomePage() {
       return "-";
     }
     if (slot.slotIndex === null) {
-      return "Sous toutes les reponses";
+      return "Sous toutes les réponses";
     }
     const assignment = answerAssignments[slot.slotIndex];
     if (!assignment) {
       return `${getSlotPositionLabel(slot.slotIndex)} (vide)`;
     }
     const playersLabel = assignment.players.map((player) => player.name).join(", ");
-    return `${getSlotPositionLabel(slot.slotIndex)}: ${assignment.value} ${
+    return `${getSlotPositionLabel(slot.slotIndex)} ${assignment.value} ${
       unit ?? ""
     } (${playersLabel})`;
   };
@@ -1125,6 +1226,7 @@ export default function HomePage() {
   return (
     <main>
       <header>
+        <img className="logo" src="/BetSept.png" alt="BetSept" />
         <h1>Betsept</h1>
       </header>
 
@@ -1138,6 +1240,13 @@ export default function HomePage() {
         </button>
         <button
           type="button"
+          className={`tab-button ${activeTab === "scores" ? "active" : ""}`}
+          onClick={() => setActiveTab("scores")}
+        >
+          Scores
+        </button>
+        <button
+          type="button"
           className={`tab-button ${activeTab === "rules" ? "active" : ""}`}
           onClick={() => setActiveTab("rules")}
         >
@@ -1147,362 +1256,412 @@ export default function HomePage() {
 
       {activeTab === "game" ? (
         <>
-          <section className="card row">
-            <h2>Mode de jeu</h2>
-            <div className="mode-switch">
-              <button
-                type="button"
-                className={`mode-button ${mode === "local" ? "active" : ""}`}
-                onClick={() => setMode("local")}
-              >
-                Local
-              </button>
-              <button
-                type="button"
-                className={`mode-button ${mode === "online" ? "active" : ""}`}
-                onClick={() => setMode("online")}
-              >
-                Reseau
-              </button>
-            </div>
-            {mode === "online" && (
-              <p>
-                Chaque joueur joue sur son appareil via un code de partie partage.
-              </p>
-            )}
-          </section>
+          {((mode === "local" && phase === "setup" && round === 1) ||
+            (mode === "online" && !onlineRoom)) && (
+            <section className="card panel-group">
+              <div className="panel-section panel-block">
+                <h2>Mode de jeu</h2>
+                <div className="mode-switch">
+                  <button
+                    type="button"
+                    className={`mode-button ${mode === "local" ? "active" : ""}`}
+                    onClick={() => setMode("local")}
+                  >
+                    Local
+                  </button>
+                  <button
+                    type="button"
+                    className={`mode-button ${mode === "online" ? "active" : ""}`}
+                    onClick={() => setMode("online")}
+                  >
+                    Reseau
+                  </button>
+                </div>
+                {mode === "online" && (
+                  <p>
+                    Chaque joueur joue sur son appareil via un code de partie partage.
+                  </p>
+                )}
+              </div>
+            </section>
+          )}
 
           {mode === "local" ? (
             <>
-              <section className="card">
-            <div className="phase">
-              {(Object.keys(phaseLabels) as Phase[]).map((step) => (
-                <span key={step} className={phase === step ? "active" : ""}>
-                  {phaseLabels[step]}
-                </span>
-              ))}
-            </div>
-              </section>
-
-              <section className="grid two">
-        <div className="card row">
-          <h2>Manche {round}</h2>
-          {currentQuestion ? (
-            <div>
-              <p className="badge">Question en cours</p>
-              <p>
-                {currentQuestion.prompt} <br />
-                <span className="highlight">Reponse revelee en fin de manche</span>
-              </p>
-            </div>
-          ) : (
-            <p className="badge">Choisir la prochaine question</p>
-          )}
-          {phase === "setup" && (
-            <div className="grid">
-              <div className="grid">
-                <p>
-                  <strong>Prochaine question:</strong> {nextQuestion.prompt}
-                </p>
-                <div className="footer-actions">
-                  <button className="secondary" onClick={drawRandomQuestion}>
-                    Tirer une autre question
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          )}
-          <div className="footer-actions">
-            <button className="ghost reset-button" onClick={resetGame}>
-              Reinitialiser la partie
-            </button>
-          </div>
-        </div>
-        <div className="card row">
-          <h2>Joueurs</h2>
-          {players.length === 0 && <p>Aucun joueur pour le moment.</p>}
-          <div className="player-list">
-            {players.map((player) => (
-              <div className="player-row" key={player.id}>
-                <input
-                  type="text"
-                  value={player.name}
-                  disabled={!canEditPlayers}
-                  onChange={(event) => updatePlayerName(player.id, event.target.value)}
-                />
-                {phase === "answer" && (
-                  <input
-                    type="number"
-                    placeholder="Reponse"
-                    value={player.answer ?? ""}
-                    onChange={(event) => updateAnswer(player.id, event.target.value)}
-                  />
-                )}
-                {phase !== "answer" && <span className="badge">Score {player.score}</span>}
-                {canEditPlayers && (
-                  <button className="ghost" onClick={() => removePlayer(player.id)}>
-                    Retirer
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-          {canEditPlayers && (
-            <div className="player-row">
-              <input
-                type="text"
-                placeholder="Nouveau joueur"
-                value={newPlayerName}
-                onChange={(event) => setNewPlayerName(event.target.value)}
-              />
-              <button onClick={addPlayer}>Ajouter</button>
-            </div>
-          )}
-          {players.length > MAX_PLAYERS && (
-            <div className="error">Trop de joueurs pour Gambit 7.</div>
-          )}
-        </div>
-              </section>
-
-              <section className="card row scoreboard-card">
-                <div className="scoreboard-header">
-                  <h2>Tableau des scores</h2>
-                  <span className="badge">Manche {round}</span>
-                </div>
-                {leaderboard.length === 0 ? (
-                  <p>Aucun score pour le moment.</p>
-                ) : (
-                  <table className="score-table">
-                    <thead>
-                      <tr>
-                        <th>Rang</th>
-                        <th>Joueur</th>
-                        <th>Progression</th>
-                        <th>Score</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {leaderboard.map((player, index) => (
-                        <tr key={`score-${player.id}`}>
-                          <td>
-                            <span className={`rank-badge ${getRankClass(index)}`}>
-                              #{index + 1}
-                            </span>
-                          </td>
-                          <td>{player.name}</td>
-                          <td>
-                            <div className="score-meter">
-                              <span
-                                style={{
-                                  width: `${(player.score / maxScore) * 100}%`
-                                }}
+              <section className="card panel-group">
+                <div className="panel-section panel-block">
+                  <div className="phase">
+                    {phaseSteps.map((step) => (
+                      <span key={step} className={phase === step ? "active" : ""}>
+                        {phaseLabels[step]}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="panel-split">
+                    <div className="panel-block">
+                      <h2>Manche {round}</h2>
+                      {phase === "setup" ? (
+                        <div className="grid">
+                          <div className="grid">
+                            <p>
+                              <strong>{nextQuestion.prompt}</strong>
+                              {nextQuestion.unit && (
+                                <>
+                                  <br />
+                                  <span className="unit-hint">
+                                    (en {nextQuestion.unit})
+                                  </span>
+                                </>
+                              )}
+                            </p>
+                            <div className="footer-actions">
+                              <button
+                                className="secondary"
+                                onClick={drawRandomQuestion}
+                              >
+                                Tirer une autre question
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ) : currentQuestion ? (
+                        <div>
+                          <p>
+                            {currentQuestion.prompt} <br />
+                            {currentQuestion.unit && (
+                              <>
+                                <span className="unit-hint">
+                                  (en {currentQuestion.unit})
+                                </span>
+                              </>
+                            )}
+                          </p>
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="panel-block">
+                      <h2>Joueurs</h2>
+                      {canEditPlayers && (
+                        <div className="player-row actions">
+                          <input
+                            type="text"
+                            placeholder="Nouveau joueur"
+                            value={newPlayerName}
+                            onChange={(event) =>
+                              setNewPlayerName(event.target.value)
+                            }
+                          />
+                          {maxPlayersError && (
+                            <div className="error inline">{maxPlayersMessage}</div>
+                          )}
+                          <div className="player-actions split">
+                            <div className="left-actions">
+                              <button onClick={addPlayer}>Ajouter</button>
+                            </div>
+                            {phase === "setup" && (
+                              <div className="right-actions">
+                                <button
+                                  className="button-alt"
+                                onClick={() => startRound()}
+                                disabled={!canStartRound}
+                              >
+                                Demarrer la manche
+                              </button>
+                            </div>
+                          )}
+                          </div>
+                        </div>
+                      )}
+                      {players.length > MAX_PLAYERS && (
+                        <div className="error">
+                          Trop de joueurs.
+                        </div>
+                      )}
+                      {players.length === 0 && <p>Aucun joueur pour le moment.</p>}
+                      <div className="player-list">
+                        {players.map((player) => (
+                          <div
+                            className={`player-row ${
+                              phase === "bet" && activeVoter?.id === player.id
+                                ? "is-active"
+                                : ""
+                            }`}
+                            key={player.id}
+                          >
+                            <div className="player-identity">
+                              {canEditPlayers && (
+                                <button
+                                  type="button"
+                                  className="icon-button"
+                                  aria-label="Retirer"
+                                  title="Retirer"
+                                  onClick={() => removePlayer(player.id)}
+                                >
+                                  <span
+                                    className="icon-minus"
+                                    aria-hidden="true"
+                                  />
+                                </button>
+                              )}
+                              <input
+                                type="text"
+                                value={player.name}
+                                disabled={!canEditPlayers}
+                                onChange={(event) =>
+                                  updatePlayerName(player.id, event.target.value)
+                                }
                               />
                             </div>
-                          </td>
-                          <td className="score-value">{player.score}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </section>
-
-              {phase === "setup" && (
-                <section className="card row">
-          <h2>Lancer la manche</h2>
-          <p>
-            La reponse gagnante est la plus proche sans depasser la valeur exacte.
-            Les votes gagnants utilisent le bareme unique/multi, la reponse gagnante
-            marque le bareme "plusieurs".
-          </p>
-          <div className="footer-actions">
-            <button onClick={startRound} disabled={!canStartRound}>
-              Demarrer la manche
-            </button>
-          </div>
-                </section>
-              )}
-
-              {phase === "answer" && (
-                <section className="card row">
-          <h2>Saisir les reponses</h2>
-          <p>
-            Chaque joueur donne un entier numerique. Les reponses seront ensuite
-            classees du plus petit au plus grand sur le plateau.
-          </p>
-          <div className="footer-actions">
-            <button onClick={lockAnswers}>Verrouiller les reponses</button>
-          </div>
-                </section>
-              )}
-
-
-              {phase === "bet" && (
-                <section className="card row">
-          <h2>Votes</h2>
-          <p>
-            Chacun son tour, cliquez sur une case du plateau pour poser vos 2 jetons
-            ou le jeton Gambit 7 (utilisable a chaque manche).
-          </p>
-          <div className="bet-turn">
-            <div className="bet-turn-info">
-              <p className="badge">
-                Tour de {activeVoter ? activeVoter.name : "-"}
-              </p>
-              <p>
-                {activeVoter
-                  ? activeVoter.gambitActive
-                    ? activeVoter.gambitTarget
-                      ? "Gambit 7 place. Vous pouvez passer au joueur suivant."
-                      : "Cliquez sur une case pour placer le jeton Gambit 7."
-                    : activeVoterTokenCount >= activeVoterTokenLimit
-                    ? "Deux jetons poses. Vous pouvez passer au joueur suivant."
-                    : `Cliquez sur une case pour poser le jeton ${
-                        activeVoterTokenCount + 1
-                      } / ${activeVoterTokenLimit}.`
-                  : "Ajoutez des joueurs pour commencer les votes."}
-              </p>
-              {players.length > 0 && (
-                <p className="badge">
-                  {completedVoters}/{players.length} joueurs ont vote
-                </p>
-              )}
-            </div>
-            <div className="footer-actions">
-              <button
-                className={activeVoter?.gambitActive ? "" : "secondary"}
-                disabled={!activeVoter}
-                onClick={() =>
-                  activeVoter &&
-                  toggleGambit(activeVoter.id, !activeVoter.gambitActive)
-                }
-              >
-                {activeVoter?.gambitActive
-                  ? "Annuler Gambit 7"
-                  : "Utiliser Gambit 7"}
-              </button>
-              <button
-                className="ghost"
-                disabled={
-                  !activeVoter ||
-                  (activeVoter.gambitActive
-                    ? !activeVoter.gambitTarget
-                    : !activeVoter.votes.some((vote) => vote))
-                }
-                onClick={clearActiveVoterLastToken}
-              >
-                Annuler dernier jeton
-              </button>
-              <button
-                disabled={!activeVoter || !activeVoterDone || allVotesPlaced}
-                onClick={advanceToNextVoter}
-              >
-                Joueur suivant
-              </button>
-            </div>
-          </div>
-          <div className="bet-board">
-            {boardSlotsForDisplay.map((slot) => {
-              const tokens = tokensByTarget[slot.id] ?? [];
-              const assignment =
-                slot.slotIndex === null ? null : answerAssignments[slot.slotIndex];
-              const hasAnswer = slot.slotIndex === null || !!assignment;
-              const positionLabel = getSlotPositionLabel(slot.slotIndex);
-              const isSelectedByActive = activeVoter
-                ? activeVoter.gambitActive
-                  ? activeVoter.gambitTarget === slot.id
-                  : activeVoter.votes.includes(slot.id)
-                : false;
-              return (
-                <button
-                  key={`bet-slot-${slot.id}`}
-                  type="button"
-                  className={`board-slot slot-${slot.tier} ${
-                    isSelectedByActive ? "selected" : ""
-                  }`}
-                  disabled={!activeVoter || !hasAnswer}
-                  onClick={() => placeTokenForActiveVoter(slot.id)}
-                >
-                  <div className="slot-head">
-                    {positionLabel && (
-                      <span className="slot-index">{positionLabel}</span>
-                    )}
-                    <span className="slot-points">
-                      {slot.slotIndex === null ? (
-                        <span className="slot-points-row">
-                          <span className="player-icon" aria-hidden="true" />
-                          <span className="slot-points-value">
-                            {slot.pointsShared}
-                          </span>
-                        </span>
-                      ) : (
-                        <>
-                          <span className="slot-points-row">
-                            <span className="player-icon" aria-hidden="true" />
-                            <span className="slot-points-value">
-                              {slot.pointsUnique}
-                            </span>
-                          </span>
-                          <span className="slot-points-row secondary">
-                            <span className="slot-points-icons">
-                              <span className="player-icon" aria-hidden="true" />
-                              <span className="plus-icon" aria-hidden="true" />
-                            </span>
-                            <span className="slot-points-value">
-                              {slot.pointsShared}
-                            </span>
-                          </span>
-                        </>
+                            {phase === "answer" && (
+                              <input
+                                type="text"
+                                inputMode="decimal"
+                                pattern="[-]?[0-9]*[.,]?[0-9]*"
+                                placeholder="Reponse"
+                                value={player.answerDraft ?? player.answer ?? ""}
+                                onChange={(event) =>
+                                  updateAnswer(player.id, event.target.value)
+                                }
+                              />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      {phase === "setup" && !canEditPlayers && (
+                        <div className="footer-actions split">
+                          <div className="right-actions">
+                            <button
+                              className="button-alt"
+                              onClick={() => startRound()}
+                              disabled={!canStartRound}
+                            >
+                              Demarrer la manche
+                            </button>
+                          </div>
+                        </div>
                       )}
-                    </span>
+                    </div>
                   </div>
-                  <div className="slot-answer">
-                    <span className="slot-answer-value">
-                      {slot.slotIndex === null
-                        ? "Si toutes les reponses sont au-dessus."
-                        : assignment
-                        ? `${assignment.value} ${currentQuestion?.unit ?? ""}`
-                        : "Aucune reponse"}
-                    </span>
-                  </div>
-                  {assignment && (
-                    <div className="slot-meta">
-                      <span className="slot-meta-label">Joueur</span>
-                      <span className="slot-meta-value">
-                        {assignment.players.map((player) => player.name).join(", ")}
-                      </span>
+                  {phase === "answer" && (
+                    <div className="footer-actions">
+                      <button onClick={lockAnswers}>Verrouiller les reponses</button>
                     </div>
                   )}
-                  <div className="slot-tokens">
-                    {tokens.length === 0 ? (
-                      <span className="slot-empty">Aucun jeton</span>
-                    ) : (
-                      tokens.map((token) => (
-                        <span
-                          key={token.key}
-                          className={`token-chip ${token.type} ${
-                            token.playerId === activeVoter?.id ? "active" : ""
-                          }`}
-                          title={`${token.label}${
-                            token.type === "gambit" ? " (Gambit 7)" : ""
-                          }`}
+                </div>
+              </section>
+
+              {phase === "bet" && (
+                <section className="card panel-group">
+                  <div className="panel-section panel-block">
+                    <h2>Votes</h2>
+                    <p>
+                      Chacun son tour, cliquez sur une case du plateau pour poser vos
+                      2 jetons ou le jeton Joker (utilisable a chaque manche).
+                    </p>
+                    <div>
+                      <div className="bet-turn-info" />
+                      <div className="footer-actions">
+                        <button
+                          className="ghost"
+                          disabled={
+                            !activeVoter ||
+                            (activeVoter.gambitActive
+                              ? !activeVoter.gambitTarget
+                              : !activeVoter.votes.some((vote) => vote))
+                          }
+                          onClick={clearActiveVoterLastToken}
                         >
-                          {getPlayerInitials(token.label)}
-                          {token.type === "gambit" ? "7" : ""}
-                        </span>
-                      ))
-                    )}
+                          Annuler dernier jeton
+                        </button>
+                        <button
+                          className={activeVoter?.gambitActive ? "" : "secondary"}
+                          disabled={!activeVoter}
+                          onClick={() =>
+                            activeVoter &&
+                            toggleGambit(activeVoter.id, !activeVoter.gambitActive)
+                          }
+                        >
+                          {activeVoter?.gambitActive
+                            ? "Annuler Joker"
+                            : "Utiliser Joker"}
+                        </button>
+                      </div>
+                    </div>
+                    <div className="bet-board">
+                      {boardSlotsForDisplay.map((slot) => {
+                        const tokens = tokensByTarget[slot.id] ?? [];
+                        const assignment =
+                          slot.slotIndex === null
+                            ? null
+                            : answerAssignments[slot.slotIndex];
+                        const hasAnswer = slot.slotIndex === null || !!assignment;
+                        const positionLabel = getSlotPositionLabel(slot.slotIndex);
+                        const isSelectedByActive = activeVoter
+                          ? activeVoter.gambitActive
+                            ? activeVoter.gambitTarget === slot.id
+                            : activeVoter.votes.includes(slot.id)
+                          : false;
+                        return (
+                          <button
+                            key={`bet-slot-${slot.id}`}
+                            type="button"
+                            className={`board-slot slot-${slot.tier} ${
+                              isSelectedByActive ? "selected" : ""
+                            }`}
+                            disabled={!activeVoter || !hasAnswer}
+                            onClick={() => placeTokenForActiveVoter(slot.id)}
+                          >
+                            <div className="slot-head">
+                              {positionLabel && (
+                                <span className="slot-index">{positionLabel}</span>
+                              )}
+                              <span className="slot-points">
+                                {slot.slotIndex === null ? (
+                                  <span className="slot-points-row">
+                                    <span
+                                      className="player-icon"
+                                      aria-hidden="true"
+                                    />
+                                    <span className="slot-points-value">
+                                      {slot.pointsShared}
+                                    </span>
+                                  </span>
+                                ) : (
+                                  <>
+                                    <span className="slot-points-row">
+                                      <span
+                                        className="player-icon"
+                                        aria-hidden="true"
+                                      />
+                                      <span className="slot-points-value">
+                                        {slot.pointsUnique}
+                                      </span>
+                                    </span>
+                                    <span className="slot-points-row secondary">
+                                      <span className="slot-points-icons">
+                                        <span
+                                          className="player-icon"
+                                          aria-hidden="true"
+                                        />
+                                        <span
+                                          className="plus-icon"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                      <span className="slot-points-value">
+                                        {slot.pointsShared}
+                                      </span>
+                                    </span>
+                                  </>
+                                )}
+                              </span>
+                            </div>
+                            <div className="slot-answer">
+                              <span className="slot-answer-value">
+                                {slot.slotIndex === null
+                                  ? "Si toutes les reponses sont au-dessus."
+                                  : assignment
+                                  ? `${assignment.value} ${
+                                      currentQuestion?.unit ?? ""
+                                    }`
+                                  : "Aucune reponse"}
+                              </span>
+                            </div>
+                            {assignment && (
+                              <div className="slot-meta">
+                                <span className="slot-meta-label">Joueur</span>
+                                <span className="slot-meta-value">
+                                  {assignment.players
+                                    .map((player) => player.name)
+                                    .join(", ")}
+                                </span>
+                              </div>
+                            )}
+                            <div className="slot-tokens">
+                              {tokens.length === 0 ? (
+                                <span className="slot-empty">Aucun jeton</span>
+                              ) : (
+                                tokens.map((token) => (
+                                  <span
+                                    key={token.key}
+                                    className={`token-chip ${token.type} ${
+                                      token.playerId === activeVoter?.id
+                                        ? "active"
+                                        : ""
+                                    }`}
+                                    title={`${token.label}${
+                                      token.type === "gambit"
+                                        ? " (Joker)"
+                                        : ""
+                                    }`}
+                                  >
+                                    {getPlayerInitials(token.label)}
+                                    {token.type === "gambit" ? "7" : ""}
+                                  </span>
+                                ))
+                              )}
+                            </div>
+                          </button>
+                        );
+                      })}
                   </div>
-                </button>
-              );
-            })}
-          </div>
-          <div className="footer-actions">
-            <button onClick={lockBetsAndScore} disabled={!votesAreValid()}>
-              Reveler et marquer
-            </button>
-          </div>
+                  <div className="footer-actions">
+                    {players.length > 0 && (
+                      <p className="badge">
+                        {completedVoters}/{players.length} joueurs ont voté
+                      </p>
+                    )}
+                    <button
+                      onClick={allVotesPlaced ? lockBetsAndScore : advanceToNextVoter}
+                      disabled={!activeVoter || !activeVoterDone}
+                    >
+                      {allVotesPlaced ? "Révéler la réponse" : "Joueur suivant"}
+                    </button>
+                  </div>
+                </div>
+                  <div className="panel-section panel-block">
+                    <h2>Votes posés</h2>
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>Joueur</th>
+                          <th>Jeton 1</th>
+                          <th>Jeton 2</th>
+                          <th>Gambit</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {players.map((player) => (
+                          <tr
+                            key={`votes-${player.id}`}
+                            className={
+                              player.id === activeVoter?.id ? "is-active" : ""
+                            }
+                          >
+                            <td>{player.name}</td>
+                            <td>
+                              {player.gambitActive
+                                ? "-"
+                                : formatTarget(player.votes[0], currentQuestion?.unit)}
+                            </td>
+                            <td>
+                              {player.gambitActive
+                                ? "-"
+                                : formatTarget(player.votes[1], currentQuestion?.unit)}
+                            </td>
+                            <td>
+                              {player.gambitActive
+                                ? formatTarget(
+                                    player.gambitTarget,
+                                    currentQuestion?.unit
+                                  )
+                                : "-"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </section>
               )}
 
@@ -1581,48 +1740,7 @@ export default function HomePage() {
                 </section>
               )}
 
-              {error && <div className="error">{error}</div>}
-
-              {phase === "bet" && (
-                <section className="card row">
-          <h2>Votes poses</h2>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Joueur</th>
-                <th>Jeton 1</th>
-                <th>Jeton 2</th>
-                <th>Gambit</th>
-              </tr>
-            </thead>
-            <tbody>
-              {players.map((player) => (
-                <tr
-                  key={`votes-${player.id}`}
-                  className={player.id === activeVoter?.id ? "is-active" : ""}
-                >
-                  <td>{player.name}</td>
-                  <td>
-                    {player.gambitActive
-                      ? "-"
-                      : formatTarget(player.votes[0], currentQuestion?.unit)}
-                  </td>
-                  <td>
-                    {player.gambitActive
-                      ? "-"
-                      : formatTarget(player.votes[1], currentQuestion?.unit)}
-                  </td>
-                  <td>
-                    {player.gambitActive
-                      ? formatTarget(player.gambitTarget, currentQuestion?.unit)
-                      : "-"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-                </section>
-              )}
+              {error && !maxPlayersError && <div className="error">{error}</div>}
             </>
       ) : (
         <>
@@ -1671,27 +1789,10 @@ export default function HomePage() {
             </section>
           ) : (
             <>
-              <section className="card">
-                <div className="phase">
-                  {(Object.keys(onlinePhaseLabels) as OnlinePhase[]).map(
-                    (step) => (
-                      <span
-                        key={step}
-                        className={onlinePhase === step ? "active" : ""}
-                      >
-                        {onlinePhaseLabels[step]}
-                      </span>
-                    )
-                  )}
-                </div>
-              </section>
-
-              <section className="grid two">
-                <div className="card row">
+              <section className="card panel-group">
+                <div className="panel-section panel-block">
                   <div className="room-header">
-                    <h2>
-                      Manche {onlineRound} / 7
-                    </h2>
+                    <h2>Manche {onlineRound} / 7</h2>
                     <button className="ghost" onClick={leaveOnlineRoom}>
                       Quitter
                     </button>
@@ -1708,77 +1809,36 @@ export default function HomePage() {
                       <span className="badge">Temps votes {betTimeLeft}s</span>
                     )}
                   </div>
+                  <div className="phase">
+                    {(Object.keys(onlinePhaseLabels) as OnlinePhase[]).map(
+                      (step) => (
+                        <span
+                          key={step}
+                          className={onlinePhase === step ? "active" : ""}
+                        >
+                          {onlinePhaseLabels[step]}
+                        </span>
+                      )
+                    )}
+                  </div>
                   {onlineQuestion ? (
                     <div>
-                      <p className="badge">Question en cours</p>
                       <p>
                         {onlineQuestion.prompt} <br />
-                        <span className="highlight">
-                          Reponse revelee en fin de manche
-                        </span>
+                        {onlineQuestion.unit && (
+                          <>
+                            <span className="unit-hint">
+                              (en {onlineQuestion.unit})
+                            </span>
+                            <br />
+                          </>
+                        )}
                       </p>
                     </div>
                   ) : (
                     <p className="badge">En attente du lancement...</p>
                   )}
                 </div>
-              </section>
-
-              <section className="card row scoreboard-card">
-                <div className="scoreboard-header">
-                  <h2>Tableau des scores</h2>
-                  <span className="badge">Manche {onlineRound}</span>
-                </div>
-                {onlineLeaderboard.length === 0 ? (
-                  <p>Aucun score pour le moment.</p>
-                ) : (
-                  <table className="score-table">
-                    <thead>
-                      <tr>
-                        <th>Rang</th>
-                        <th>Joueur</th>
-                        <th>Progression</th>
-                        <th>Score</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {onlineLeaderboard.map((player, index) => {
-                        const isReady =
-                          onlinePhase === "lobby"
-                            ? player.ready
-                            : onlinePhase === "score"
-                            ? player.readyNext
-                            : false;
-                        return (
-                        <tr key={`online-score-${player.id}`}>
-                          <td>
-                            <span className="rank-cell">
-                              <span
-                                className={`ready-dot ${isReady ? "active" : ""}`}
-                                title={isReady ? "Pret" : "En attente"}
-                              />
-                              <span className={`rank-badge ${getRankClass(index)}`}>
-                                #{index + 1}
-                              </span>
-                            </span>
-                          </td>
-                          <td>{player.name}</td>
-                          <td>
-                            <div className="score-meter">
-                              <span
-                                style={{
-                                  width: `${(player.score / onlineMaxScore) * 100}%`
-                                }}
-                              />
-                            </div>
-                          </td>
-                          <td className="score-value">{player.score}</td>
-                        </tr>
-                      );
-                      })}
-                    </tbody>
-                  </table>
-                )}
               </section>
 
               {onlinePhase === "lobby" && (
@@ -1810,7 +1870,9 @@ export default function HomePage() {
                   )}
                   <div className="player-row">
                     <input
-                      type="number"
+                      type="text"
+                      inputMode="decimal"
+                      pattern="[-]?[0-9]*[.,]?[0-9]*"
                       placeholder="Votre reponse"
                       value={onlineAnswerDraft}
                       onChange={(event) => setOnlineAnswerDraft(event.target.value)}
@@ -1840,14 +1902,14 @@ export default function HomePage() {
                 <section className="card row">
                   <h2>Votes</h2>
                   <p>
-                    Placez vos 2 jetons ou votre Gambit 7 avant la fin du timer.
+                    Placez vos 2 jetons ou votre Joker avant la fin du timer.
                   </p>
                   {betTimeLeft !== null && (
                     <div className="countdown">
                       Temps restant: {betTimeLeft}s
                     </div>
                   )}
-                  <div className="bet-turn">
+                  <div>
                     <div className="bet-turn-info">
                       <p className="badge">
                         {onlineSelf ? `Vous: ${onlineSelf.name}` : "Joueur"}
@@ -1856,10 +1918,10 @@ export default function HomePage() {
                         {onlineSelf
                           ? onlineSelf.gambitActive
                             ? onlineSelf.gambitTarget
-                              ? "Gambit 7 place."
-                              : "Cliquez sur une case pour poser le Gambit."
+                              ? "Joker placé."
+                              : "Cliquez sur une case pour poser le Joker."
                             : onlineSelfTokenCount >= onlineSelfTokenLimit
-                            ? "Deux jetons poses."
+                            ? "Deux jetons posés."
                             : `Cliquez pour poser le jeton ${
                                 onlineSelfTokenCount + 1
                               } / ${onlineSelfTokenLimit}.`
@@ -1867,22 +1929,10 @@ export default function HomePage() {
                       </p>
                       <p className="badge">
                         {onlinePlayers.filter(isPlayerDone).length}/
-                        {onlinePlayers.length} joueurs ont vote
+                        {onlinePlayers.length} joueurs ont voté
                       </p>
                     </div>
                     <div className="footer-actions">
-                      <button
-                        className={onlineSelf?.gambitActive ? "" : "secondary"}
-                        disabled={!onlineSelf}
-                        onClick={() =>
-                          onlineSelf &&
-                          toggleOnlineGambit(!onlineSelf.gambitActive)
-                        }
-                      >
-                        {onlineSelf?.gambitActive
-                          ? "Annuler Gambit 7"
-                          : "Utiliser Gambit 7"}
-                      </button>
                       <button
                         className="ghost"
                         disabled={
@@ -1894,6 +1944,18 @@ export default function HomePage() {
                         onClick={clearOnlineToken}
                       >
                         Annuler dernier jeton
+                      </button>
+                      <button
+                        className={onlineSelf?.gambitActive ? "" : "secondary"}
+                        disabled={!onlineSelf}
+                        onClick={() =>
+                          onlineSelf &&
+                          toggleOnlineGambit(!onlineSelf.gambitActive)
+                        }
+                      >
+                        {onlineSelf?.gambitActive
+                          ? "Annuler Joker"
+                          : "Utiliser Joker"}
                       </button>
                     </div>
                   </div>
@@ -1992,7 +2054,7 @@ export default function HomePage() {
                                       : ""
                                   }`}
                                   title={`${token.label}${
-                                    token.type === "gambit" ? " (Gambit 7)" : ""
+                                    token.type === "gambit" ? " (Joker)" : ""
                                   }`}
                                 >
                                   {getPlayerInitials(token.label)}
@@ -2007,7 +2069,7 @@ export default function HomePage() {
                   </div>
                   <div className="footer-actions">
                     {onlineAllVotesPlaced && (
-                      <span className="badge">Tous les votes sont poses.</span>
+                      <span className="badge">Tous les votes sont posés.</span>
                     )}
                   </div>
                 </section>
@@ -2018,7 +2080,7 @@ export default function HomePage() {
                   <h2>Resultats de la manche</h2>
                   <div className="result-summary">
                     <div className="result-pill">
-                      <span className="result-label">Reponse exacte</span>
+                      <span className="result-label">Réponse exacte</span>
                       <span className="result-value">
                         {onlineLastResult.question.answer}{" "}
                         {onlineLastResult.question.unit ?? ""}
@@ -2118,26 +2180,172 @@ export default function HomePage() {
             </>
           )}
         </>
-      )}
-    </>
-  ) : (
-        <section className="card row">
-          <h2>Regles express</h2>
-          <p>
-            - Chaque joueur donne une reponse entiere.
-            <br />- Les reponses identiques comptent comme une seule case pour le placement.
-            <br />- Les reponses sont placees depuis le centre, avec autant au-dessus qu'en dessous.
-            <br />- La reponse gagnante est la plus proche sans depasser la valeur exacte.
-            <br />- Si toutes les reponses sont au-dessus, la case "Sous toutes" gagne.
-            <br />- Bareme: sous toutes = 15, bleue 3/2, verte 6/4, jaune 9/6, orange 12/8 (unique / plusieurs).
-            <br />- Chaque joueur pose 2 jetons de vote ou un jeton Gambit 7 a chaque manche.
-            <br />- Le joueur de la reponse gagnante marque les points "plusieurs" de sa case.
-            <br />- Gambit 7: si la case gagne, points de manche x7, sinon 0.
-            <br />- Mode reseau: tous les joueurs se mettent pret pour lancer la partie.
-            <br />- Mode reseau: 20s pour repondre, 20s pour placer ses jetons.
-            <br />- Mode reseau: tout le monde doit etre pret pour passer a la manche suivante.
-            <br />- Mode reseau: la partie est supprimee apres 7 manches.
+        )}
+      </>
+      ) : activeTab === "scores" ? (
+        <>
+          {mode === "local" ? (
+            <section className="card row scoreboard-card">
+              <div className="scoreboard-header">
+                <h2>Tableau des scores</h2>
+                <span className="badge">Manche {round}</span>
+              </div>
+              {leaderboard.length === 0 ? (
+                <p>Aucun score pour le moment.</p>
+              ) : (
+                <table className="score-table">
+                  <thead>
+                    <tr>
+                      <th>Rang</th>
+                      <th>Joueur</th>
+                      <th>Progression</th>
+                      <th>Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {leaderboard.map((player, index) => (
+                      <tr key={`score-${player.id}`}>
+                        <td>
+                          <span className={`rank-badge ${getRankClass(index)}`}>
+                            #{index + 1}
+                          </span>
+                        </td>
+                        <td>{player.name}</td>
+                        <td>
+                          <div className="score-meter">
+                            <span
+                              style={{
+                                width: `${(player.score / maxScore) * 100}%`
+                              }}
+                            />
+                          </div>
+                        </td>
+                        <td className="score-value">{player.score}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+              <div className="footer-actions">
+                <button
+                  className="ghost reset-button"
+                  onClick={confirmResetGame}
+                >
+                  Reinitialiser la partie
+                </button>
+              </div>
+            </section>
+          ) : onlineRoom ? (
+            <section className="card row scoreboard-card">
+              <div className="scoreboard-header">
+                <h2>Tableau des scores</h2>
+                <span className="badge">Manche {onlineRound}</span>
+              </div>
+              {onlineLeaderboard.length === 0 ? (
+                <p>Aucun score pour le moment.</p>
+              ) : (
+                <table className="score-table">
+                  <thead>
+                    <tr>
+                      <th>Rang</th>
+                      <th>Joueur</th>
+                      <th>Progression</th>
+                      <th>Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {onlineLeaderboard.map((player, index) => {
+                      const isReady =
+                        onlinePhase === "lobby"
+                          ? player.ready
+                          : onlinePhase === "score"
+                          ? player.readyNext
+                          : false;
+                      return (
+                        <tr key={`online-score-${player.id}`}>
+                          <td>
+                            <span className="rank-cell">
+                              <span
+                                className={`ready-dot ${isReady ? "active" : ""}`}
+                                title={isReady ? "Pret" : "En attente"}
+                              />
+                              <span className={`rank-badge ${getRankClass(index)}`}>
+                                #{index + 1}
+                              </span>
+                            </span>
+                          </td>
+                          <td>{player.name}</td>
+                          <td>
+                            <div className="score-meter">
+                              <span
+                                style={{
+                                  width: `${
+                                    (player.score / onlineMaxScore) * 100
+                                  }%`
+                                }}
+                              />
+                            </div>
+                          </td>
+                          <td className="score-value">{player.score}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
+            </section>
+          ) : (
+            <section className="card row">
+              <h2>Tableau des scores</h2>
+              <p>
+                Creez ou rejoignez une partie reseau pour afficher les scores.
+              </p>
+            </section>
+          )}
+        </>
+      ) : (
+        <section className="card row rules">
+          <h2>Regles</h2>
+          <p className="rules-intro">
+            Objectif : trouver la reponse la plus proche sans jamais depasser la
+            valeur exacte.
           </p>
+          <ul className="rules-list">
+            <li>Chaque joueur propose une reponse numerique.</li>
+            <li>
+              Les reponses identiques comptent pour une seule case sur le plateau.
+              Elles sont placees depuis le centre, avec autant de reponses au-dessus
+              qu'en dessous.
+            </li>
+            <li>
+              La reponse gagnante est la plus proche sans depasser. Si toutes les
+              reponses sont au-dessus, la case "Sous toutes" gagne.
+            </li>
+            <li>
+              Bareme (unique / plusieurs) : bleue 3/2, verte 6/4, jaune 9/6,
+              orange 12/8. La case "Sous toutes" vaut 15 points.
+            </li>
+            <li>
+              Chaque manche, chaque joueur pose 2 jetons de vote ou un jeton
+              Joker.
+            </li>
+            <li>
+              Le joueur dont la reponse gagne marque le bareme "plusieurs" de sa
+              case.
+            </li>
+            <li>
+              Joker : si la case choisie gagne, les points de manche sont
+              multiplies par 7, sinon 0.
+            </li>
+            <li>
+              Mode reseau : tout le monde doit etre pret pour demarrer. Vous avez
+              20 s pour repondre et 20 s pour voter.
+            </li>
+            <li>
+              Mode reseau : tout le monde doit etre pret pour passer a la manche
+              suivante. La partie se termine apres 7 manches.
+            </li>
+          </ul>
         </section>
       )}
     </main>
