@@ -1,4 +1,4 @@
-const CACHE_NAME = "betsept-v2";
+const CACHE_NAME = "betsept-v3";
 const CORE_ASSETS = [
   "/",
   "/manifest.webmanifest",

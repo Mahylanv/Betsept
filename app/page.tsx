@@ -258,6 +258,20 @@ export default function HomePage() {
     if (typeof window === "undefined") {
       return;
     }
+    const ua = window.navigator.userAgent.toLowerCase();
+    const isIOS = /iphone|ipad|ipod/.test(ua);
+    const isStandalone =
+      window.matchMedia?.("(display-mode: standalone)").matches ||
+      (window.navigator as Navigator & { standalone?: boolean }).standalone;
+    if (isIOS && isStandalone) {
+      document.body.classList.add("ios-standalone");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) {
       return;
