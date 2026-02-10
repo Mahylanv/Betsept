@@ -246,6 +246,15 @@ export default function HomePage() {
   const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
+    if (typeof window === "undefined" || !("serviceWorker" in navigator)) {
+      return;
+    }
+    navigator.serviceWorker.register("/sw.js").catch(() => {
+      // Ignore registration errors.
+    });
+  }, []);
+
+  useEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
