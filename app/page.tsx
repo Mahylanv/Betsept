@@ -695,6 +695,30 @@ export default function HomePage() {
     setQuestionDeck(nextDeck);
   };
 
+  const shareGame = async () => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const url = window.location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "BetSept",
+          text: "Rejoins-moi pour une partie de BetSept !",
+          url
+        });
+        return;
+      }
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+        return;
+      }
+      window.prompt("Copier le lien :", url);
+    } catch {
+      // Ignore share errors.
+    }
+  };
+
   const requestRoom = async (path: string, payload?: Record<string, unknown>) => {
     const response = await fetch(path, {
       method: payload ? "POST" : "GET",
@@ -1225,9 +1249,21 @@ export default function HomePage() {
 
   return (
     <main>
-      <header>
-        <img className="logo" src="/BetSept.png" alt="BetSept" />
-        <h1>Betsept</h1>
+      <header className="app-header">
+        <div className="brand">
+          <div className="logo-wrap">
+            <img className="logo" src="/BetSept.png" alt="BetSept" />
+          </div>
+          <div className="brand-text">
+            <span className="brand-kicker">Jeu de plateau de reflexion</span>
+            <h1>BetSept</h1>
+            <span className="brand-subtitle">Pariez, bluffez, gagnez !</span>
+          </div>
+        </div>
+        {/* <div className="header-meta">
+          <span className="badge badge-soft">Jusqu&apos;a 7 joueurs</span>
+          <span className="badge badge-soft">7 manches</span>
+        </div> */}
       </header>
 
       <nav className="tabs">
@@ -1275,6 +1311,60 @@ export default function HomePage() {
                     onClick={() => setMode("online")}
                   >
                     Reseau
+                  </button>
+                  <button
+                    type="button"
+                    className="share-button"
+                    onClick={shareGame}
+                    aria-label="Partager le site"
+                    title="Partager"
+                  >
+                    <svg
+                      className="share-icon"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        cx="18"
+                        cy="5"
+                        r="3"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                      <circle
+                        cx="6"
+                        cy="12"
+                        r="3"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                      <circle
+                        cx="18"
+                        cy="19"
+                        r="3"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                      <path
+                        d="M8.7 11l6.6-4"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M8.7 13l6.6 4"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </button>
                 </div>
                 {mode === "online" && (
