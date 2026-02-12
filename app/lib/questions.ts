@@ -743,6 +743,12 @@ export const QUESTION_BANK: Question[] = [
     unit: "nombre total"
   },
   {
+    id: "nombre-maracana-stadium-capacity",
+    prompt: "Quelle est la capacité du stade Maracana ?",
+    answer: 78838,
+    unit: "nombre total"
+  },
+  {
     id: "nombre-arbres-monde",
     prompt: "Combien d'arbres y a-t-il dans le monde ?",
     answer: 3000,
