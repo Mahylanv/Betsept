@@ -263,6 +263,9 @@ export default function HomePage() {
     const isStandalone =
       window.matchMedia?.("(display-mode: standalone)").matches ||
       (window.navigator as Navigator & { standalone?: boolean }).standalone;
+    if (isStandalone) {
+      document.body.classList.add("pwa-standalone");
+    }
     if (isIOS && isStandalone) {
       document.body.classList.add("ios-standalone");
     }

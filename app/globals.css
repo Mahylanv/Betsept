@@ -54,6 +54,10 @@ body.ios-standalone {
   -webkit-overflow-scrolling: auto;
 }
 
+body.pwa-standalone {
+  background-attachment: scroll;
+}
+
 body.ios-standalone .card {
   backdrop-filter: none;
   animation: none;
@@ -63,6 +67,20 @@ body.ios-standalone .card {
 
 body.ios-standalone .app-header {
   overflow: visible;
+}
+
+body.pwa-standalone .card,
+body.pwa-standalone .app-header {
+  backdrop-filter: none;
+  animation: none;
+  transform: none;
+}
+
+body.pwa-standalone input,
+body.pwa-standalone select,
+body.pwa-standalone textarea {
+  touch-action: manipulation;
+  pointer-events: auto;
 }
 
 main {
@@ -1348,6 +1366,12 @@ label {
 @media (max-width: 560px) {
   body {
     font-size: 14px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
   }
 
   .app-header {
