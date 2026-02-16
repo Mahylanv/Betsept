@@ -241,6 +241,7 @@ export default function HomePage() {
   const [onlinePlayerId, setOnlinePlayerId] = useState<string | null>(null);
   const [onlineName, setOnlineName] = useState("");
   const [onlineAnswerDraft, setOnlineAnswerDraft] = useState("");
+  const [onlineAnswerSubmitted, setOnlineAnswerSubmitted] = useState(false);
   const [joinCode, setJoinCode] = useState("");
   const [onlineError, setOnlineError] = useState<string | null>(null);
   const [onlineLoading, setOnlineLoading] = useState(false);
@@ -654,6 +655,9 @@ export default function HomePage() {
       : null;
   const canSendOnlineAnswer =
     !!onlineSelf && onlineAnswerDraft.trim().length > 0;
+  const hasSubmittedOnlineAnswer =
+    onlineAnswerSubmitted ||
+    (onlineSelf?.answer !== null && onlineSelf?.answer !== undefined);
   const autoSubmitAnswerRef = useRef(false);
   const previousOnlinePhaseRef = useRef<OnlinePhase>(onlinePhase);
 
@@ -683,6 +687,16 @@ export default function HomePage() {
       return;
     }
   }, [mode, onlinePhase, onlineSelf?.answer, onlineSelf?.answerDraft]);
+
+  useEffect(() => {
+    if (mode !== "online" || onlinePhase !== "answer") {
+      setOnlineAnswerSubmitted(false);
+      return;
+    }
+    if (onlineSelf?.answer !== null && onlineSelf?.answer !== undefined) {
+      setOnlineAnswerSubmitted(true);
+    }
+  }, [mode, onlinePhase, onlineSelf?.answer]);
 
   useEffect(() => {
     if (mode !== "online" || onlinePhase !== "answer" || !onlinePlayerId) {
@@ -908,20 +922,23 @@ export default function HomePage() {
     setOnlinePlayerId(null);
     setOnlineError(null);
     setOnlineAnswerDraft("");
+    setOnlineAnswerSubmitted(false);
   };
 
   const postRoomAction = async (payload: Record<string, unknown>) => {
     if (!onlineRoom?.code) {
-      return;
+      return false;
     }
     try {
       const data = await requestRoom(`/api/rooms/${onlineRoom.code}`, payload);
       setOnlineRoom(data.room);
       setOnlineError(null);
+      return true;
     } catch (requestError) {
       setOnlineError(
         requestError instanceof Error ? requestError.message : "Erreur reseau."
       );
+      return false;
     }
   };
 
@@ -939,11 +956,18 @@ export default function HomePage() {
     if (!onlinePlayerId) {
       return;
     }
-    postRoomAction({
+    setOnlineAnswerSubmitted(true);
+    void postRoomAction({
       action: "answer",
       playerId: onlinePlayerId,
       answer: value,
       lateAutoSubmit: !!options?.lateAutoSubmit
+    }).then((success) => {
+      if (!success) {
+        setOnlineAnswerSubmitted(
+          onlineSelf?.answer !== null && onlineSelf?.answer !== undefined
+        );
+      }
     });
   };
 
@@ -1279,12 +1303,12 @@ export default function HomePage() {
         });
       }
 
-      answerPoints[player.id] =
+      const baseAnswerPoints =
         !winning.below && winning.winnerIds.has(player.id)
           ? winningAnswerPoints
           : 0;
+      answerPoints[player.id] = baseAnswerPoints;
       votePoints[player.id] = voteGain;
-      roundPoints[player.id] = (answerPoints[player.id] ?? 0) + voteGain;
 
       const gambitSuccess = player.gambitActive && winningTarget;
       gambitOutcome[player.id] = {
@@ -1293,12 +1317,15 @@ export default function HomePage() {
         success: gambitSuccess
       };
 
-      const roundTotal = player.gambitActive
+      const scoreBeforeRound = player.score;
+      const roundGain = (answerPoints[player.id] ?? 0) + voteGain;
+      const nextScore = player.gambitActive
         ? gambitSuccess
-          ? (roundPoints[player.id] ?? 0) * GAMBIT_MULTIPLIER
+          ? (scoreBeforeRound + roundGain) * GAMBIT_MULTIPLIER
           : 0
-        : roundPoints[player.id] ?? 0;
-      finalScores[player.id] = player.score + roundTotal;
+        : scoreBeforeRound + roundGain;
+      finalScores[player.id] = nextScore;
+      roundPoints[player.id] = nextScore - scoreBeforeRound;
 
       votesSnapshot[player.id] = [...player.votes];
     });
@@ -2214,7 +2241,7 @@ export default function HomePage() {
                       disabled={!onlineSelf}
                     />
                     <span className="badge">
-                      {onlineSelf?.answer !== null ? "Envoyee" : "En attente"}
+                      {hasSubmittedOnlineAnswer ? "Envoyee" : "En attente"}
                     </span>
                   </div>
                   <div className="footer-actions">
@@ -2222,7 +2249,7 @@ export default function HomePage() {
                       onClick={() => setOnlineAnswer(onlineAnswerDraft)}
                       disabled={!canSendOnlineAnswer}
                     >
-                      {onlineSelf?.answer !== null
+                      {hasSubmittedOnlineAnswer
                         ? "Réenvoyer une réponse"
                         : "Envoyer la reponse"}
                     </button>
@@ -2261,7 +2288,7 @@ export default function HomePage() {
                         {onlinePlayers.length} joueurs ont voté
                       </p>
                     </div>
-                    <div className="footer-actions split bet-actions">
+                    <div className="footer-actions split mt-4">
                       <button
                         className="ghost"
                         disabled={
@@ -2706,8 +2733,9 @@ export default function HomePage() {
               case.
             </li>
             <li>
-              Joker : si la case choisie gagne, les points de manche sont
-              multiplies par 7, sinon 0.
+              Joker : si la case choisie gagne, votre score total (avec les
+              gains de la manche) est multiplie par 7, sinon votre score total
+              tombe a 0.
             </li>
             <li>
               Mode reseau : tout le monde doit etre pret pour demarrer. Vous avez

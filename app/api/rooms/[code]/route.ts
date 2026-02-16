@@ -369,12 +369,12 @@ const scoreRound = (room: OnlineRoom, now: number) => {
       });
     }
 
-    answerPoints[player.id] =
+    const baseAnswerPoints =
       !winning.below && winning.winnerIds.has(player.id)
         ? winningAnswerPoints
         : 0;
+    answerPoints[player.id] = baseAnswerPoints;
     votePoints[player.id] = voteGain;
-    roundPoints[player.id] = (answerPoints[player.id] ?? 0) + voteGain;
 
     const gambitSuccess = player.gambitActive && winningTarget;
     gambitOutcome[player.id] = {
@@ -383,12 +383,15 @@ const scoreRound = (room: OnlineRoom, now: number) => {
       success: gambitSuccess
     };
 
-    const roundTotal = player.gambitActive
+    const scoreBeforeRound = player.score;
+    const roundGain = (answerPoints[player.id] ?? 0) + voteGain;
+    const nextScore = player.gambitActive
       ? gambitSuccess
-        ? (roundPoints[player.id] ?? 0) * GAMBIT_MULTIPLIER
+        ? (scoreBeforeRound + roundGain) * GAMBIT_MULTIPLIER
         : 0
-      : roundPoints[player.id] ?? 0;
-    finalScores[player.id] = player.score + roundTotal;
+      : scoreBeforeRound + roundGain;
+    finalScores[player.id] = nextScore;
+    roundPoints[player.id] = nextScore - scoreBeforeRound;
 
     votesSnapshot[player.id] = [...player.votes];
   });

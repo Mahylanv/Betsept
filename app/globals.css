@@ -1302,6 +1302,10 @@ label {
   align-items: center;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
 .footer-actions.split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1324,10 +1328,6 @@ label {
 
 .footer-actions.split .right-actions button {
   width: 100%;
-}
-
-.bet-actions {
-  margin-top: 10px;
 }
 
 @keyframes floatIn {
