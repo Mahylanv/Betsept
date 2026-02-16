@@ -9,6 +9,7 @@ type OnlinePlayer = {
   name: string;
   score: number;
   answer: number | null;
+  answerDraft: string;
   votes: string[];
   gambitActive: boolean;
   gambitTarget: string;
@@ -159,6 +160,22 @@ const isPlayerDone = (player: OnlinePlayer) => {
   return player.votes.filter((vote) => vote).length >= 2;
 };
 
+const normalizeAnswerInput = (value: unknown) => {
+  if (value === "" || value === null || value === undefined) {
+    return null;
+  }
+  return String(value).trim();
+};
+
+const parseAnswerInput = (value: string | null | undefined) => {
+  if (!value) {
+    return null;
+  }
+  const normalized = value.replace(/\s/g, "").replace(",", ".");
+  const parsed = Number.parseFloat(normalized);
+  return Number.isFinite(parsed) ? parsed : null;
+};
+
 const getActiveSlotIndexes = (count: number) => {
   const indexes: number[] = [];
   let remaining = count;
@@ -220,6 +237,7 @@ const startRound = (room: OnlineRoom, now: number, nextRound: number) => {
     players: room.players.map((player) => ({
       ...player,
       answer: null,
+      answerDraft: "",
       votes: ["", ""],
       gambitActive: false,
       gambitTarget: "",
@@ -351,12 +369,12 @@ const scoreRound = (room: OnlineRoom, now: number) => {
       });
     }
 
-    answerPoints[player.id] =
+    const baseAnswerPoints =
       !winning.below && winning.winnerIds.has(player.id)
         ? winningAnswerPoints
         : 0;
+    answerPoints[player.id] = baseAnswerPoints;
     votePoints[player.id] = voteGain;
-    roundPoints[player.id] = (answerPoints[player.id] ?? 0) + voteGain;
 
     const gambitSuccess = player.gambitActive && winningTarget;
     gambitOutcome[player.id] = {
@@ -365,12 +383,15 @@ const scoreRound = (room: OnlineRoom, now: number) => {
       success: gambitSuccess
     };
 
-    const roundTotal = player.gambitActive
+    const scoreBeforeRound = player.score;
+    const roundGain = (answerPoints[player.id] ?? 0) + voteGain;
+    const nextScore = player.gambitActive
       ? gambitSuccess
-        ? (roundPoints[player.id] ?? 0) * GAMBIT_MULTIPLIER
+        ? (scoreBeforeRound + roundGain) * GAMBIT_MULTIPLIER
         : 0
-      : roundPoints[player.id] ?? 0;
-    finalScores[player.id] = player.score + roundTotal;
+      : scoreBeforeRound + roundGain;
+    finalScores[player.id] = nextScore;
+    roundPoints[player.id] = nextScore - scoreBeforeRound;
 
     votesSnapshot[player.id] = [...player.votes];
   });
@@ -433,18 +454,37 @@ const advanceRoom = (room: OnlineRoom, now: number) => {
     const timeUp =
       updatedRoom.answerDeadline !== null && now >= updatedRoom.answerDeadline;
     if (allAnswered || timeUp) {
-      updatedRoom = startBetPhase(updatedRoom, now);
+      const playersWithTimeoutAnswers =
+        timeUp && !allAnswered
+          ? updatedRoom.players.map((player) => {
+              if (player.answer !== null) {
+                return player;
+              }
+              const parsedDraft = parseAnswerInput(player.answerDraft);
+              if (parsedDraft === null) {
+                return player;
+              }
+              return {
+                ...player,
+                answer: parsedDraft
+              };
+            })
+          : updatedRoom.players;
+      updatedRoom = startBetPhase(
+        {
+          ...updatedRoom,
+          players: playersWithTimeoutAnswers
+        },
+        now
+      );
       changed = true;
     }
   }
 
   if (updatedRoom.phase === "bet") {
-    const allBetsDone =
-      updatedRoom.players.length > 0 &&
-      updatedRoom.players.every((player) => isPlayerDone(player));
     const timeUp =
       updatedRoom.betDeadline !== null && now >= updatedRoom.betDeadline;
-    if (allBetsDone || timeUp) {
+    if (timeUp) {
       updatedRoom = scoreRound(updatedRoom, now);
       changed = true;
     }
@@ -547,6 +587,7 @@ export async function POST(
       name,
       score: 0,
       answer: null,
+      answerDraft: "",
       votes: ["", ""],
       gambitActive: false,
       gambitTarget: "",
@@ -595,18 +636,30 @@ export async function POST(
       break;
     }
     case "answer": {
+      const canLateAutoSubmit =
+        advancedRoom.phase === "bet" &&
+        !!body?.lateAutoSubmit &&
+        player.answer === null;
+      if (advancedRoom.phase !== "answer" && !canLateAutoSubmit) {
+        return NextResponse.json(
+          { error: "La phase de reponse est terminee." },
+          { status: 400 }
+        );
+      }
+      const draft = normalizeAnswerInput(body?.answer);
+      player.answerDraft = draft ?? "";
+      player.answer = parseAnswerInput(draft);
+      break;
+    }
+    case "draftAnswer": {
       if (advancedRoom.phase !== "answer") {
         return NextResponse.json(
           { error: "La phase de reponse est terminee." },
           { status: 400 }
         );
       }
-      const normalized =
-        body?.answer === "" || body?.answer === null || body?.answer === undefined
-          ? null
-          : String(body?.answer).trim().replace(/\s/g, "").replace(",", ".");
-      const parsed = normalized === null ? null : Number.parseFloat(normalized);
-      player.answer = Number.isFinite(parsed as number) ? parsed : null;
+      const draft = normalizeAnswerInput(body?.answerDraft);
+      player.answerDraft = draft ?? "";
       break;
     }
     case "toggleGambit": {

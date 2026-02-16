@@ -7,6 +7,7 @@ type OnlinePlayer = {
   name: string;
   score: number;
   answer: number | null;
+  answerDraft: string;
   votes: string[];
   gambitActive: boolean;
   gambitTarget: string;
@@ -74,6 +75,7 @@ export async function POST(request: Request) {
     name,
     score: 0,
     answer: null,
+    answerDraft: "",
     votes: ["", ""],
     gambitActive: false,
     gambitTarget: "",
