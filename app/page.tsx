@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { DEFAULT_QUESTION, QUESTION_BANK, type Question } from "./lib/questions";
 
-type Phase = "setup" | "answer" | "bet" | "score";
+type Phase = "setup" | "answer" | "bet" | "score" | "over";
 
 type Player = {
   id: string;
@@ -69,6 +69,7 @@ type OnlineRoom = {
 };
 
 const MAX_PLAYERS = 7;
+const MAX_ROUNDS = 7;
 const GAMBIT_MULTIPLIER = 7;
 const shuffleQuestions = (questions: Question[]) =>
   [...questions].sort(() => Math.random() - 0.5);
@@ -144,10 +145,11 @@ const SLOT_BY_ID: Map<string, BoardSlot> = new Map(
 const STORAGE_KEY = "betsept.local.v1";
 
 const phaseLabels: Record<Phase, string> = {
-  setup: "Preparation",
+  setup: "Lobby",
   answer: "Reponses",
   bet: "Votes",
-  score: "Scores"
+  score: "Scores",
+  over: "Terminé"
 };
 
 const onlinePhaseLabels: Record<OnlinePhase, string> = {
@@ -155,7 +157,7 @@ const onlinePhaseLabels: Record<OnlinePhase, string> = {
   answer: "Reponses",
   bet: "Votes",
   score: "Scores",
-  over: "Termine"
+  over: "Terminé"
 };
 
 const makeId = () => Math.random().toString(36).slice(2, 10);
@@ -244,6 +246,8 @@ export default function HomePage() {
   const [onlineLoading, setOnlineLoading] = useState(false);
   const [now, setNow] = useState(Date.now());
   const [hasHydrated, setHasHydrated] = useState(false);
+  const [finalScoreAcknowledged, setFinalScoreAcknowledged] = useState(false);
+  const [canAdvanceFromScore, setCanAdvanceFromScore] = useState(true);
 
   useEffect(() => {
     if (typeof window === "undefined" || !("serviceWorker" in navigator)) {
@@ -349,6 +353,30 @@ export default function HomePage() {
       setCurrentVoterIndex(0);
     }
   }, [currentVoterIndex, players.length]);
+
+  useEffect(() => {
+    if (mode !== "local" || phase !== "score") {
+      setCanAdvanceFromScore(true);
+      return;
+    }
+    setCanAdvanceFromScore(false);
+    const timeout = window.setTimeout(() => {
+      setCanAdvanceFromScore(true);
+    }, 350);
+    return () => window.clearTimeout(timeout);
+  }, [mode, phase, round, lastRound?.question.id]);
+
+  useEffect(() => {
+    if (
+      mode === "local" &&
+      phase === "over" &&
+      round >= MAX_ROUNDS &&
+      !!lastRound &&
+      !finalScoreAcknowledged
+    ) {
+      setPhase("score");
+    }
+  }, [mode, phase, round, lastRound, finalScoreAcknowledged]);
 
   useEffect(() => {
     setOnlineError(null);
@@ -626,32 +654,64 @@ export default function HomePage() {
       : null;
   const canSendOnlineAnswer =
     !!onlineSelf && onlineAnswerDraft.trim().length > 0;
+  const autoSubmitAnswerRef = useRef(false);
+  const previousOnlinePhaseRef = useRef<OnlinePhase>(onlinePhase);
 
   useEffect(() => {
     if (mode !== "online") {
       return;
     }
-    if (onlinePhase !== "answer") {
+    if (
+      onlinePhase === "lobby" ||
+      onlinePhase === "score" ||
+      onlinePhase === "over"
+    ) {
       setOnlineAnswerDraft("");
       return;
     }
     if (onlinePhase === "answer") {
       autoSubmitAnswerRef.current = false;
-    }
-    if (onlineSelf?.answer !== null && onlineSelf?.answer !== undefined) {
-      setOnlineAnswerDraft(String(onlineSelf.answer));
-    } else {
+      if (onlineSelf?.answerDraft !== undefined) {
+        setOnlineAnswerDraft(onlineSelf.answerDraft);
+        return;
+      }
+      if (onlineSelf?.answer !== null && onlineSelf?.answer !== undefined) {
+        setOnlineAnswerDraft(String(onlineSelf.answer));
+        return;
+      }
       setOnlineAnswerDraft("");
+      return;
     }
-  }, [mode, onlinePhase, onlineSelf?.answer]);
+  }, [mode, onlinePhase, onlineSelf?.answer, onlineSelf?.answerDraft]);
 
-  const autoSubmitAnswerRef = useRef(false);
+  useEffect(() => {
+    if (mode !== "online" || onlinePhase !== "answer" || !onlinePlayerId) {
+      return;
+    }
+    if (onlineAnswerDraft === (onlineSelf?.answerDraft ?? "")) {
+      return;
+    }
+    const timeout = window.setTimeout(() => {
+      postRoomAction({
+        action: "draftAnswer",
+        playerId: onlinePlayerId,
+        answerDraft: onlineAnswerDraft
+      });
+    }, 250);
+    return () => window.clearTimeout(timeout);
+  }, [
+    mode,
+    onlinePhase,
+    onlinePlayerId,
+    onlineAnswerDraft,
+    onlineSelf?.answerDraft
+  ]);
 
   useEffect(() => {
     if (mode !== "online" || onlinePhase !== "answer") {
       return;
     }
-    if (answerTimeLeft !== 0) {
+    if (answerTimeLeft === null || answerTimeLeft > 1) {
       return;
     }
     if (autoSubmitAnswerRef.current) {
@@ -665,8 +725,31 @@ export default function HomePage() {
       return;
     }
     autoSubmitAnswerRef.current = true;
-    setOnlineAnswer(trimmed);
+    setOnlineAnswer(trimmed, { lateAutoSubmit: true });
   }, [mode, onlinePhase, answerTimeLeft, onlineSelf, onlineAnswerDraft]);
+
+  useEffect(() => {
+    const previousPhase = previousOnlinePhaseRef.current;
+    previousOnlinePhaseRef.current = onlinePhase;
+    if (mode !== "online") {
+      return;
+    }
+    if (previousPhase !== "answer" || onlinePhase === "answer") {
+      return;
+    }
+    if (autoSubmitAnswerRef.current) {
+      return;
+    }
+    if (!onlineSelf || onlineSelf.answer !== null) {
+      return;
+    }
+    const trimmed = onlineAnswerDraft.trim();
+    if (!trimmed) {
+      return;
+    }
+    autoSubmitAnswerRef.current = true;
+    setOnlineAnswer(trimmed, { lateAutoSubmit: true });
+  }, [mode, onlinePhase, onlineSelf, onlineAnswerDraft]);
 
   const canEditPlayers = phase === "setup" && round === 1;
   const canStartRound =
@@ -675,20 +758,35 @@ export default function HomePage() {
     nextQuestion.prompt.trim().length > 0;
   const maxPlayersMessage = `Le jeu se joue jusqu'a ${MAX_PLAYERS} joueurs.`;
   const maxPlayersError = error === maxPlayersMessage;
-  const gameStarted = round > 1 || phase !== "setup";
-  const phaseSteps: Phase[] = gameStarted
-    ? ["answer", "bet", "score"]
-    : ["setup", "answer", "bet", "score"];
+  const phaseSteps: Phase[] = ["setup", "answer", "bet", "score", "over"];
 
   const leaderboard = useMemo(
     () => [...players].sort((a, b) => b.score - a.score),
     [players]
   );
+  const localChampionNames = useMemo(() => {
+    if (leaderboard.length === 0) {
+      return [] as string[];
+    }
+    const topScore = leaderboard[0]?.score ?? 0;
+    return leaderboard
+      .filter((player) => player.score === topScore)
+      .map((player) => player.name);
+  }, [leaderboard]);
   const maxScore = Math.max(1, ...leaderboard.map((player) => player.score));
   const onlineLeaderboard = useMemo(
     () => [...onlinePlayers].sort((a, b) => b.score - a.score),
     [onlinePlayers]
   );
+  const onlineChampionNames = useMemo(() => {
+    if (onlineLeaderboard.length === 0) {
+      return [] as string[];
+    }
+    const topScore = onlineLeaderboard[0]?.score ?? 0;
+    return onlineLeaderboard
+      .filter((player) => player.score === topScore)
+      .map((player) => player.name);
+  }, [onlineLeaderboard]);
   const onlineMaxScore = Math.max(
     1,
     ...onlineLeaderboard.map((player) => player.score)
@@ -834,11 +932,19 @@ export default function HomePage() {
     postRoomAction({ action: "ready", playerId: onlinePlayerId, ready });
   };
 
-  const setOnlineAnswer = (value: string) => {
+  const setOnlineAnswer = (
+    value: string,
+    options?: { lateAutoSubmit?: boolean }
+  ) => {
     if (!onlinePlayerId) {
       return;
     }
-    postRoomAction({ action: "answer", playerId: onlinePlayerId, answer: value });
+    postRoomAction({
+      action: "answer",
+      playerId: onlinePlayerId,
+      answer: value,
+      lateAutoSubmit: !!options?.lateAutoSubmit
+    });
   };
 
   const toggleOnlineGambit = (active: boolean) => {
@@ -915,6 +1021,16 @@ export default function HomePage() {
     }
     const parsed = Number.parseFloat(normalized);
     return Number.isFinite(parsed) ? parsed : null;
+  };
+
+  const formatAnswerNumber = (value: number | null | undefined) => {
+    if (value === null || value === undefined || Number.isNaN(value)) {
+      return "-";
+    }
+    const formatted = new Intl.NumberFormat("fr-FR", {
+      maximumFractionDigits: 3
+    }).format(value);
+    return formatted.replace(/\u202f|\u00a0/g, " ");
   };
 
   const updateAnswer = (id: string, value: string) => {
@@ -1216,11 +1332,18 @@ export default function HomePage() {
       votes: votesSnapshot
     });
 
+    setFinalScoreAcknowledged(false);
     setPhase("score");
     setError(null);
   };
 
   const nextRound = () => {
+    if (round >= MAX_ROUNDS) {
+      setFinalScoreAcknowledged(true);
+      setPhase("over");
+      setError(null);
+      return;
+    }
     startRound(true);
   };
 
@@ -1243,13 +1366,13 @@ export default function HomePage() {
     setCurrentQuestion(null);
     setLastRound(null);
     setCurrentVoterIndex(0);
+    setFinalScoreAcknowledged(false);
     setError(null);
+    setActiveTab("game");
   };
 
   const confirmResetGame = () => {
-    if (window.confirm("Etes vous sur de vouloir quitter la partie en cours ?")) {
-      resetGame();
-    }
+    resetGame();
   };
 
   const formatTarget = (targetId: string, unit?: string) => {
@@ -1268,7 +1391,9 @@ export default function HomePage() {
       return `${getSlotPositionLabel(slot.slotIndex)} (vide)`;
     }
     const playersLabel = assignment.players.map((player) => player.name).join(", ");
-    return `${getSlotPositionLabel(slot.slotIndex)} ${assignment.value} ${
+    return `${getSlotPositionLabel(slot.slotIndex)} ${formatAnswerNumber(
+      assignment.value
+    )} ${
       unit ?? ""
     } (${playersLabel})`;
   };
@@ -1443,7 +1568,7 @@ export default function HomePage() {
                       ) : currentQuestion ? (
                         <div>
                           <p>
-                            {currentQuestion.prompt} <br />
+                            <strong>{currentQuestion.prompt}</strong> <br />
                             {currentQuestion.unit && (
                               <>
                                 <span className="unit-hint">
@@ -1576,7 +1701,7 @@ export default function HomePage() {
                     </p>
                     <div>
                       <div className="bet-turn-info" />
-                      <div className="footer-actions">
+                      <div className="footer-actions split">
                         <button
                           className="ghost"
                           disabled={
@@ -1677,7 +1802,7 @@ export default function HomePage() {
                                 {slot.slotIndex === null
                                   ? "Si toutes les reponses sont au-dessus."
                                   : assignment
-                                  ? `${assignment.value} ${
+                                  ? `${formatAnswerNumber(assignment.value)} ${
                                       currentQuestion?.unit ?? ""
                                     }`
                                   : "Aucune reponse"}
@@ -1788,7 +1913,8 @@ export default function HomePage() {
             <div className="result-pill">
               <span className="result-label">Reponse exacte</span>
               <span className="result-value">
-                {lastRound.question.answer} {lastRound.question.unit ?? ""}
+                {formatAnswerNumber(lastRound.question.answer)}{" "}
+                {lastRound.question.unit ?? ""}
               </span>
             </div>
             <div className="result-pill">
@@ -1796,7 +1922,7 @@ export default function HomePage() {
               <span className="result-value">
                 {lastRound.winning.below
                   ? "Sous toutes les reponses"
-                  : `${lastRound.winning.answerValue ?? "-"} ${
+                  : `${formatAnswerNumber(lastRound.winning.answerValue)} ${
                       lastRound.question.unit ?? ""
                     }`}
               </span>
@@ -1830,7 +1956,8 @@ export default function HomePage() {
                   </td>
                   <td>{player.name}</td>
                   <td>
-                    {player.answer} {lastRound.question.unit ?? ""}
+                    {formatAnswerNumber(player.answer)}{" "}
+                    {lastRound.question.unit ?? ""}
                   </td>
                   <td>{lastRound.answerPoints[player.id] ?? 0}</td>
                   <td>{lastRound.votePoints[player.id] ?? 0}</td>
@@ -1851,8 +1978,72 @@ export default function HomePage() {
             </table>
           </div>
           <div className="footer-actions">
-            <button onClick={nextRound}>Manche suivante</button>
+            <button onClick={nextRound} disabled={!canAdvanceFromScore}>
+              {round >= MAX_ROUNDS ? "Terminer la partie" : "Manche suivante"}
+            </button>
           </div>
+                </section>
+              )}
+
+              {phase === "over" && (
+                <section className="card row">
+                  <div className="phase">
+                    {phaseSteps.map((step) => (
+                      <span key={`over-${step}`} className={phase === step ? "active" : ""}>
+                        {phaseLabels[step]}
+                      </span>
+                    ))}
+                  </div>
+                  <h2>Partie terminee</h2>
+                  <p className="rules-intro">
+                    Félicitations, {localChampionNames.join(", ")} est notre
+                    champions 🎉
+                  </p>
+                  {leaderboard.length === 0 ? (
+                    <p>Aucun score pour le moment.</p>
+                  ) : (
+                    <table className="score-table">
+                      <thead>
+                        <tr>
+                          <th>Rang</th>
+                          <th>Joueur</th>
+                          <th>Progression</th>
+                          <th>Score</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {leaderboard.map((player, index) => (
+                          <tr key={`local-over-score-${player.id}`}>
+                            <td>
+                              <span className="rank-cell">
+                                <span
+                                  className={`rank-badge ${getRankClass(index)}`}
+                                >
+                                  #{index + 1}
+                                </span>
+                              </span>
+                            </td>
+                            <td>{player.name}</td>
+                            <td>
+                              <div className="score-meter">
+                                <span
+                                  style={{
+                                    width: `${(player.score / maxScore) * 100}%`
+                                  }}
+                                />
+                              </div>
+                            </td>
+                            <td className="score-value">{player.score}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                  <div className="footer-actions">
+                    <button className="secondary" onClick={resetGame}>
+                      Retour au lobby
+                    </button>
+                  </div>
                 </section>
               )}
 
@@ -1915,9 +2106,6 @@ export default function HomePage() {
                   </div>
                   <div className="room-meta">
                     <span className="badge">Code {onlineRoom.code}</span>
-                    <span className="badge">
-                      Phase {onlinePhaseLabels[onlinePhase]}
-                    </span>
                     {onlinePhase === "answer" && answerTimeLeft !== null && (
                       <span className="badge">Temps reponse {answerTimeLeft}s</span>
                     )}
@@ -1940,7 +2128,7 @@ export default function HomePage() {
                   {onlineQuestion ? (
                     <div>
                       <p>
-                        {onlineQuestion.prompt} <br />
+                        <strong>{onlineQuestion.prompt}</strong> <br />
                         {onlineQuestion.unit && (
                           <>
                             <span className="unit-hint">
@@ -1961,6 +2149,32 @@ export default function HomePage() {
                 <section className="card row">
                   <h2>Lobby</h2>
                   <p>Tout le monde doit etre pret pour lancer la partie.</p>
+                  <span className="badge">En attente de lancement</span>
+                  <div className="player-list">
+                    {onlinePlayers.length === 0 ? (
+                      <p>Aucun joueur pour le moment.</p>
+                    ) : (
+                      onlinePlayers.map((player) => (
+                        <div className="player-row" key={`lobby-${player.id}`}>
+                          <div className="player-identity">
+                            <span
+                              className={`ready-dot ${
+                                player.ready ? "active" : ""
+                              }`}
+                              aria-hidden="true"
+                            />
+                            <span
+                              className={`player-name ${
+                                player.id === onlinePlayerId ? "self" : ""
+                              }`}
+                            >
+                              {player.name}
+                            </span>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
                   <div className="footer-actions">
                     <button
                       onClick={() => setOnlineReady(!onlineSelf?.ready)}
@@ -2008,7 +2222,9 @@ export default function HomePage() {
                       onClick={() => setOnlineAnswer(onlineAnswerDraft)}
                       disabled={!canSendOnlineAnswer}
                     >
-                      Envoyer la reponse
+                      {onlineSelf?.answer !== null
+                        ? "Réenvoyer une réponse"
+                        : "Envoyer la reponse"}
                     </button>
                   </div>
                 </section>
@@ -2027,9 +2243,6 @@ export default function HomePage() {
                   )}
                   <div>
                     <div className="bet-turn-info">
-                      <p className="badge">
-                        {onlineSelf ? `Vous: ${onlineSelf.name}` : "Joueur"}
-                      </p>
                       <p>
                         {onlineSelf
                           ? onlineSelf.gambitActive
@@ -2043,12 +2256,12 @@ export default function HomePage() {
                               } / ${onlineSelfTokenLimit}.`
                           : "En attente du joueur."}
                       </p>
-                      <p className="badge">
+                      <p className="badge vote-progress">
                         {onlinePlayers.filter(isPlayerDone).length}/
                         {onlinePlayers.length} joueurs ont voté
                       </p>
                     </div>
-                    <div className="footer-actions">
+                    <div className="footer-actions split bet-actions">
                       <button
                         className="ghost"
                         disabled={
@@ -2143,7 +2356,9 @@ export default function HomePage() {
                               {slot.slotIndex === null
                                 ? "Si toutes les reponses sont au-dessus."
                                 : assignment
-                                ? `${assignment.value} ${onlineQuestion?.unit ?? ""}`
+                                ? `${formatAnswerNumber(assignment.value)} ${
+                                    onlineQuestion?.unit ?? ""
+                                  }`
                                 : "Aucune reponse"}
                             </span>
                           </div>
@@ -2198,7 +2413,7 @@ export default function HomePage() {
                     <div className="result-pill">
                       <span className="result-label">Réponse exacte</span>
                       <span className="result-value">
-                        {onlineLastResult.question.answer}{" "}
+                        {formatAnswerNumber(onlineLastResult.question.answer)}{" "}
                         {onlineLastResult.question.unit ?? ""}
                       </span>
                     </div>
@@ -2207,7 +2422,9 @@ export default function HomePage() {
                       <span className="result-value">
                         {onlineLastResult.winning.below
                           ? "Sous toutes les reponses"
-                          : `${onlineLastResult.winning.answerValue ?? "-"} ${
+                          : `${formatAnswerNumber(
+                              onlineLastResult.winning.answerValue
+                            )} ${
                               onlineLastResult.question.unit ?? ""
                             }`}
                       </span>
@@ -2243,7 +2460,8 @@ export default function HomePage() {
                           </td>
                           <td>{player.name}</td>
                           <td>
-                            {player.answer} {onlineLastResult.question.unit ?? ""}
+                            {formatAnswerNumber(player.answer)}{" "}
+                            {onlineLastResult.question.unit ?? ""}
                           </td>
                           <td>
                             {onlineLastResult.answerPoints[player.id] ?? 0}
@@ -2276,6 +2494,8 @@ export default function HomePage() {
                     >
                       {onlineSelf?.readyNext
                         ? "Annuler pret"
+                        : onlineRound >= MAX_ROUNDS
+                        ? "Terminer la partie"
                         : "Pret pour manche suivante"}
                     </button>
                     <span className="badge">
@@ -2288,7 +2508,57 @@ export default function HomePage() {
               {onlinePhase === "over" && (
                 <section className="card row">
                   <h2>Partie terminee</h2>
-                  <p>La partie reseau est terminee apres 7 manches.</p>
+                  <p className="rules-intro">
+                    Félicitations, {onlineChampionNames.join(", ")} est notre
+                    champions 🎉
+                  </p>
+                  {onlineLeaderboard.length === 0 ? (
+                    <p>Aucun score pour le moment.</p>
+                  ) : (
+                    <table className="score-table">
+                      <thead>
+                        <tr>
+                          <th>Rang</th>
+                          <th>Joueur</th>
+                          <th>Progression</th>
+                          <th>Score</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {onlineLeaderboard.map((player, index) => (
+                          <tr key={`online-over-score-${player.id}`}>
+                            <td>
+                              <span className="rank-cell">
+                                <span
+                                  className={`rank-badge ${getRankClass(index)}`}
+                                >
+                                  #{index + 1}
+                                </span>
+                              </span>
+                            </td>
+                            <td>{player.name}</td>
+                            <td>
+                              <div className="score-meter">
+                                <span
+                                  style={{
+                                    width: `${
+                                      (player.score / onlineMaxScore) * 100
+                                    }%`
+                                  }}
+                                />
+                              </div>
+                            </td>
+                            <td className="score-value">{player.score}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                  <div className="footer-actions">
+                    <button className="secondary" onClick={leaveOnlineRoom}>
+                      Retour au lobby
+                    </button>
+                  </div>
                 </section>
               )}
 
@@ -2370,42 +2640,28 @@ export default function HomePage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {onlineLeaderboard.map((player, index) => {
-                      const isReady =
-                        onlinePhase === "lobby"
-                          ? player.ready
-                          : onlinePhase === "score"
-                          ? player.readyNext
-                          : false;
-                      return (
-                        <tr key={`online-score-${player.id}`}>
-                          <td>
-                            <span className="rank-cell">
-                              <span
-                                className={`ready-dot ${isReady ? "active" : ""}`}
-                                title={isReady ? "Pret" : "En attente"}
-                              />
-                              <span className={`rank-badge ${getRankClass(index)}`}>
-                                #{index + 1}
-                              </span>
+                    {onlineLeaderboard.map((player, index) => (
+                      <tr key={`online-score-${player.id}`}>
+                        <td>
+                          <span className="rank-cell">
+                            <span className={`rank-badge ${getRankClass(index)}`}>
+                              #{index + 1}
                             </span>
-                          </td>
-                          <td>{player.name}</td>
-                          <td>
-                            <div className="score-meter">
-                              <span
-                                style={{
-                                  width: `${
-                                    (player.score / onlineMaxScore) * 100
-                                  }%`
-                                }}
-                              />
-                            </div>
-                          </td>
-                          <td className="score-value">{player.score}</td>
-                        </tr>
-                      );
-                    })}
+                          </span>
+                        </td>
+                        <td>{player.name}</td>
+                        <td>
+                          <div className="score-meter">
+                            <span
+                              style={{
+                                width: `${(player.score / onlineMaxScore) * 100}%`
+                              }}
+                            />
+                          </div>
+                        </td>
+                        <td className="score-value">{player.score}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               )}

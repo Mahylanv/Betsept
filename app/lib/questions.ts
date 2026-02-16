@@ -648,7 +648,7 @@ export const QUESTION_BANK: Question[] = [
   },
   {
     id: "gwr-longest-sword-non-ceremonial",
-    prompt: "Quel est le record de l’épée la plus longue (non cérémonielle) ?",
+    prompt: "Quel est le record de l’épée la plus longue ?",
     answer: 3.77,
     unit: "mètres"
   },
@@ -659,33 +659,15 @@ export const QUESTION_BANK: Question[] = [
     unit: "dollars US"
   },
   {
-    id: "gwr-most-song-of-the-year-awards-won-at-the-all-africa-music-awards",
-    prompt: "Quel est le record du plus grand nombre de prix « Chanson de l’année » remportés aux All Africa Music Awards ?",
-    answer: 3,
-    unit: "nombre total"
-  },
-  {
     id: "gwr-heaviest-vehicle-pulled-over-100-ft-with-the-teeth-male",
-    prompt: "Quel est le record du véhicule le plus lourd tracté sur plus de 100 ft avec les dents (homme) ?",
+    prompt: "Quel est le record du véhicule le plus lourd tracté sur plus de 30m avec les dents (homme) ?",
     answer: 7225,
     unit: "kilogrammes"
-  },
-  {
-    id: "gwr-most-awards-won-by-a-show-at-the-national-television-awards",
-    prompt: "Quel est le record du plus grand nombre de récompenses remportées par une émission aux National Television Awards ?",
-    answer: 36,
-    unit: "nombre total"
   },
   {
     id: "gwr-longest-unbeaten-run-in-competitive-men-s-international-football-soccer-matches",
     prompt: "Quel est le record de la plus longue série d’invincibilité en matchs internationaux officiels de football masculin ?",
     answer: 37,
-    unit: "nombre total"
-  },
-  {
-    id: "gwr-most-consecutive-olympic-swimming-gold-medals-in-the-same-event-female",
-    prompt: "Quel est le record du plus grand nombre de médailles d’or olympiques consécutives en natation sur la même épreuve (femme) ?",
-    answer: 4,
     unit: "nombre total"
   },
   {
@@ -1037,8 +1019,50 @@ export const QUESTION_BANK: Question[] = [
     unit: "centimètres"
   },
   {
+    id: "star-wars-episode-iv-release-date",
+    prompt: "Quelle est la date de sortie de Star Wars : Épisode IV - Un nouvel espoir ?",
+    answer: 1977,
+    unit: "année"
+  },
+  {
+    id: "star-wars-episode-iii-budget",
+    prompt: "Quel est le budget de Star Wars : Épisode III - La Revanche des Sith ?",
+    answer: 113,
+    unit: "millions de dollars"
+  },  
+  {
+    id: "durée-le-parrain",
+    prompt: "Quelle est la durée du film Le Parrain ?",
+    answer: 175,
+    unit: "minutes"
+  },
+  {
+    id: "durée-jurassic-park",
+    prompt: "Quelle est la durée du film Jurassic Park ?",
+    answer: 127,
+    unit: "minutes"
+  },
+  {
+    id: "minutes-played-wc-2018",
+    prompt: "Quelle est la durée totale des matchs de la Coupe du Monde 2018 ?",
+    answer: 3880,
+    unit: "minutes"
+  },
+  {
+    id: "burj-khalifa-height",
+    prompt: "Quelle est la hauteur du Burj Khalifa ?",
+    answer: 828,
+    unit: "mètres"
+  },
+  {
+    id: "arc-de-triomphe-height",
+    prompt: "Quelle est la hauteur de l'Arc de Triomphe ?",
+    answer: 50,
+    unit: "mètres"
+  },
+  {
     id: "heaviest-man-ever",
-    prompt: "Quel est le record du plus lourd homme jamais enregistré ?",
+    prompt: "Quel est le record de l'homme le plus lourd jamais enregistré ?",
     answer: 635,
     unit: "kilogrammes"
   },
@@ -1152,13 +1176,13 @@ export const QUESTION_BANK: Question[] = [
   },
   {
     id: "usa-superficie",
-    prompt: "Quel est le record de la superficie des États-Unis ?",
+    prompt: "Quelle est la superficie des États-Unis ?",
     answer: 9372610,
     unit: "km²"
   },
   {
     id: "moon-rayon",
-    prompt: "Quel est le record du rayon de la Lune ?",
+    prompt: "Quel est le rayon de la Lune ?",
     answer: 1737.4,
     unit: "km"
   },
@@ -1212,13 +1236,13 @@ export const QUESTION_BANK: Question[] = [
   },
   {
     id: "gwr-largest-freshwater-fish-species",
-    prompt: "Quel est le record de la plus grande espèce de poisson d’eau douce ?",
+    prompt: "Quel est le record de poids de la plus grande espèce de poisson d’eau douce ?",
     answer: 300,
     unit: "kilogrammes"
   },
   {
     id: "gwr-highest-installed-solar-power-capacity-country",
-    prompt: "Quel est le record de la plus grande capacité solaire installée (pays) ?",
+    prompt: "Quel est le record de la plus grande capacité solaire installée par un pays ?",
     answer: 204700,
     unit: "mégawatt"
   },
@@ -1229,21 +1253,9 @@ export const QUESTION_BANK: Question[] = [
     unit: "nombre total"
   },
   {
-    id: "gwr-heaviest-combined-weight-throwing-people-over-a-bar-in-three-minutes-male",
-    prompt: "Quel est le record du poids total le plus élevé (cumulé) en projetant des personnes par-dessus une barre en trois minutes (homme) ?",
-    answer: 1203.6,
-    unit: "kilogrammes"
-  },
-  {
     id: "gwr-most-handball-goals-at-a-single-olympic-games-male",
-    prompt: "Quel est le record du plus grand nombre de buts de handball marqués lors d’une seule édition des Jeux olympiques (homme) ?",
-    answer: 61,
-    unit: "nombre total"
-  },
-  {
-    id: "gwr-most-football-soccer-penalties-taken-in-one-hour-la1",
-    prompt: "Quel est le record du plus grand nombre de penalties tirés au football en une heure (LA1) ?",
-    answer: 356,
+    prompt: "Quel est le record du plus grand nombre de buts de handball marqués lors d’une seule édition des Jeux olympiques par un seul homme ?",
+    answer: 62,
     unit: "nombre total"
   },
   {
@@ -1272,7 +1284,7 @@ export const QUESTION_BANK: Question[] = [
   },
   {
     id: "gwr-largest-margin-of-victory-in-a-wnba-playoff-game",
-    prompt: "Quel est le record du plus grand écart de victoire lors d’un match de playoffs WNBA ?",
+    prompt: "Quel est le plus grand écart de points lors d’un match de playoffs WNBA ?",
     answer: 38,
     unit: "points"
   },
@@ -1284,33 +1296,15 @@ export const QUESTION_BANK: Question[] = [
   },
   {
     id: "gwr-greatest-distance-on-an-electric-motor-scooter-in-24-hours-individual",
-    prompt: "Quel est le record de la plus grande distance parcourue en trottinette électrique en 24 heures ?",
+    prompt: "Quel est la plus grande distance parcourue en trottinette électrique en 24 heures ?",
     answer: 1158.72,
     unit: "kilomètres"
   },
   {
-    id: "gwr-most-people-performing-the-wheel-pose-simultaneously-yoga",
-    prompt: "Quel est le record du plus grand nombre de personnes réalisant simultanément la posture de la roue (yoga) ?",
-    answer: 351,
-    unit: "nombre de personnes"
-  },
-  {
-    id: "gwr-highest-annual-earnings-for-a-film-actor-current-year",
-    prompt: "Quel est le record des gains annuels les plus élevés pour un acteur de cinéma (année en cours) ?",
-    answer: 73000000,
-    unit: "dollars US"
-  },
-  {
     id: "gwr-longest-journey-by-stand-up-paddleboard-sup",
-    prompt: "Quel est le record du plus long voyage en stand up paddle (SUP) ?",
+    prompt: "Quel est le record du plus long voyage en stand up paddle ?",
     answer: 2677.34,
     unit: "kilomètres"
-  },
-  {
-    id: "gwr-most-winning-drives-in-fourth-quarter-or-overtime-by-an-nfl-quarterback",
-    prompt: "Quel est le record du plus grand nombre de séries victorieuses (« winning drives ») dans le 4e quart-temps ou en prolongation par un quarterback NFL ?",
-    answer: 55,
-    unit: "nombre total"
   },
   {
     id: "gwr-largest-doughnut-mosaic-logo",
@@ -1347,18 +1341,6 @@ export const QUESTION_BANK: Question[] = [
     prompt: "Quel est le record du plus grand nombre de rotations à 360° en étant suspendu la tête en bas à des sangles aériennes en une minute (homme) ?",
     answer: 164,
     unit: "nombre total"
-  },
-  {
-    id: "gwr-largest-paddle-board-yoga-class",
-    prompt: "Quel est le record du plus grand cours de yoga sur paddle ?",
-    answer: 305,
-    unit: "nombre de personnes"
-  },
-  {
-    id: "gwr-largest-mexican-folk-dance",
-    prompt: "Quel est le record de la plus grande danse folklorique mexicaine ?",
-    answer: 1095,
-    unit: "nombre de personnes"
   },
   {
     id: "longest-flight-duration-by-a-commercial-aircraft",
